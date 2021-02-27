@@ -2,11 +2,15 @@ const express = require("express");
 
 const mongoose = require("mongoose");
 
-const routes = require("./routes");
+// Morgan is a middleware that logs the requests to the server to the console. 
+const logger = require("morgan");
 
-const path = require("path");
 const routes = require("./routes");
 const app = express();
+
+// Creates logger instance via morgan package above. 
+app.use(logger("dev"));
+
 const PORT = process.env.PORT || 3001;
 
 // Define middleware here
@@ -28,8 +32,16 @@ app.use(routes);
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 // });
 
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/requestapp");
+// Use mongoose to connect to Mongodb locally. 
+// Set useNewUrlParser:true to use new URL parser; versus using the the default parser which is going to be deprecated soon.
+// Set useFindAndModify:false to use findOneAndUpdate(), findOneAndReplace, and findOneAndDelete().
+// Set useUnifiedTopology:true to use the new Server discover and monitoring engine, otherwise it will use default version which will be deprecated soon.
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/requestapp", {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+});
 
 app.listen(PORT, function() {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
