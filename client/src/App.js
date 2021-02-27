@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import logo from "./logo.svg";
 import "./App.css";
 import DJSignUp from "./pages/DJSignUp"
 // import NoMatch from "./pages/NoMatch";
