@@ -92,6 +92,13 @@ function DJSignUp() {
                             name="password"
                             placeholder="PASSWORD"
                         />
+                        <label for="instagram">What's your Instagram handle?</label>
+                        <Input 
+                            type="text"
+                            id="instagram"
+                            name="instagram"
+                            placeholder="@INSTAGRAM"
+                        />
                         <Input type="checkbox" id="terms"/>
                         <label for="terms">I agree to the NOI Terms and Conditions</label>
                         <FormBtn>
