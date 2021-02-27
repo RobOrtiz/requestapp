@@ -3,35 +3,41 @@ const Schema = mongoose.Schema;
 
 const djSchema = new Schema({
 
-    firstName: {
+    fullName: {
         type: String,
         trim: true,
-        required: "First name is required"
-      },
-    
-      lastName: {
-        type: String,
-        trim: true,
-        required: "Last name is required"
-      },
-    
-      djName: {
+        required: "Name is required"
+    },
+
+    djName: {
         type: String,
         trim: true,
         required: "Dj name is required"
-      },
+    },
 
-      hometown: {
+    hometown: {
         type: String,
         trim: true,
         required: "Hometown is required"
-      },
-    
-      email: {
+    },
+
+    email: {
         type: String,
         unique: true,
         match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
-      }
+    },
+
+    password: {
+        type: String,
+        trim: true,
+        required: "Password is required",
+    },
+
+    instagramHandle: {
+        type: String,
+        trim: true,
+        required: "Instagram handle is required",
+    }
 
 });
 

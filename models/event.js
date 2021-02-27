@@ -3,13 +3,7 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
 
-    venueName: {
-        type: String,
-        trim: true,
-        required: "Venue name is required"
-    },
-
-    genre: {
+   genre: {
         type: String,
         trim: true,
         required: "Genre is required"
@@ -30,6 +24,12 @@ const eventSchema = new Schema({
         type: String,
         trim: true,
         required: "Type of event is required"
+    },
+
+    venueName: {
+        type: String,
+        trim: true,
+        required: "Venue name is required"
     },
 
     streetAddres: {
@@ -54,12 +54,6 @@ const eventSchema = new Schema({
         type: Number,
         trim: true,
         required: "Zip code is required"
-    },
-
-    email: {
-        type: String,
-        unique: true,
-        match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
     }
 
 });
