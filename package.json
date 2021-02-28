@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "if-env": "^1.0.4"
+    "if-env": "^1.0.4",
+    "mongoose": "^5.11.18",
+    "morgan": "^1.10.0"
   }
 }

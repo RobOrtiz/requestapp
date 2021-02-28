@@ -4,7 +4,15 @@ import { Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 
 function DJSignUp() {
-  const [formObject, setFormObject] = useState({});
+  const [formObject, setFormObject] = useState({
+    fullName: "",
+    djName: "",
+    hometown: "",
+    djStyle: "",
+    email: "",
+    password: "",
+    instagram: ""
+  });
 
   const [signUp, setSignUp] = useState({
     signup: false,
@@ -31,19 +39,19 @@ function DJSignUp() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    console.log(123);
-    API.createDJ({
+    console.log("We're inside 123");
+    API.createDj({
       fullName: formObject.fullName,
       djName: formObject.djName,
       hometown: formObject.hometown,
       djStyle: formObject.djStyle,
       email: formObject.email,
       password: formObject.password,
-      instagram: formObject.instagram,
+      instagram: formObject.instagram
     })
       // .then(res => loadBooks())
-      .then((res) => console.log(res));
-    // .catch(err => console.log(err));
+      .then((res) => console.log(res))
+      .catch(err => console.log(err));
   }
 
   return (
@@ -52,9 +60,9 @@ function DJSignUp() {
         <div>
           <h1>Sign In</h1>
           <form>
-            <label for="email">Username:</label>
+            <label forhtml="email">Username:</label>
             <Input type="text" id="email" name="email" placeholder="EMAIL" />
-            <label for="password">Password:</label>
+            <label forhtml="password">Password:</label>
             <Input
               type="password"
               id="password"
@@ -70,76 +78,77 @@ function DJSignUp() {
           />
         </div>
       ) : (
-        <div>
-          <h1>Sign Up</h1>
-          <form>
-            <label for="fullName">What's your real name?</label>
-            <Input
-              onChange={handleInputChange}
-              type="text"
-              id="fullName"
-              name="fullName"
-              placeholder="FULL NAME"
+          <div>
+            <h1>Sign Up</h1>
+            <form>
+              <label forhtml="fullName">What's your real name?</label>
+              <Input
+                onChange={handleInputChange}
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="FULL NAME"
+              />
+              <label forhtml="djName">What's your DJ name?</label>
+              <Input
+                onChange={handleInputChange}
+                type="text"
+                id="djName"
+                name="djName"
+                placeholder="DJ NAME"
+              />
+              <label forhtml="hometown">Where are you from?</label>
+              <Input
+                onChange={handleInputChange}
+                type="text"
+                id="hometown"
+                name="hometown"
+                placeholder="HOMETOWN"
+              />
+              <label forhtml="djStyle">What type of music do you play?</label>
+              <Input
+                onChange={handleInputChange}
+                type="text"
+                id="djStyle"
+                name="djStyle"
+                placeholder="DJ STYLE"
+              />
+              <label forhtml="email">What's your email?</label>
+              <Input
+                onChange={handleInputChange}
+                type="text"
+                id="email"
+                name="email"
+                placeholder="EMAIL"
+              />
+              <label forhtml="password">Please enter in a password:</label>
+              <Input
+                onChange={handleInputChange}
+                type="password"
+                id="password"
+                name="password"
+                placeholder="PASSWORD"
+              />
+              <label forhtml="instagram">What's your Instagram handle?</label>
+              <Input
+                onChange={handleInputChange}
+                type="text"
+                id="instagram"
+                name="instagram"
+                placeholder="@INSTAGRAM"
+              />
+              <Input type="checkbox" id="terms" />
+              <label forhtml="terms">I agree to the NOI Terms and Conditions</label>
+              <FormBtn onClick={handleFormSubmit}>Sign Up</FormBtn>
+            </form>
+            {console.log("here we are:" + formObject.fullName)}
+            <input
+              type="button"
+              onClick={handleFormChange}
+              value="Or Sign In Here!"
             />
-            <label for="djName">What's your DJ name?</label>
-            <Input
-              onChange={handleInputChange}
-              type="text"
-              id="djName"
-              name="djName"
-              placeholder="DJ NAME"
-            />
-            <label for="hometown">Where are you from?</label>
-            <Input
-              onChange={handleInputChange}
-              type="text"
-              id="hometown"
-              name="hometown"
-              placeholder="HOMETOWN"
-            />
-            <label for="djStyle">What type of music do you play?</label>
-            <Input
-              onChange={handleInputChange}
-              type="text"
-              id="djStyle"
-              name="djStyle"
-              placeholder="DJ STYLE"
-            />
-            <label for="email">What's your email?</label>
-            <Input
-              onChange={handleInputChange}
-              type="text"
-              id="email"
-              name="email"
-              placeholder="EMAIL"
-            />
-            <label for="password">Please enter in a password:</label>
-            <Input
-              onChange={handleInputChange}
-              type="password"
-              id="password"
-              name="password"
-              placeholder="PASSWORD"
-            />
-            <label for="instagram">What's your Instagram handle?</label>
-            <Input
-              onChange={handleInputChange}
-              type="text"
-              id="instagram"
-              name="instagram"
-              placeholder="@INSTAGRAM"
-            />
-            <Input type="checkbox" id="terms" />
-            <label for="terms">I agree to the NOI Terms and Conditions</label>
-            <FormBtn onClick={handleFormSubmit}>Sign Up</FormBtn>
-          </form>
-          <input
-            type="button"
-            onClick={handleFormChange}
-            value="Or Sign In Here!"
-          />
-        </div>
-      )}
+          </div>
+        )}
     </Container>
   );
 }

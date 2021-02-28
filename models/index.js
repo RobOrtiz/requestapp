@@ -1,4 +1,4 @@
 module.exports = {
-  Dj: require("./dj"),
-  Event: require("./event")
+  Dj: require("./Dj"),
+  Event: require("./Event")
 };

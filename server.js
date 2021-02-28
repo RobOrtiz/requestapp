@@ -36,11 +36,12 @@ app.use(routes);
 // Set useNewUrlParser:true to use new URL parser; versus using the the default parser which is going to be deprecated soon.
 // Set useFindAndModify:false to use findOneAndUpdate(), findOneAndReplace, and findOneAndDelete().
 // Set useUnifiedTopology:true to use the new Server discover and monitoring engine, otherwise it will use default version which will be deprecated soon.
-
+// Set useCreateIndex: true to opt in to making Mongoose use createIndex() instead. By default, Mongoose 5.x calls the MongoDB driver's ensureIndex() function. The MongoDB driver deprecated this function in favor of createIndex().
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/requestapp", {
   useNewUrlParser: true,
   useFindAndModify: false,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 });
 
 app.listen(PORT, function() {

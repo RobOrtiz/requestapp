@@ -11,7 +11,7 @@ export function Input(props) {
 export function FormBtn(props) {
     return (
         <div>
-            <button>
+            <button {...props}>
                 {props.children}
             </button>
         </div>

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export default {
-  createDj: function() {
-    return axios.post("/api/dj")
+  createDj: function(djData) {
+    return axios.post("/api/djs", djData)
   
   // Gets all books
   // getBooks: function() {
