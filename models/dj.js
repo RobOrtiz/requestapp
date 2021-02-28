@@ -40,7 +40,7 @@ const djSchema = new Schema({
         required: "Password is required",
     },
 
-    instagramHandle: {
+    instagram: {
         type: String,
         trim: true,
         required: "Instagram handle is required",
