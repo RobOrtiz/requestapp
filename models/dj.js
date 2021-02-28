@@ -21,10 +21,17 @@ const djSchema = new Schema({
         required: "Hometown is required"
     },
 
+    djStyle: {
+        type: String,
+        trim: true,
+        required: "Dj style is required"
+    },
+
     email: {
         type: String,
         unique: true,
-        match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
+        required: "Email required"
+        // match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
     },
 
     password: {
