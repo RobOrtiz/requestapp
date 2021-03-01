@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import DJSignUp from "./pages/DJSignUp"
+import DJSignUp from "./pages/DJSignUp";
+import DJHome from "./pages/DJHome";
 // import NoMatch from "./pages/NoMatch";
 // import Nav from "./components/Nav";
 
@@ -19,7 +20,9 @@ class App extends Component {
             <Route exact path="/dj">
               <DJSignUp />
             </Route>
-            <Route exact path="/dj/event"></Route>
+            <Route exact path="/dj/dashboard">
+              <DJHome />
+            </Route>
             <Route exact path="/dj/event/:eventid"></Route>
             <Route>
               {/* <NoMatch /> */}
