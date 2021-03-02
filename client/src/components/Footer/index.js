@@ -4,7 +4,7 @@ import './style.css'
 function Footer(props) {
     return (
         <div>
-            <nav className="navbar fixed-bottom navbar-light bg-light pb-3">
+            <nav className="navbar fixed-bottom navbar-light bg-dark pb-3">
                 <a className="navbar-brand col text-center" href="#">
                     <i className={props.current === "home" ? "fas fa-home fa-2x current-link": "fas fa-home fa-2x"}></i>
                     <h3 className={props.current === "home" ? "current-link" : ""}>Home</h3>

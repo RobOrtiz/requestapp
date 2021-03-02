@@ -1,8 +1,9 @@
 import React from 'react';
+import './style.css'
 
 export function Input(props) {
     return (
-        <div>
+        <div className="form">
             <input {...props}/>
         </div>
     )
@@ -10,7 +11,7 @@ export function Input(props) {
 
 export function FormBtn(props) {
     return (
-        <div>
+        <div className="formBtn">
             <button {...props}>
                 {props.children}
             </button>
