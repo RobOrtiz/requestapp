@@ -1,5 +1,13 @@
 body {
+  background-color: rgb(77, 77, 77); /* For browsers that do not support gradients */
+  background-image: linear-gradient(rgb(52, 52, 52), black);
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+label {
+  color:white;
 }
