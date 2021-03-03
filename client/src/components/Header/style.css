@@ -1,5 +1,6 @@
 .navbar {
-    background: linear-gradient(grey, black);
+    background: black;
     color: white;
     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-bottom: 5rem;
 }

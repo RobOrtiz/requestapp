@@ -2,10 +2,15 @@
     background-color: rgb(73, 73, 73);
     border-color: rgb(179, 150, 14);
     color: white;
+    margin-bottom: 1rem;
 }
 
 .formBtn {
     background-color: rgb(77, 77, 77); /* For browsers that do not support gradients */
     background-image: linear-gradient(rgb(77, 77, 77), black);
     color: white;
+    margin-bottom: 1rem;
+}
+.formContainer {
+    align-content: center;
 }

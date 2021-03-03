@@ -60,24 +60,26 @@ function DJSignUp() {
       <Header title="Sign In or Sign Up" />
       <Container>
         {!signUp.signup ? (
-          <div>
-            <h1>Sign In</h1>
-            <form>
-              <label forhtml="email">Username:</label>
-              <Input type="text" id="email" name="email" placeholder="EMAIL"/>
-              <label forhtml="password">Password:</label>
+          <div className="formContainer">
+            <h1 className="text-light">Sign In</h1>
+            <form >
+              <label className="text-light" forhtml="email">Username:</label>
+              <Input className="form" type="text" id="email" name="email" placeholder="EMAIL"/>
+              <label className="text-light" forhtml="password">Password:</label>
               <Input
+                className="form"
                 type="password"
                 id="password"
                 name="password"
                 placeholder="PASSWORD"
               />
-              <FormBtn>Sign In</FormBtn>
+              <FormBtn className="formBtn">Sign In</FormBtn>
             </form>
             <input
               type="button"
               onClick={handleFormChange}
               value="Or Sign Up Here!"
+              className="formBtn"
             />
           </div>
         ) : (
@@ -91,6 +93,7 @@ function DJSignUp() {
                   id="fullName"
                   name="fullName"
                   placeholder="FULL NAME"
+                  className="form"
                 />
                 <label forhtml="djName">What's your DJ name?</label>
                 <Input
@@ -99,6 +102,7 @@ function DJSignUp() {
                   id="djName"
                   name="djName"
                   placeholder="DJ NAME"
+                  className="form"
                 />
                 <label forhtml="hometown">Where are you from?</label>
                 <Input
@@ -107,6 +111,7 @@ function DJSignUp() {
                   id="hometown"
                   name="hometown"
                   placeholder="HOMETOWN"
+                  className="form"
                 />
                 <label forhtml="djStyle">What type of music do you play?</label>
                 <Input
@@ -115,6 +120,7 @@ function DJSignUp() {
                   id="djStyle"
                   name="djStyle"
                   placeholder="DJ STYLE"
+                  className="form"
                 />
                 <label forhtml="email">What's your email?</label>
                 <Input
@@ -123,6 +129,7 @@ function DJSignUp() {
                   id="email"
                   name="email"
                   placeholder="EMAIL"
+                  className="form"
                 />
                 <label forhtml="password">Please enter in a password:</label>
                 <Input
@@ -131,6 +138,7 @@ function DJSignUp() {
                   id="password"
                   name="password"
                   placeholder="PASSWORD"
+                  className="form"
                 />
                 <label forhtml="instagram">What's your Instagram handle?</label>
                 <Input
@@ -139,13 +147,14 @@ function DJSignUp() {
                   id="instagram"
                   name="instagram"
                   placeholder="@INSTAGRAM"
+                  className="form"
                 />
                 <Input type="checkbox" id="terms" />
-                <label forhtml="terms">I agree to the NOI Terms and Conditions</label>
+                <label className="text-light" forhtml="terms">I agree to the NOI Terms and Conditions</label>
                 <FormBtn onClick={handleFormSubmit}>Sign Up</FormBtn>
               </form>
               {console.log("here we are:" + formObject.fullName)}
-              <input
+              <input className="formBtn"
                 type="button"
                 onClick={handleFormChange}
                 value="Or Sign In Here!"
