@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
 
-   genre: {
+    genre: {
         type: String,
         trim: true,
         required: "Genre is required"
