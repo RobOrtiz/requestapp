@@ -64,7 +64,7 @@ function DJSignUp() {
             <h1>Sign In</h1>
             <form>
               <label forhtml="email">Username:</label>
-              <Input type="text" id="email" name="email" placeholder="EMAIL" />
+              <Input type="text" id="email" name="email" placeholder="EMAIL"/>
               <label forhtml="password">Password:</label>
               <Input
                 type="password"
