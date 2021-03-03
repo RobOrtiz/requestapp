@@ -67,7 +67,6 @@ function DJSignUp() {
               <Input className="form" type="text" id="email" name="email" placeholder="EMAIL"/>
               <label className="text-light" forhtml="password">Password:</label>
               <Input
-                className="form"
                 type="password"
                 id="password"
                 name="password"
@@ -93,7 +92,7 @@ function DJSignUp() {
                   id="fullName"
                   name="fullName"
                   placeholder="FULL NAME"
-                  className="form"
+                  
                 />
                 <label forhtml="djName">What's your DJ name?</label>
                 <Input
@@ -102,7 +101,7 @@ function DJSignUp() {
                   id="djName"
                   name="djName"
                   placeholder="DJ NAME"
-                  className="form"
+                  
                 />
                 <label forhtml="hometown">Where are you from?</label>
                 <Input
@@ -111,7 +110,7 @@ function DJSignUp() {
                   id="hometown"
                   name="hometown"
                   placeholder="HOMETOWN"
-                  className="form"
+                  
                 />
                 <label forhtml="djStyle">What type of music do you play?</label>
                 <Input
@@ -120,7 +119,7 @@ function DJSignUp() {
                   id="djStyle"
                   name="djStyle"
                   placeholder="DJ STYLE"
-                  className="form"
+                 
                 />
                 <label forhtml="email">What's your email?</label>
                 <Input
@@ -129,7 +128,7 @@ function DJSignUp() {
                   id="email"
                   name="email"
                   placeholder="EMAIL"
-                  className="form"
+                  
                 />
                 <label forhtml="password">Please enter in a password:</label>
                 <Input
@@ -138,7 +137,7 @@ function DJSignUp() {
                   id="password"
                   name="password"
                   placeholder="PASSWORD"
-                  className="form"
+                  
                 />
                 <label forhtml="instagram">What's your Instagram handle?</label>
                 <Input
