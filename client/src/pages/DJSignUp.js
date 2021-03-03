@@ -33,20 +33,18 @@ function DJSignUp() {
 
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
-    console.log(123);
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    console.log("We're inside 123");
     API.createDj({
       fullName: formObject.fullName,
       djName: formObject.djName,
       hometown: formObject.hometown,
       djStyle: formObject.djStyle,
-      email: formObject.email,
+      username: formObject.email,
       password: formObject.password,
       instagram: formObject.instagram
     })
@@ -64,9 +62,15 @@ function DJSignUp() {
             <h1>Sign In</h1>
             <form>
               <label forhtml="email">Username:</label>
-              <Input type="text" id="email" name="email" placeholder="EMAIL"/>
+              <Input 
+              onChange={handleInputChange}
+              type="text" 
+              id="email" 
+              name="email" 
+              placeholder="EMAIL"/>
               <label forhtml="password">Password:</label>
               <Input
+                onChange={handleInputChange}
                 type="password"
                 id="password"
                 name="password"

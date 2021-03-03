@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const djController = require("../../controllers/djController.js");
 
-// Matches with "/api/books"
+// Matches with "/api/djs"
 router.route("/")
   .post(djController.create);
 

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const djSchema = new Schema({
 
@@ -27,26 +28,27 @@ const djSchema = new Schema({
         required: "Dj style is required"
     },
 
-    email: {
-        type: String,
-        unique: true,
-        required: "Email required"
-        // match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
-    },
+    // username: {
+    //     type: String,
+    //     unique: true,
+    //     required: "Email required"
+    //     // match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
+    // },
 
-    password: {
-        type: String,
-        trim: true,
-        required: "Password is required",
-    },
+    // password: {
+    //     type: String,
+    //     trim: true,
+    //     required: "Password is required",
+    // },
 
     instagram: {
         type: String,
         trim: true,
         required: "Instagram handle is required",
     }
-
 });
+
+djSchema.plugin(passportLocalMongoose);
 
 const Dj = mongoose.model("Dj", djSchema);
 
