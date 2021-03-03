@@ -53,7 +53,7 @@ function DJSignUp() {
       .catch(err => console.log(err));
   }
 
-  return (
+return (
     <div>
       <Header title="Sign In or Sign Up" />
       <Container>
@@ -95,6 +95,7 @@ function DJSignUp() {
                   id="fullName"
                   name="fullName"
                   placeholder="FULL NAME"
+                  
                 />
                 <label forhtml="djName">What's your DJ name?</label>
                 <Input
@@ -103,6 +104,7 @@ function DJSignUp() {
                   id="djName"
                   name="djName"
                   placeholder="DJ NAME"
+                  
                 />
                 <label forhtml="hometown">Where are you from?</label>
                 <Input
@@ -111,6 +113,7 @@ function DJSignUp() {
                   id="hometown"
                   name="hometown"
                   placeholder="HOMETOWN"
+                  
                 />
                 <label forhtml="djStyle">What type of music do you play?</label>
                 <Input
@@ -119,6 +122,7 @@ function DJSignUp() {
                   id="djStyle"
                   name="djStyle"
                   placeholder="DJ STYLE"
+                 
                 />
                 <label forhtml="email">What's your email?</label>
                 <Input
@@ -127,6 +131,7 @@ function DJSignUp() {
                   id="email"
                   name="email"
                   placeholder="EMAIL"
+                  
                 />
                 <label forhtml="password">Please enter in a password:</label>
                 <Input
@@ -135,6 +140,7 @@ function DJSignUp() {
                   id="password"
                   name="password"
                   placeholder="PASSWORD"
+                  
                 />
                 <label forhtml="instagram">What's your Instagram handle?</label>
                 <Input
@@ -143,13 +149,14 @@ function DJSignUp() {
                   id="instagram"
                   name="instagram"
                   placeholder="@INSTAGRAM"
+                  className="form"
                 />
                 <Input type="checkbox" id="terms" />
-                <label forhtml="terms">I agree to the NOI Terms and Conditions</label>
+                <label className="text-light" forhtml="terms">I agree to the NOI Terms and Conditions</label>
                 <FormBtn onClick={handleFormSubmit}>Sign Up</FormBtn>
               </form>
               {console.log("here we are:" + formObject.fullName)}
-              <input
+              <input className="formBtn"
                 type="button"
                 onClick={handleFormChange}
                 value="Or Sign In Here!"
