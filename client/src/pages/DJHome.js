@@ -36,14 +36,14 @@ function DJHome() {
         <div>
             <Header title="HOME"/>
             {/* Will need to add if statement for if there are upcoming events */}
-            <Container>
+            <Container classes="top-container">
                 <h1>UPCOMING EVENTS</h1>
                 <Row>
                     {/* For each upcoming event, add to the row*/}
                     <Col></Col>
                 </Row>
             </Container>
-            <Container>
+            <Container classes="mt-5 mb-5">
                 {!addEvent.add ? (
                     <form>
                         <FormBtn className="btn btn-dark btn-lg btn-block" onClick={handleFormChange}>
@@ -104,7 +104,7 @@ function DJHome() {
                 )}
             </Container>
             {/* Will need to add if statement for if there are any requests */}
-            <Container>
+            <Container classes="bottom-container">
                 <h1>RECENT REQUESTS</h1>
                 <Row>
                     {/* For each new requests, add to the row*/}
