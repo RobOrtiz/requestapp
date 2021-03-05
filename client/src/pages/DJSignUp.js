@@ -15,6 +15,10 @@ function DJSignUp() {
     instagram: ""
   });
 
+  const [ user, setUser ] = useState({
+    user: ""
+  });
+
   const [signUp, setSignUp] = useState({
     signup: false,
   });
@@ -58,7 +62,10 @@ function DJSignUp() {
       username: formObject.email,
       password: formObject.password
     })
-    .then((res) => console.log(res))
+    .then((res) => {
+      setUser({user: res.data.id});
+      window.location.replace("/dj/dashboard")
+    })
     .catch(err => console.log(err));
   }
 

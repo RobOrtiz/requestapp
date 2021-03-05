@@ -1,5 +1,5 @@
 const db = require("../models");
-const passport = require("passport")
+const passport = require("../config/passport");
 
 // Defining methods for the djController
 module.exports = {
@@ -11,34 +11,12 @@ module.exports = {
     .catch(err => res.status(422).json(err));
   },
   login: function(req, res) { 
-    if(!req.body.username){ 
-      res.json({success: false, message: "Username was not given"}) 
-    } else { 
-      if(!req.body.password){ 
-        res.json({success: false, message: "Password was not given"}) 
-      }else{ 
-        passport.authenticate('local', function (err, user, info) {  
-           if(err){ 
-             res.json({success: false, message: err}) 
-           } else{ 
-            if (! user) { 
-              res.json({success: false, message: 'username or password incorrect'}) 
-            } else{ 
-              req.login(user, function(err){ 
-                if(err){
-                  res.json({success: false, message: "req.login error"}) 
-                }else{ 
-                  const token =  jwt.sign({userId : user._id,  
-                     username:user.username}, secretkey,  
-                        {expiresIn: '24h'}) 
-                  res.json({success:true, message:"Authentication successful", token: token }); 
-                } 
-              }) 
-            } 
-           } 
-        })(req, res); 
-      } 
-    } 
+    passport.authenticate('local')(req, res, function () {
+      res.json({
+        email: req.user.email,
+        id: req.user.id
+      });
+    })
   },
   // login: passport.authenticate("local"), function(req, res) {
   //   db.Dj
