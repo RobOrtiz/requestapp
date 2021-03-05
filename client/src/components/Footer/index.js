@@ -13,9 +13,9 @@ function Footer(props) {
                     <i className="fas fa-music fa-2x"></i>
                     <h3>Requests</h3>
                 </a>
-                <a className={props.current === "events" ? "navbar-brand col text-center current-link": "navbar-brand col text-center not-current"} href="#">
-                    <i className="fas fa-calendar-check fa-2x"></i>
-                    <h3>Events</h3>
+                <a className={props.current === "activity" ? "navbar-brand col text-center current-link": "navbar-brand col text-center not-current"} href="#">
+                    <i className="fas fa-sliders-h fa-2x"></i>
+                    <h3>Activity</h3>
                 </a>
                 <a className={props.current === "profile" ? "navbar-brand col text-center current-link": "navbar-brand col text-center not-current"} href="#">
                     <i className="fas fa-user fa-2x"></i>
