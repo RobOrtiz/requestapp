@@ -15,6 +15,10 @@ function DJSignUp() {
     instagram: ""
   });
 
+  const [ user, setUser ] = useState({
+    user: ""
+  });
+
   const [signUp, setSignUp] = useState({
     signup: false,
   });
@@ -48,12 +52,24 @@ function DJSignUp() {
       password: formObject.password,
       instagram: formObject.instagram
     })
-      // .then(res => loadBooks())
       .then((res) => console.log(res))
       .catch(err => console.log(err));
   }
 
-return (
+  function handleLogin(event) {
+    event.preventDefault();
+    API.login({
+      username: formObject.email,
+      password: formObject.password
+    })
+    .then((res) => {
+      setUser({user: res.data.id});
+      window.location.replace("/dj/dashboard")
+    })
+    .catch(err => console.log(err));
+  }
+
+  return (
     <div>
       <Header title="Sign In or Sign Up" />
       <Container>
@@ -76,7 +92,7 @@ return (
                 name="password"
                 placeholder="PASSWORD"
               />
-              <FormBtn>Sign In</FormBtn>
+              <FormBtn onClick={handleLogin}>Sign In</FormBtn>
             </form>
             <input
               type="button"
