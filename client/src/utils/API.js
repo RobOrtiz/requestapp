@@ -3,7 +3,10 @@ import axios from "axios";
 export default {
   createDj: function(djData) {
     return axios.post("/api/djs", djData)
-  
+  },
+  login: function(credentials) {
+    return axios.post("/api/djs/login", credentials)
+  }
   // Gets all books
   // getBooks: function() {
   //   return axios.get("/api/books");
@@ -19,5 +22,5 @@ export default {
   // // Saves a book to the database
   // saveBook: function(bookData) {
   //   return axios.post("/api/books", bookData);
-  }
+  
 };
