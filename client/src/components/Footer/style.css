@@ -1,7 +1,7 @@
 .current-link {
-    color: gold;
+    color: gold !important;
 }
 
-.fas:hover {
-    color: gold;
+.not-current:hover {
+    color: gold !important;
 }
