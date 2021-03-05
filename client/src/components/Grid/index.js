@@ -1,7 +1,8 @@
 import React from "react";
+import './styles.css'
 
-export function Container({children }) {
-    return <div className="container mt-5 pt-5">{children}</div>;
+export function Container({ classes, children }) {
+    return <div className={`container ${classes}`}>{children}</div>;
 }
 
 export function Row({children}) {
