@@ -1,7 +1,7 @@
 .current-link {
-    color: #b3960e;
+    color: gold !important;
 }
 
-.fas:hover {
-    color: #b3960e;
+.not-current:hover {
+    color: gold !important;
 }
