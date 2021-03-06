@@ -17,7 +17,7 @@ function Footer(props) {
                     <i className="fas fa-sliders-h fa-2x"></i>
                     <h3>Activity</h3>
                 </a>
-                <a className={props.current === "profile" ? "navbar-brand col text-center current-link": "navbar-brand col text-center not-current"} href="#">
+                <a className={props.current === "profile" ? "navbar-brand col text-center current-link": "navbar-brand col text-center not-current"} href="/dj/profile">
                     <i className="fas fa-user fa-2x"></i>
                     <h3>Profile</h3>
                 </a>    
