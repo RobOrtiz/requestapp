@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Container } from "../components/Grid";
-import { Input, FormBtn } from "../components/Form";
+import { Container, Col } from "../components/Grid";
+import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
 
@@ -52,7 +52,7 @@ function DJSignUp() {
       password: formObject.password,
       instagram: formObject.instagram
     })
-      .then((res) => console.log(res))
+      .then((res) => window.location.replace("/dj/dashboard"))
       .catch(err => console.log(err));
   }
 
@@ -72,113 +72,113 @@ function DJSignUp() {
   return (
     <div>
       <Header title="Sign In or Sign Up" />
-      <Container>
-        {!signUp.signup ? (
-          <div>
-            <h1>Sign In</h1>
-            <form>
-              <label forhtml="email">Username:</label>
-              <Input 
-              onChange={handleInputChange}
-              type="text" 
-              id="email" 
-              name="email" 
-              placeholder="EMAIL"/>
-              <label forhtml="password">Password:</label>
-              <Input
-                onChange={handleInputChange}
-                type="password"
-                id="password"
-                name="password"
-                placeholder="PASSWORD"
-              />
-              <FormBtn onClick={handleLogin}>Sign In</FormBtn>
-            </form>
-            <input
-              type="button"
-              onClick={handleFormChange}
-              value="Or Sign Up Here!"
-            />
-          </div>
-        ) : (
+      <Container classes="top-container bottom-container">
+        <Col size="12">
+          {!signUp.signup ? (
             <div>
-              <h1>Sign Up</h1>
-              <form>
-                <label forhtml="fullName">What's your real name?</label>
-                <Input
-                  onChange={handleInputChange}
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  placeholder="FULL NAME"
-                  
-                />
-                <label forhtml="djName">What's your DJ name?</label>
-                <Input
-                  onChange={handleInputChange}
-                  type="text"
-                  id="djName"
-                  name="djName"
-                  placeholder="DJ NAME"
-                  
-                />
-                <label forhtml="hometown">Where are you from?</label>
-                <Input
-                  onChange={handleInputChange}
-                  type="text"
-                  id="hometown"
-                  name="hometown"
-                  placeholder="HOMETOWN"
-                  
-                />
-                <label forhtml="djStyle">What type of music do you play?</label>
-                <Input
-                  onChange={handleInputChange}
-                  type="text"
-                  id="djStyle"
-                  name="djStyle"
-                  placeholder="DJ STYLE"
-                 
-                />
-                <label forhtml="email">What's your email?</label>
-                <Input
-                  onChange={handleInputChange}
-                  type="text"
-                  id="email"
-                  name="email"
-                  placeholder="EMAIL"
-                  
-                />
-                <label forhtml="password">Please enter in a password:</label>
-                <Input
+              <h1 className="mb-3">Sign In</h1>
+              <form style={{width: "400px"}}>
+                <InputText 
+                onChange={handleInputChange}
+                type="text" 
+                id="email" 
+                name="email" 
+                placeholder="EMAIL"
+                label="Username:"
+                className="form-control"/>
+                <InputText
                   onChange={handleInputChange}
                   type="password"
                   id="password"
                   name="password"
                   placeholder="PASSWORD"
-                  
+                  label="Password:"
+                  className="form-control"
                 />
-                <label forhtml="instagram">What's your Instagram handle?</label>
-                <Input
-                  onChange={handleInputChange}
-                  type="text"
-                  id="instagram"
-                  name="instagram"
-                  placeholder="@INSTAGRAM"
-                  className="form"
-                />
-                <Input type="checkbox" id="terms" />
-                <label className="text-light" forhtml="terms">I agree to the NOI Terms and Conditions</label>
-                <FormBtn onClick={handleFormSubmit}>Sign Up</FormBtn>
+                <FormBtn onClick={handleLogin} className="formBtn mt-3">Sign In</FormBtn>
+
+                <FormBtn onClick={handleFormChange} className="formBtn mt-3">Or Sign Up Here!</FormBtn>
               </form>
-              {console.log("here we are:" + formObject.fullName)}
-              <input className="formBtn"
-                type="button"
-                onClick={handleFormChange}
-                value="Or Sign In Here!"
-              />
             </div>
-          )}
+          ) : (
+              <div>
+                <h1 className="mb-3">Sign Up</h1>
+                <form style={{width: "400px"}}>
+                  <InputText
+                    onChange={handleInputChange}
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="FULL NAME"
+                    label="What's your real name?"
+                    className="form-control"
+                  />
+                  <InputText
+                    onChange={handleInputChange}
+                    type="text"
+                    id="djName"
+                    name="djName"
+                    placeholder="DJ NAME"
+                    label="What's your DJ name?"
+                    className="form-control"
+                  />
+                  <InputText
+                    onChange={handleInputChange}
+                    type="text"
+                    id="hometown"
+                    name="hometown"
+                    placeholder="HOMETOWN"
+                    label="Where are you from?"
+                    className="form-control"
+                  />
+                  <InputText
+                    onChange={handleInputChange}
+                    type="text"
+                    id="djStyle"
+                    name="djStyle"
+                    placeholder="DJ STYLE"
+                    label="What type of music do you play?"
+                    className="form-control"                  
+                  />
+                  <InputText
+                    onChange={handleInputChange}
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="EMAIL"
+                    label="What's your email?"
+                    className="form-control"                    
+                  />
+                  <InputText
+                    onChange={handleInputChange}
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="PASSWORD"
+                    label="Please enter in a password:"
+                    className="form-control"                    
+                  />
+                  <InputText
+                    onChange={handleInputChange}
+                    type="text"
+                    id="instagram"
+                    name="instagram"
+                    placeholder="@INSTAGRAM"
+                    label="What's your Instagram handle?"
+                    className="form-control"
+                  />
+                  <InputCheckbox
+                    type="checkbox"
+                    id="terms"
+                    label="I agree to the NOI Terms and Conditions"
+                    className="form-check-input"
+                  />
+                  <FormBtn onClick={handleFormSubmit} className="formBtn mt-5">Sign Up</FormBtn>
+                  <FormBtn onClick={handleFormChange} className="formBtn mt-3">Or Sign In Here!</FormBtn>
+                </form>
+              </div>
+            )}
+          </Col>
       </Container>
     </div>
   );

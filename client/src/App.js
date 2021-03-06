@@ -6,6 +6,7 @@ import DJHome from "./pages/DJHome";
 import DJRequests from "./pages/DJRequests";
 import DJActivity from "./pages/DJActivity";
 import DJProfile from "./pages/DJProfile";
+import Landing from "./pages/Landing";
 // import NoMatch from "./pages/NoMatch";
 
 class App extends Component {
@@ -15,7 +16,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route exact path={["/", "/dj"]}>
-              {/* Landing page for DJ; add link for customers to go to a request page */}
+              <Landing />
             </Route>
             {/* Customer-specific Routes */}
             <Route exact path="/request">
