@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "../components/Grid";
-import { Input, FormBtn } from "../components/Form";
+import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -52,54 +52,56 @@ function DJHome() {
                     </form>
                 ) : (
                     <div>
-                    <h1>Create Event</h1>
-                    <form>
-                        <label forhtml="eventName">What's the event name?</label>
-                        <Input
-                        onChange={handleInputChange}
-                        type="text"
-                        id="eventName"
-                        name="eventName"
-                        placeholder="EVENT NAME"
-                        />
-                        <label forhtml="eventLocation">Where's the event located?</label>
-                        <Input
-                        onChange={handleInputChange}
-                        type="text"
-                        id="eventLocation"
-                        name="eventLocation"
-                        placeholder="LOCATION"
-                        />
-                        <label forhtml="eventDate">What date is the event on?</label>
-                        <Input
-                        onChange={handleInputChange}
-                        type="date"
-                        id="eventDate"
-                        name="eventDate"
-                        />
-                        <label forhtml="eventTimeStart">What time does the event start?</label>
-                        <Input
-                        onChange={handleInputChange}
-                        type="text"
-                        id="eventTimeStart"
-                        name="eventTimeStart"
-                        placeholder="6:00pm"
-                        />
-                        <label forhtml="eventTimeEnd">What time does the event end?</label>
-                        <Input
-                        onChange={handleInputChange}
-                        type="text"
-                        id="eventTimeEnd"
-                        name="eventTimeEnd"
-                        placeholder="9:00pm"
-                        />
-                        <FormBtn>Save Event</FormBtn>
-                    </form>
-                    <input
-                        type="button"
-                        onClick={handleFormChange}
-                        value="Cancel Creating Event"
-                    />
+                        <h1>Create Event</h1>
+                        <form>
+                            <label forhtml="eventName"></label>
+                            <InputText
+                            onChange={handleInputChange}
+                            type="text"
+                            id="eventName"
+                            name="eventName"
+                            placeholder="EVENT NAME"
+                            label="What's the event name?"
+                            className="form-control"
+                            />
+                            <InputText
+                            onChange={handleInputChange}
+                            type="text"
+                            id="eventLocation"
+                            name="eventLocation"
+                            placeholder="LOCATION"
+                            label="Where's the event located?"
+                            className="form-control"
+                            />
+                            <InputText
+                            onChange={handleInputChange}
+                            type="date"
+                            id="eventDate"
+                            name="eventDate"
+                            label="What date is the event on?"
+                            className="form-control"
+                            />
+                            <InputText
+                            onChange={handleInputChange}
+                            type="text"
+                            id="eventTimeStart"
+                            name="eventTimeStart"
+                            placeholder="6:00pm"
+                            label="What time does the event start?"
+                            className="form-control"
+                            />
+                            <InputText
+                            onChange={handleInputChange}
+                            type="text"
+                            id="eventTimeEnd"
+                            name="eventTimeEnd"
+                            placeholder="9:00pm"
+                            label="What time does the event end?"
+                            className="form-control"
+                            />
+                            <FormBtn className="btn btn-dark formBtn">Save Event</FormBtn>
+                            <FormBtn className="btn btn-dark formBtn" onClick={handleFormChange}>Cancel Creating Event</FormBtn>
+                        </form>
                     </div>
                 )}
             </Container>

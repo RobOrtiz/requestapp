@@ -95,9 +95,9 @@ function DJSignUp() {
                   label="Password:"
                   className="form-control"
                 />
-                <FormBtn onClick={handleLogin} className="formBtn mt-3">Sign In</FormBtn>
+                <FormBtn onClick={handleLogin} className="btn btn-dark formBtn mt-3">Sign In</FormBtn>
 
-                <FormBtn onClick={handleFormChange} className="formBtn mt-3">Or Sign Up Here!</FormBtn>
+                <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign Up Here!</FormBtn>
               </form>
             </div>
           ) : (
@@ -173,8 +173,8 @@ function DJSignUp() {
                     label="I agree to the NOI Terms and Conditions"
                     className="form-check-input"
                   />
-                  <FormBtn onClick={handleFormSubmit} className="formBtn mt-5">Sign Up</FormBtn>
-                  <FormBtn onClick={handleFormChange} className="formBtn mt-3">Or Sign In Here!</FormBtn>
+                  <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Sign Up</FormBtn>
+                  <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign In Here!</FormBtn>
                 </form>
               </div>
             )}
