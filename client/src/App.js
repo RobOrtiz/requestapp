@@ -7,20 +7,28 @@ import DJRequests from "./pages/DJRequests";
 import DJActivity from "./pages/DJActivity";
 import DJProfile from "./pages/DJProfile";
 // import NoMatch from "./pages/NoMatch";
-// import Nav from "./components/Nav";
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
-          {/* <Nav /> */}
           <Switch>
-            <Route exact path={["/", "/request"]}></Route>
-            <Route exact path="/request/:djid"></Route>
-            <Route exact path="/request/:djid/:requestid"></Route>
-            <Route exact path="/request/:djid/:confirmation"></Route>
-            <Route exact path="/dj">
+            <Route exact path={["/", "/dj"]}>
+              {/* Landing page for DJ; add link for customers to go to a request page */}
+            </Route>
+            {/* Customer-specific Routes */}
+            <Route exact path="/request">
+              {/* Select a DJ or Event for customer */}
+            </Route>
+            <Route exact path="/request/:djid/:eventid">
+              {/* Request page for customer */}
+            </Route>
+            <Route exact path="/request/:djid/:confirmation">
+              {/* Confirmation page for customer */}
+            </Route>
+            {/* DJ-specific Routes */}
+            <Route exact path="/dj/signin">
               <DJSignUp />
             </Route>
             <Route exact path="/dj/dashboard">
