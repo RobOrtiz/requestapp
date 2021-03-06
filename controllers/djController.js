@@ -10,6 +10,16 @@ module.exports = {
     .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
   },
+
+  // New Event signup for Dj
+  create: function(req, res) {
+    db.Event
+    .create(req.body)
+    .then(({_id}) => db.Dj.findOneAndUpdate({}, {$push: {events: _id } }, {new: true}))
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
+  },
+
   login: function(req, res) { 
     passport.authenticate('local')(req, res, function () {
       res.json({
@@ -18,6 +28,7 @@ module.exports = {
       });
     })
   },
+
   // login: passport.authenticate("local"), function(req, res) {
   //   db.Dj
   //   .findOne({ _username: req.params._username})
