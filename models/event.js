@@ -7,6 +7,12 @@ const eventSchema = new Schema({
         type: String
     },
 
+    eventStatus: {
+        type: String,
+        enum: ['activated', 'deactivated', 'end'],
+        default: "deactivated"
+    },
+
     genre: {
         type: String,
         trim: true,
@@ -46,44 +52,27 @@ const eventSchema = new Schema({
         required: "Venue name is required"
     },
 
-    streetAddres: {
+    venueAddress: {
         type: String,
         trim: true,
         required: "Street address is required"
     },
 
-    city: {
-        type: String,
-        trim: true,
-        required: "City is required"
-    },
-
-    state: {
-        type: String,
-        trim: true,
-        required: "State is required"
-    },
-
-    zipCode: {
-        type: Number,
-        trim: true,
-        required: "Zip code is required"
-    },
-
     requestList: [
         {
-            albumCover: {type:String},
-            title: {type:String},
-            artist: {type:String},
-            tip: {type:Number},
-            requestType: {type:String},
-            songStatus: {type:String}
-        }
+            albumCover: { type: String },
+            title: { type: String },
+            artist: { type: String },
+            tip: { type: Number },
+            requestType: { type: String },
+            songStatus: { type: String },
+            customerName: { type: String },
+        },
+        { timestamps: true }
     ],
 
     //Originally created 3 separate lists. Switched to one requestList with a songStatus
-    //determining where the song is at in the request flow: requested, rejected, in queue, played...
-    //We can place the songs in the appropriate section based on their songStatus. 
+    //determining where the song is at in the request flow: requested, accepted or declined, in the queue (can be removed), played...    //We can place the songs in the appropriate section based on their songStatus. 
     //As the requested song gets moved around we update the songStatus field.
     //Keeping the playQueue and songActivity lists commented out until we decided which way to manage songs.
     // playQueue: [
