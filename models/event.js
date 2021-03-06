@@ -68,7 +68,40 @@ const eventSchema = new Schema({
         type: Number,
         trim: true,
         required: "Zip code is required"
-    }
+    },
+
+    requestList: [
+        {
+            albumCover: {type:String},
+            title: {type:String},
+            artist: {type:String},
+            tip: {type:Number},
+            requestType: {type:String},
+        }
+    ],
+
+    playQueue: [
+        {
+            albumCover: {type:String},
+            title: {type:String},
+            artist: {type:String},
+            tip: {type:Number},
+            requestType: {type:String},
+        }
+    ],
+
+    songActivity: [
+        {
+            albumCover: {type:String},
+            title: {type:String},
+            artist: {type:String},
+            tip: {type:Number},
+            requestType: {type:String},
+            songStatus: {type:String}
+        }
+    ],
+
+
 
 });
 
