@@ -12,7 +12,7 @@ function Landing() {
                 <Row>
                     <Col>
                         <h1 className="text-center mt-5 landing-text">WELCOME</h1>
-                        <h2 className="text-center mt-5 landing-text">BRIDING THE GAP BETWEEN THE DJ AND THE DANCE FLOOR!</h2>
+                        <h2 className="text-center mt-5 landing-text">BRIDGING THE GAP BETWEEN THE DJ AND THE DANCE FLOOR!</h2>
                     </Col>
                 </Row>
             </Container>
