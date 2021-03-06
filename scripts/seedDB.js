@@ -297,7 +297,7 @@ let eventSeed = [
                 artist: "System of a Down",
                 tip: "80",
                 requestType: "Play Now",
-                songStatus: "Requested"
+                songStatus: "In the Queue"
             },
             {
                 albumCover: "https://images.genius.com/ab83a150f63f5f738331a172cac6c71e.1000x1000x1.jpg",
@@ -305,7 +305,7 @@ let eventSeed = [
                 artist: "Blackstreet",
                 tip: "30",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "In the Queue"
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/81Bgxu0puGL._SX522_.jpg",
