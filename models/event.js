@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
 
+    _id: {
+        type: String
+    },
+
     genre: {
         type: String,
         trim: true,
@@ -12,6 +16,16 @@ const eventSchema = new Schema({
     eventDate: {
         type: Date,
         required: "Date of event is required"
+    },
+
+    startTime: {
+        type: Date,
+        required: "Start time of event is required"
+    },
+
+    endTime: {
+        type: Date,
+        required: "End time of event is required"
     },
 
     eventName: {
