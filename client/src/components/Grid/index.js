@@ -2,7 +2,7 @@ import React from "react";
 import './styles.css'
 
 export function Container({ classes, children }) {
-    return <div className={classes ? `container ${classes}` : `container`}>{children}</div>
+    return <div className={classes ? `container-fluid ${classes}` : `container-fluid`}>{children}</div>
 }
 
 export function Row({ classes, children }) {

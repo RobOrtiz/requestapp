@@ -4,6 +4,7 @@ import "./App.css";
 import DJSignUp from "./pages/DJSignUp";
 import DJHome from "./pages/DJHome";
 import DJRequests from "./pages/DJRequests";
+import DJActivity from "./pages/DJActivity";
 // import NoMatch from "./pages/NoMatch";
 // import Nav from "./components/Nav";
 
@@ -26,6 +27,9 @@ class App extends Component {
             </Route>
             <Route exact path="/dj/requests">
               <DJRequests />
+            </Route>
+            <Route exact path="/dj/activity">
+              <DJActivity />
             </Route>
             <Route>
               {/* <NoMatch /> */}

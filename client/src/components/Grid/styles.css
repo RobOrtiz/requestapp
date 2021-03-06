@@ -5,3 +5,11 @@
 .bottom-container {
     margin-bottom: 150px;
 }
+
+.activity-header-bottom {
+    border-bottom: 3px solid rgb(94, 94, 94);
+}
+
+.activity-bottom {
+    border-bottom: 5px solid rgb(124, 124, 124);
+}
