@@ -45,7 +45,14 @@ const djSchema = new Schema({
         type: String,
         trim: true,
         required: "Instagram handle is required",
-    }
+    },
+
+    events: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Event"
+        }
+    ]
 });
 
 djSchema.plugin(passportLocalMongoose);

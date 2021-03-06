@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema({
 
+    _id: {
+        type: String
+    },
+
     genre: {
         type: String,
         trim: true,
@@ -12,6 +16,16 @@ const eventSchema = new Schema({
     eventDate: {
         type: Date,
         required: "Date of event is required"
+    },
+
+    startTime: {
+        type: Date,
+        required: "Start time of event is required"
+    },
+
+    endTime: {
+        type: Date,
+        required: "End time of event is required"
     },
 
     eventName: {
@@ -54,7 +68,46 @@ const eventSchema = new Schema({
         type: Number,
         trim: true,
         required: "Zip code is required"
-    }
+    },
+
+    requestList: [
+        {
+            albumCover: {type:String},
+            title: {type:String},
+            artist: {type:String},
+            tip: {type:Number},
+            requestType: {type:String},
+            songStatus: {type:String}
+        }
+    ],
+
+    //Originally created 3 separate lists. Switched to one requestList with a songStatus
+    //determining where the song is at in the request flow: requested, rejected, in queue, played...
+    //We can place the songs in the appropriate section based on their songStatus. 
+    //As the requested song gets moved around we update the songStatus field.
+    //Keeping the playQueue and songActivity lists commented out until we decided which way to manage songs.
+    // playQueue: [
+    //     {
+    //         albumCover: {type:String},
+    //         title: {type:String},
+    //         artist: {type:String},
+    //         tip: {type:Number},
+    //         requestType: {type:String},
+    //     }
+    // ],
+
+    // songActivity: [
+    //     {
+    //         albumCover: {type:String},
+    //         title: {type:String},
+    //         artist: {type:String},
+    //         tip: {type:Number},
+    //         requestType: {type:String},
+    //         songStatus: {type:String}
+    //     }
+    // ],
+
+
 
 });
 
