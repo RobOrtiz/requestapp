@@ -1,7 +1,15 @@
 .current-link {
+<<<<<<< Updated upstream
     color: gold !important;
 }
 
 .not-current:hover {
     color: gold !important;
+=======
+    color: #b3960e;
+}
+
+.fas:hover {
+    color: #b3960e;
+>>>>>>> Stashed changes
 }
