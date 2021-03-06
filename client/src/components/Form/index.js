@@ -9,6 +9,24 @@ export function Input(props) {
     )
 }
 
+export function InputText(props) {
+    return (
+        <div className="form-group">
+            <label forhtml={props.id}>{props.label}</label>
+            <input {...props}/>
+        </div>
+    )
+}
+
+export function InputCheckbox(props) {
+    return (
+        <div className="form-check">
+            <input {...props}/>
+            <label forhtml={props.id} className="form-check-label">{props.label}</label>
+        </div>
+    )
+}
+
 export function FormBtn(props) {
     return (
         <div>
