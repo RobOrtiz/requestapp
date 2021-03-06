@@ -13,6 +13,7 @@ function DJHome() {
         add: false,
     });
     
+
     function handleFormChange() {
         if (addEvent.add === false) {
             setAddEvent({
