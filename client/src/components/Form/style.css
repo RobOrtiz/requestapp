@@ -1,5 +1,5 @@
 .formBtn {
-    background-color: rgb(77, 77, 77); /* For browsers that do not support gradients */
+    background-color: rgb(0, 0, 0); /* For browsers that do not support gradients */
     background-image: linear-gradient(rgb(77, 77, 77), black);
     color: white;
     margin-bottom: 1rem;
