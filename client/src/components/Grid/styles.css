@@ -21,3 +21,8 @@
 .user-info h4 {
     color: rgb(179, 150, 14) !important;
 }
+
+label {
+    display: inline-block;
+    text-align: right;
+}

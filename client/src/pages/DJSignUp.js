@@ -3,6 +3,7 @@ import { Container, Col } from "../components/Grid";
 import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
+import UserContext from "../utils/userContext";
 
 function DJSignUp() {
   const [formObject, setFormObject] = useState({
@@ -18,6 +19,10 @@ function DJSignUp() {
   const [ user, setUser ] = useState({
     user: ""
   });
+
+  React.useEffect(() => {
+    console.log(user)
+  })
 
   const [signUp, setSignUp] = useState({
     signup: false,
@@ -63,8 +68,8 @@ function DJSignUp() {
       password: formObject.password
     })
     .then((res) => {
-      setUser({user: res.data.id});
-      window.location.replace("/dj/dashboard")
+      setUser({user: res});
+      // window.location.replace("/dj/dashboard")
     })
     .catch(err => console.log(err));
   }
