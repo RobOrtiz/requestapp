@@ -3,6 +3,7 @@ import { Container, Col } from "../components/Grid";
 import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
+import UserContext from "../utils/userContext";
 
 function DJSignUp() {
   const [formObject, setFormObject] = useState({
@@ -18,6 +19,10 @@ function DJSignUp() {
   const [ user, setUser ] = useState({
     user: ""
   });
+
+  React.useEffect(() => {
+    console.log(user)
+  })
 
   const [signUp, setSignUp] = useState({
     signup: false,
@@ -63,7 +68,7 @@ function DJSignUp() {
       password: formObject.password
     })
     .then((res) => {
-      setUser({user: res.data.id});
+      setUser({user: res});
       window.location.replace("/dj/dashboard")
     })
     .catch(err => console.log(err));
@@ -95,9 +100,9 @@ function DJSignUp() {
                   label="Password:"
                   className="form-control"
                 />
-                <FormBtn onClick={handleLogin} className="formBtn mt-3">Sign In</FormBtn>
+                <FormBtn onClick={handleLogin} className="btn btn-dark formBtn mt-3">Sign In</FormBtn>
 
-                <FormBtn onClick={handleFormChange} className="formBtn mt-3">Or Sign Up Here!</FormBtn>
+                <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign Up Here!</FormBtn>
               </form>
             </div>
           ) : (
@@ -173,8 +178,8 @@ function DJSignUp() {
                     label="I agree to the NOI Terms and Conditions"
                     className="form-check-input"
                   />
-                  <FormBtn onClick={handleFormSubmit} className="formBtn mt-5">Sign Up</FormBtn>
-                  <FormBtn onClick={handleFormChange} className="formBtn mt-3">Or Sign In Here!</FormBtn>
+                  <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Sign Up</FormBtn>
+                  <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign In Here!</FormBtn>
                 </form>
               </div>
             )}

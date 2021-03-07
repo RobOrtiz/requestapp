@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "../components/Grid";
-import { Input, FormBtn } from "../components/Form";
+import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -46,7 +46,7 @@ function DJHome() {
         // See details above in require uuid.
         const randomEventId = uuid();
         API.createEvent({
-            _id:randomEventId,
+            _id: randomEventId,
             genre: formObject.genre,
             eventDate: formObject.eventDate,
             startTime: formObject.eventTimeStart,
@@ -84,76 +84,80 @@ function DJHome() {
                     <div>
                         <h1>Create Event</h1>
                         <form>
-                            <label forhtml="eventName">What's the event name?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="eventName"
                                 name="eventName"
                                 placeholder="EVENT NAME"
+                                label="What's the event name?"
+                                className="form-control"
                             />
-                            <label forhtml="venueName">What's the name of the venue?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="venueName"
                                 name="venueName"
                                 placeholder="VENUE NAME"
+                                label="What's the name of the venue?"
+                                className="form-control"
                             />
-                            <label forhtml="eventType">What's the name of the venue?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="eventType"
                                 name="eventType"
                                 placeholder="EVENT TYPE"
+                                label="What type of event is it?"
+                                className="form-control"
                             />
-                            <label forhtml="eventLocation">What's the address for the event?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="eventLocation"
                                 name="eventLocation"
                                 placeholder="VENUE ADDRESS"
+                                label="What's the address for the event?"
+                                className="form-control"
                             />
-                            <label forhtml="genre">What type of music will be played?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="genre"
                                 name="genre"
                                 placeholder="GENRE"
+                                label="What type of music will be played?"
+                                className="form-control"
                             />
-                            <label forhtml="eventDate">What date is the event on?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="date"
                                 id="eventDate"
                                 name="eventDate"
+                                label="What date is the event on?"
+                                className="form-control"
                             />
-                            <label forhtml="eventTimeStart">What time does the event start?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="eventTimeStart"
                                 name="eventTimeStart"
                                 placeholder="6:00pm"
+                                label="What time does the event start?"
+                                className="form-control"
                             />
-                            <label forhtml="eventTimeEnd">What time does the event end?</label>
-                            <Input
+                            <InputText
                                 onChange={handleInputChange}
                                 type="text"
                                 id="eventTimeEnd"
                                 name="eventTimeEnd"
                                 placeholder="9:00pm"
+                                label="What time does the event end?"
+                                className="form-control"
                             />
-                            <FormBtn onClick={handleFormSubmit}>Save Event</FormBtn>
+                            <FormBtn className="btn btn-dark formBtn">Save Event</FormBtn>
+                            <FormBtn className="btn btn-dark formBtn" onClick={handleFormChange}>Cancel Creating Event</FormBtn>
                         </form>
-                        <input
-                            type="button"
-                            onClick={handleFormChange}
-                            value="Cancel Creating Event"
-                        />
                     </div>
                 )}
             </Container>

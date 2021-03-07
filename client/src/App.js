@@ -7,6 +7,7 @@ import DJRequests from "./pages/DJRequests";
 import DJActivity from "./pages/DJActivity";
 import DJProfile from "./pages/DJProfile";
 import Landing from "./pages/Landing";
+import RequestPage from './pages/RequestPage';
 // import NoMatch from "./pages/NoMatch";
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
             {/* Customer-specific Routes */}
             <Route exact path="/request">
               {/* Select a DJ or Event for customer */}
+              <RequestPage />
             </Route>
             <Route exact path="/request/:djid/:eventid">
               {/* Request page for customer */}

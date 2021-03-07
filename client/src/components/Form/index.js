@@ -22,7 +22,7 @@ export function InputCheckbox(props) {
     return (
         <div className="form-check">
             <input {...props}/>
-            <label forhtml={props.id} className="form-check-label">{props.label}</label>
+            <label forhtml={props.id} className="form-check-label">{props.label} <i className="fas fa-info-circle"></i></label>
         </div>
     )
 }

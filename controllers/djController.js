@@ -43,18 +43,6 @@ module.exports = {
     })
   },
 
-  // login: passport.authenticate("local"), function(req, res) {
-  //   db.Dj
-  //   .findOne({ _username: req.params._username})
-  //   .then(dbModel => res.json(dbModel))
-  //   .catch(err => res.status(422).json(err));
-  // },
-  // create: function(req, res) {
-  //   db.Dj
-  //   .create(req.body)
-  //   .then(dbModel => res.json(dbModel))
-  //   .catch(err => res.status(422).json(err));
-  // },
   deleteMany: function (req, res) {
     db.Dj
       .findById({ _id: req.params.id })
