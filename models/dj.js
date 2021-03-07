@@ -49,7 +49,7 @@ const djSchema = new Schema({
 
     events: [
         {
-          type: Schema.Types.ObjectId,
+          type: String,
           ref: "Event"
         }
     ]

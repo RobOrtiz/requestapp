@@ -25,12 +25,12 @@ const eventSchema = new Schema({
     },
 
     startTime: {
-        type: Date,
+        type: String,
         required: "Start time of event is required"
     },
 
     endTime: {
-        type: Date,
+        type: String,
         required: "End time of event is required"
     },
 

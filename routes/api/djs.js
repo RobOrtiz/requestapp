@@ -9,7 +9,7 @@ router.route("/")
 router.route("/login")  
   .post(djController.login);
 
-router.route("/events")  
+router.route("/event")  
   .post(djController.create);
 
 
