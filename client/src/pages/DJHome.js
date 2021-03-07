@@ -155,7 +155,7 @@ function DJHome() {
                                 label="What time does the event end?"
                                 className="form-control"
                             />
-                            <FormBtn className="btn btn-dark formBtn">Save Event</FormBtn>
+                            <FormBtn className="btn btn-dark formBtn" onClick={handleFormSubmit} >Save Event</FormBtn>
                             <FormBtn className="btn btn-dark formBtn" onClick={handleFormChange}>Cancel Creating Event</FormBtn>
                         </form>
                     </div>
