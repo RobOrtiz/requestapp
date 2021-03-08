@@ -4,6 +4,7 @@ import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
 import UserContext from "../utils/userContext";
+import UploadProfileImage from "../components/UploadProfileImage";
 
 function DJSignUp() {
   const [formObject, setFormObject] = useState({
@@ -16,7 +17,7 @@ function DJSignUp() {
     instagram: ""
   });
 
-  const [ user, setUser ] = useState({
+  const [user, setUser] = useState({
     user: ""
   });
 
@@ -67,11 +68,11 @@ function DJSignUp() {
       username: formObject.email,
       password: formObject.password
     })
-    .then((res) => {
-      setUser({user: res});
-      window.location.replace("/dj/dashboard")
-    })
-    .catch(err => console.log(err));
+      .then((res) => {
+        setUser({ user: res });
+        window.location.replace("/dj/dashboard")
+      })
+      .catch(err => console.log(err));
   }
 
   return (
@@ -82,15 +83,15 @@ function DJSignUp() {
           {!signUp.signup ? (
             <div>
               <h1 className="mb-3">Sign In</h1>
-              <form style={{width: "400px"}}>
-                <InputText 
-                onChange={handleInputChange}
-                type="text" 
-                id="email" 
-                name="email" 
-                placeholder="EMAIL"
-                label="Username:"
-                className="form-control"/>
+              <form style={{ width: "400px" }}>
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="EMAIL"
+                  label="Username:"
+                  className="form-control" />
                 <InputText
                   onChange={handleInputChange}
                   type="password"
@@ -106,84 +107,88 @@ function DJSignUp() {
               </form>
             </div>
           ) : (
-              <div>
-                <h1 className="mb-3">Sign Up</h1>
-                <form style={{width: "400px"}}>
-                  <InputText
-                    onChange={handleInputChange}
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    placeholder="FULL NAME"
-                    label="What's your real name?"
-                    className="form-control"
-                  />
-                  <InputText
-                    onChange={handleInputChange}
-                    type="text"
-                    id="djName"
-                    name="djName"
-                    placeholder="DJ NAME"
-                    label="What's your DJ name?"
-                    className="form-control"
-                  />
-                  <InputText
-                    onChange={handleInputChange}
-                    type="text"
-                    id="hometown"
-                    name="hometown"
-                    placeholder="HOMETOWN"
-                    label="Where are you from?"
-                    className="form-control"
-                  />
-                  <InputText
-                    onChange={handleInputChange}
-                    type="text"
-                    id="djStyle"
-                    name="djStyle"
-                    placeholder="DJ STYLE"
-                    label="What type of music do you play?"
-                    className="form-control"                  
-                  />
-                  <InputText
-                    onChange={handleInputChange}
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="EMAIL"
-                    label="What's your email?"
-                    className="form-control"                    
-                  />
-                  <InputText
-                    onChange={handleInputChange}
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="PASSWORD"
-                    label="Please enter in a password:"
-                    className="form-control"                    
-                  />
-                  <InputText
-                    onChange={handleInputChange}
-                    type="text"
-                    id="instagram"
-                    name="instagram"
-                    placeholder="@INSTAGRAM"
-                    label="What's your Instagram handle?"
-                    className="form-control"
-                  />
-                  <InputCheckbox
-                    type="checkbox"
-                    id="terms"
-                    label="I agree to the NOI Terms and Conditions"
-                    className="form-check-input"
-                  />
-                  <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Sign Up</FormBtn>
-                  <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign In Here!</FormBtn>
-                </form>
-              </div>
-            )}
-          </Col>
+            <div>
+              <h1 className="mb-3">Sign Up</h1>
+              <form style={{ width: "400px" }}>
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="FULL NAME"
+                  label="What's your real name?"
+                  className="form-control"
+                />
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="djName"
+                  name="djName"
+                  placeholder="DJ NAME"
+                  label="What's your DJ name?"
+                  className="form-control"
+                />
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="hometown"
+                  name="hometown"
+                  placeholder="HOMETOWN"
+                  label="Where are you from?"
+                  className="form-control"
+                />
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="djStyle"
+                  name="djStyle"
+                  placeholder="DJ STYLE"
+                  label="What type of music do you play?"
+                  className="form-control"
+                />
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="EMAIL"
+                  label="What's your email?"
+                  className="form-control"
+                />
+                <InputText
+                  onChange={handleInputChange}
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="PASSWORD"
+                  label="Please enter in a password:"
+                  className="form-control"
+                />
+                <InputText
+                  onChange={handleInputChange}
+                  type="text"
+                  id="instagram"
+                  name="instagram"
+                  placeholder="@INSTAGRAM"
+                  label="What's your Instagram handle?"
+                  className="form-control"
+                />
+                <UploadProfileImage
+                  // onChange={changeHandlerImage}
+                  // onClick={handleImageUpload}
+                />
+                <InputCheckbox
+                  type="checkbox"
+                  id="terms"
+                  label="I agree to the NOI Terms and Conditions"
+                  className="form-check-input"
+                />
+                <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Sign Up</FormBtn>
+                <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign In Here!</FormBtn>
+              </form>
+            </div>
+          )}
+        </Col>
       </Container>
     </div>
   );
