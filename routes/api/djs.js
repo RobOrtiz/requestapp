@@ -9,6 +9,9 @@ router.route("/")
 router.route("/login")  
   .post(djController.login);
 
+router.route("/event")  
+  .post(djController.create);
+
 
   
 // // Matches with "/api/books/:id"

@@ -69,7 +69,7 @@ function DJSignUp() {
     })
     .then((res) => {
       setUser({user: res});
-      // window.location.replace("/dj/dashboard")
+      window.location.replace("/dj/dashboard")
     })
     .catch(err => console.log(err));
   }

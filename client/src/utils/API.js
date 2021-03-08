@@ -6,6 +6,9 @@ export default {
   },
   login: function(credentials) {
     return axios.post("/api/djs/login", credentials)
+  },
+  createEvent: function(eventData) {
+    return axios.post("/api/djs/event", eventData)
   }
   // Gets all books
   // getBooks: function() {

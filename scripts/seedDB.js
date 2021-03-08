@@ -68,6 +68,7 @@ let eventSeed = [
 
     {
         _id: "1001",
+        eventStatus: "deactivated",
         genre: "Hip Hop",
         eventDate: "04/10/2021",
         startTime: "6:00pm",
@@ -75,10 +76,7 @@ let eventSeed = [
         eventName: "Garcia Wedding",
         eventType: "Wedding",
         venueName: "Lakeshore Golf Club",
-        streetAddres: "980 Poppy Lane",
-        city: "Arcadia",
-        state: "CA",
-        zipCode: 92001,
+        venueAddress: "980 Poppy Lane; Arcadia, CA 92001",
         requestList: [
             {
                 albumCover: "https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg",
@@ -86,7 +84,10 @@ let eventSeed = [
                 artist: "112",
                 tip: "50",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Johny Vargas",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/09e17c505c3a4927ba8ce1b264a41b4d.591x591x1.jpg",
@@ -94,7 +95,10 @@ let eventSeed = [
                 artist: "Usher",
                 tip: "20",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Cindy Vo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg",
@@ -102,7 +106,10 @@ let eventSeed = [
                 artist: "System of a Down",
                 tip: "80",
                 requestType: "Play Now",
-                songStatus: "Requested"
+                songStatus: "In the Queue",
+                customerName: "Jenny Johnson",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/ab83a150f63f5f738331a172cac6c71e.1000x1000x1.jpg",
@@ -110,7 +117,10 @@ let eventSeed = [
                 artist: "Blackstreet",
                 tip: "30",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "In the Queue",
+                customerName: "Larry Polison",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/81Bgxu0puGL._SX522_.jpg",
@@ -118,7 +128,10 @@ let eventSeed = [
                 artist: "Keith Sweat",
                 tip: "30",
                 requestType: "Play Now",
-                songStatus: "Played"
+                songStatus: "Played",
+                customerName: "Randy Timberland",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/71F%2BUbSwXeL._SX522_.jpg",
@@ -126,13 +139,17 @@ let eventSeed = [
                 artist: "Kris Kross",
                 tip: "10",
                 requestType: "General Request",
-                songStatus: "Rejected"
+                songStatus: "Rejected",
+                customerName: "Sally Carillo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             }
         ],
     },
 
     {
         _id: "1002",
+        eventStatus: "deactivated",
         genre: "Country Line Dancing",
         eventDate: "06/10/2021",
         startTime: "6:00pm",
@@ -140,10 +157,7 @@ let eventSeed = [
         eventName: "Henry Grad Party",
         eventType: "Graduation Party",
         venueName: "VA Westinghouse Club",
-        streetAddres: "9876 Shoelace Lane",
-        city: "Los Angeles",
-        state: "CA",
-        zipCode: 94002,
+        venueAddress: "9876 Shoelace Lane; Los Angeles, CA 94002",
         requestList: [
             {
                 albumCover: "https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg",
@@ -151,7 +165,10 @@ let eventSeed = [
                 artist: "112",
                 tip: "50",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Johny Vargas",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/09e17c505c3a4927ba8ce1b264a41b4d.591x591x1.jpg",
@@ -159,7 +176,10 @@ let eventSeed = [
                 artist: "Usher",
                 tip: "20",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Cindy Vo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg",
@@ -167,7 +187,10 @@ let eventSeed = [
                 artist: "System of a Down",
                 tip: "80",
                 requestType: "Play Now",
-                songStatus: "Requested"
+                songStatus: "In the Queue",
+                customerName: "Jenny Johnson",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/ab83a150f63f5f738331a172cac6c71e.1000x1000x1.jpg",
@@ -175,7 +198,10 @@ let eventSeed = [
                 artist: "Blackstreet",
                 tip: "30",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "In the Queue",
+                customerName: "Larry Polison",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/81Bgxu0puGL._SX522_.jpg",
@@ -183,7 +209,10 @@ let eventSeed = [
                 artist: "Keith Sweat",
                 tip: "30",
                 requestType: "Play Now",
-                songStatus: "Played"
+                songStatus: "Played",
+                customerName: "Randy Timberland",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/71F%2BUbSwXeL._SX522_.jpg",
@@ -191,13 +220,17 @@ let eventSeed = [
                 artist: "Kris Kross",
                 tip: "10",
                 requestType: "General Request",
-                songStatus: "Rejected"
+                songStatus: "Rejected",
+                customerName: "Sally Carillo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             }
         ],
     },
 
     {
         _id: "1003",
+        eventStatus: "deactivated",
         genre: "Jazz",
         eventDate: "07/10/2021",
         startTime: "12:00pm",
@@ -205,10 +238,7 @@ let eventSeed = [
         eventName: "Jones Retirement Party",
         eventType: "Retirement Party",
         venueName: "Live Jazz Club House",
-        streetAddres: "5412 Airhorn Drive",
-        city: "San Diego",
-        state: "CA",
-        zipCode: 92034,
+        venueAddress: "5412 Airhorn Drive; San Diego, CA 92034",
         requestList: [
             {
                 albumCover: "https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg",
@@ -216,7 +246,10 @@ let eventSeed = [
                 artist: "112",
                 tip: "50",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Johny Vargas",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/09e17c505c3a4927ba8ce1b264a41b4d.591x591x1.jpg",
@@ -224,7 +257,10 @@ let eventSeed = [
                 artist: "Usher",
                 tip: "20",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Cindy Vo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg",
@@ -232,7 +268,10 @@ let eventSeed = [
                 artist: "System of a Down",
                 tip: "80",
                 requestType: "Play Now",
-                songStatus: "Requested"
+                songStatus: "In the Queue",
+                customerName: "Jenny Johnson",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/ab83a150f63f5f738331a172cac6c71e.1000x1000x1.jpg",
@@ -240,7 +279,10 @@ let eventSeed = [
                 artist: "Blackstreet",
                 tip: "30",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "In the Queue",
+                customerName: "Larry Polison",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/81Bgxu0puGL._SX522_.jpg",
@@ -248,7 +290,10 @@ let eventSeed = [
                 artist: "Keith Sweat",
                 tip: "30",
                 requestType: "Play Now",
-                songStatus: "Played"
+                songStatus: "Played",
+                customerName: "Randy Timberland",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/71F%2BUbSwXeL._SX522_.jpg",
@@ -256,13 +301,17 @@ let eventSeed = [
                 artist: "Kris Kross",
                 tip: "10",
                 requestType: "General Request",
-                songStatus: "Rejected"
+                songStatus: "Rejected",
+                customerName: "Sally Carillo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             }
         ],
     },
 
     {
         _id: "1004",
+        eventStatus: "deactivated",
         genre: "Alternative Rock",
         eventDate: "09/10/2021",
         startTime: "8:00pm",
@@ -270,10 +319,7 @@ let eventSeed = [
         eventName: "Davidson Engagement Party",
         eventType: "Engagement Party",
         venueName: "The Palace",
-        streetAddres: "4509 Hollywood Blvd.",
-        city: "Los Angeles",
-        state: "CA",
-        zipCode: 94323,
+        venueAddress: "4509 Hollywood Blvd.; Los Angeles, CA 94323",
         requestList: [
             {
                 albumCover: "https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg",
@@ -281,7 +327,10 @@ let eventSeed = [
                 artist: "112",
                 tip: "50",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Johny Vargas",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/09e17c505c3a4927ba8ce1b264a41b4d.591x591x1.jpg",
@@ -289,7 +338,10 @@ let eventSeed = [
                 artist: "Usher",
                 tip: "20",
                 requestType: "General Request",
-                songStatus: "Requested"
+                songStatus: "Requested",
+                customerName: "Cindy Vo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg",
@@ -297,7 +349,10 @@ let eventSeed = [
                 artist: "System of a Down",
                 tip: "80",
                 requestType: "Play Now",
-                songStatus: "In the Queue"
+                songStatus: "In the Queue",
+                customerName: "Jenny Johnson",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images.genius.com/ab83a150f63f5f738331a172cac6c71e.1000x1000x1.jpg",
@@ -305,7 +360,10 @@ let eventSeed = [
                 artist: "Blackstreet",
                 tip: "30",
                 requestType: "General Request",
-                songStatus: "In the Queue"
+                songStatus: "In the Queue",
+                customerName: "Larry Polison",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/81Bgxu0puGL._SX522_.jpg",
@@ -313,7 +371,10 @@ let eventSeed = [
                 artist: "Keith Sweat",
                 tip: "30",
                 requestType: "Play Now",
-                songStatus: "Played"
+                songStatus: "Played",
+                customerName: "Randy Timberland",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             },
             {
                 albumCover: "https://images-na.ssl-images-amazon.com/images/I/71F%2BUbSwXeL._SX522_.jpg",
@@ -321,7 +382,10 @@ let eventSeed = [
                 artist: "Kris Kross",
                 tip: "10",
                 requestType: "General Request",
-                songStatus: "Rejected"
+                songStatus: "Rejected",
+                customerName: "Sally Carillo",
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             }
         ],
     }
