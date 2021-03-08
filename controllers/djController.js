@@ -10,7 +10,7 @@ const ObjectId = require('mongodb').ObjectID;
 module.exports = {
 
   // New DJ signup
-  create: function (req, res) {
+  createDj: function (req, res) {
     db.Dj
       .register(req.body, req.body.password)
       .then(dbModel => res.json(dbModel))
@@ -25,7 +25,7 @@ module.exports = {
   // I used findByIdAndUpdate versus findOneAndReplace. They both do the same thing.
   // You need to explicitly set the new option to true to get the new version of the doc, after the update is applied.
   // Probably can get away with leaving new set to default of false, unless we plan on displaying the updated data after the update.
-  create: function (req, res) {
+  createEvent: function (req, res) {
     const djIdToUpdate = ObjectId("60448e99dd4d915f4cc8ad48");
     db.Event
       .create(req.body)

@@ -4,13 +4,13 @@ const passport = require("../../config/passport")
 
 // Matches with "/api/djs"
 router.route("/")
-  .post(djController.create)
+  .post(djController.createDj)
 
 router.route("/login")  
   .post(djController.login);
 
 router.route("/event")  
-  .post(djController.create);
+  .post(djController.createEvent);
 
 
   
