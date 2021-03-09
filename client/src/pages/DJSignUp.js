@@ -7,6 +7,11 @@ import UserContext from "../utils/userContext";
 import UploadProfileImage from "../components/UploadProfileImage";
 
 function DJSignUp() {
+
+  React.useEffect(() => {
+    console.log(user)
+  })
+
   const [formObject, setFormObject] = useState({
     fullName: "",
     djName: "",
@@ -20,6 +25,12 @@ function DJSignUp() {
   const [user, setUser] = useState({
     user: ""
   });
+
+  // Set states for the upload profile image feature.
+  const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [isSelected, setIsSelected] = useState(false);
+  const [image, setImage] = useState("https://via.placeholder.com/150");
 
   React.useEffect(() => {
     console.log(user)
@@ -39,6 +50,34 @@ function DJSignUp() {
         signup: false,
       });
     }
+  }
+
+  // Function to change state of selectedFile to the file that the user chooses to upload.
+  const selectImage = async event => {
+    setSelectedFile(event.target.files[0]);
+    setIsSelected(true)
+  }
+
+  // Function to upload the selectedFile to Cloudinary via their API once the user clicks on the upload image button.
+  // The Cloudinary API will return a JSON object that contains the profile image URL that we can attach to the the Dj document.
+  // The Cloudinary account is currently setup under Charles' information.
+  const uploadImage = async event => {
+    event.preventDefault();
+    setLoading(true);
+    const data = new FormData();
+    data.append('file', selectedFile);
+    data.append('upload_preset', 'bxqprejb')
+    setLoading(true);
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/noimgmt/image/upload",
+      {
+        method: 'POST',
+        body: data
+      })
+    const file = await res.json();
+    console.log(file);
+    setImage(file.secure_url);
+    setLoading(false);
   }
 
   // Handles updating component state when the user types into the input field
@@ -173,10 +212,34 @@ function DJSignUp() {
                   label="What's your Instagram handle?"
                   className="form-control"
                 />
-                <UploadProfileImage
-                  // onChange={changeHandlerImage}
-                  // onClick={handleImageUpload}
-                />
+                <div className="App">
+                  <h1>Upload Profile Image to Cloudinary</h1>
+                  <input type="file" name="file" placeholder="Upload an Image"
+                    onChange={selectImage} />
+                  <div>
+                    <button onClick={uploadImage}>Submit</button>
+                  </div>
+                  {
+                    loading ? (
+                      <h3>Loading ...</h3>
+                    ) : (
+                      <img src={image} alt="profile head shot" style={{ width: '150px', height: '150' }} />
+                    )
+                  }
+                  {isSelected ? (
+                    <div>
+                      <p>Filename: {selectedFile.name}</p>
+                      <p>Filetype: {selectedFile.type}</p>
+                      <p>Size in bytes: {selectedFile.size}</p>
+                      <p>
+                        lastModifiedDate:{' '}
+                        {selectedFile.lastModifiedDate.toLocaleDateString()}
+                      </p>
+                    </div>
+                  ) : (
+                    <p>Select a file to show details</p>
+                  )}
+                </div>
                 <InputCheckbox
                   type="checkbox"
                   id="terms"
