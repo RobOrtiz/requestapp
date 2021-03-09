@@ -3,6 +3,8 @@ import { Container, Row, Col } from "../components/Grid";
 import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import UnauthorizedMessage from "../components/UnauthorizedMessage"
 
 // Import uuid to create a random _id for a newly created Event. 
 // I did it this way because of the way we seeded the DB. We couldn't create random ObjectIds for the Events in a way
@@ -15,6 +17,10 @@ import API from "../utils/API";
 
 
 function DJHome() {
+    // Checks if user is logged in
+    const { user, isAuthenticated } = useAuth0();
+    // The login object of the user
+    console.log(user)
 
     const [formObject, setFormObject] = useState({
     });
@@ -172,7 +178,8 @@ function DJHome() {
 
             <Footer current="home" />
         </div>
-    )
+        )
+    
 }
 
 export default DJHome;

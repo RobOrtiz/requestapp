@@ -7,13 +7,27 @@ import DJRequests from "./pages/DJRequests";
 import DJActivity from "./pages/DJActivity";
 import DJProfile from "./pages/DJProfile";
 import Landing from "./pages/Landing";
-import RequestPage from './pages/RequestPage';
-// import NoMatch from "./pages/NoMatch";
+import RequestPage from "./pages/RequestPage";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Auth0Provider } from "@auth0/auth0-react";
+import UnauthorizedMessage from "./components/UnauthorizedMessage"
+import ProtectedRoute from "../src/auth/protected-route";
+import Profile from "./components/Profile";
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
+
+// Auth0
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+function App() {
+  return (
+    <Router>
+      <Auth0Provider
+        domain={domain}
+        clientId={clientId}
+        redirectUri={window.location.origin}
+      >
         <div>
           <Switch>
             <Route exact path={["/", "/dj"]}>
@@ -30,30 +44,20 @@ class App extends Component {
             <Route exact path="/request/:djid/:confirmation">
               {/* Confirmation page for customer */}
             </Route>
+            
             {/* DJ-specific Routes */}
-            <Route exact path="/dj/signin">
-              <DJSignUp />
-            </Route>
-            <Route exact path="/dj/dashboard">
-              <DJHome />
-            </Route>
-            <Route exact path="/dj/requests">
-              <DJRequests />
-            </Route>
-            <Route exact path="/dj/activity">
-              <DJActivity />
-            </Route>
-            <Route exact path="/dj/profile">
-              <DJProfile />
-            </Route>
-            <Route>
-              {/* <NoMatch /> */}
-            </Route>
+            <ProtectedRoute exact path="/dj/signin" component={DJSignUp}></ProtectedRoute>
+            <ProtectedRoute exact path="/dj/dashboard" component={DJHome}></ProtectedRoute>
+            <ProtectedRoute exact path="/dj/requests" component={DJRequests}></ProtectedRoute>
+            <ProtectedRoute exact path="/dj/activity" component={DJActivity}></ProtectedRoute>
+            <ProtectedRoute exact path="/dj/profile" component={DJProfile}></ProtectedRoute>
+            
+            <Route>{/* <NoMatch /> */}</Route>
           </Switch>
         </div>
-      </Router>
-    );
-  }
+      </Auth0Provider>
+    </Router>
+  );
 }
 
 export default App;
