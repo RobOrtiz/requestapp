@@ -28,6 +28,7 @@ const djSchema = new Schema({
         required: "Dj style is required"
     },
 
+    // Don't need username or password fields in Dj Event - as the passport local mongoose created the username  (see below).
     // username: {
     //     type: String,
     //     unique: true,
@@ -47,6 +48,11 @@ const djSchema = new Schema({
         required: "Instagram handle is required",
     },
 
+    // Place to hold url string that will be generate via an API call to link uploaded image (from Dj during Dj signup) to an url.
+    profileImage: {
+        type: String
+    },
+
     events: [
         {
           type: String,
@@ -55,6 +61,10 @@ const djSchema = new Schema({
     ]
 });
 
+// Dj model method using passport local mongoose to use username and password from Dj signup form to 
+// generate hash and salt documents fields in the Dj document on the MongoDb. The username and hash and
+// salt fields are added to the DB via passport local mongoose. 
+// Because we are using this authenication method we do not need a username and password field in the Dj model.
 djSchema.plugin(passportLocalMongoose);
 
 const Dj = mongoose.model("Dj", djSchema);
