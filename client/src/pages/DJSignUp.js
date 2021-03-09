@@ -6,11 +6,14 @@ import Header from "../components/Header";
 import UserContext from "../utils/userContext";
 import ImageContainer from "../components/ImageContainer";
 
-function DJSignUp() {
+import LoginButton from "../components/LoginButton";
+import LogoutButton from "../components/LogoutButton";
+import Profile from "../components/Profile";
+import { useAuth0 } from "@auth0/auth0-react";
 
-  React.useEffect(() => {
-    console.log(user)
-  })
+function DJSignUp() {
+  const { user, isAuthenticated } = useAuth0();
+  console.log(user)
 
   const [formObject, setFormObject] = useState({
     fullName: "",
@@ -22,19 +25,11 @@ function DJSignUp() {
     instagram: ""
   });
 
-  const [user, setUser] = useState({
-    user: ""
-  });
-
   // Set states for the upload profile image feature.
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   // const [isSelected, setIsSelected] = useState(false);
   const [image, setImage] = useState("https://via.placeholder.com/150");
-
-  React.useEffect(() => {
-    console.log(user)
-  })
 
   const [signUp, setSignUp] = useState({
     signup: false,
@@ -102,18 +97,18 @@ function DJSignUp() {
       .catch(err => console.log(err));
   }
 
-  function handleLogin(event) {
-    event.preventDefault();
-    API.login({
-      username: formObject.email,
-      password: formObject.password
-    })
-      .then((res) => {
-        setUser({ user: res });
-        window.location.replace("/dj/dashboard")
-      })
-      .catch(err => console.log(err));
-  }
+  // function handleLogin(event) {
+  //   event.preventDefault();
+  //   API.login({
+  //     username: formObject.email,
+  //     password: formObject.password
+  //   })
+  //     .then((res) => {
+  //       setUser({ user: res });
+  //       window.location.replace("/dj/dashboard")
+  //     })
+  //     .catch(err => console.log(err));
+  // }
 
   return (
     <div>
@@ -141,8 +136,8 @@ function DJSignUp() {
                   label="Password:"
                   className="form-control"
                 />
-                <FormBtn onClick={handleLogin} className="btn btn-dark formBtn mt-3">Sign In</FormBtn>
-
+                {/* <FormBtn onClick={handleLogin} className="btn btn-dark formBtn mt-3">Sign In</FormBtn> */}
+                <FormBtn className="btn btn-dark formBtn mt-3">Sign In</FormBtn>
                 <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign Up Here!</FormBtn>
               </form>
             </div>
@@ -238,6 +233,10 @@ function DJSignUp() {
             </div>
           )}
         </Col>
+        
+        <LoginButton />
+              <LogoutButton />
+              <Profile style={{color: "white"}}/>
       </Container>
     </div>
   );
