@@ -95,7 +95,8 @@ function DJSignUp() {
       djStyle: formObject.djStyle,
       username: formObject.email,
       password: formObject.password,
-      instagram: formObject.instagram
+      instagram: formObject.instagram,
+      profileImage: image,
     })
       .then((res) => window.location.replace("/dj/dashboard"))
       .catch(err => console.log(err));
