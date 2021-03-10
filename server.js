@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 // Requiring passport as we've configured it
-const passport = require("./config/passport");
+// const passport = require("./config/passport");
 
 // Morgan is a middleware that logs the requests to the server to the console. 
 const logger = require("morgan");
@@ -20,10 +20,6 @@ const PORT = process.env.PORT || 3001;
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 // Serve up static assets (usually on heroku)

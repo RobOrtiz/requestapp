@@ -46,7 +46,7 @@ function App() {
             </Route>
             
             {/* DJ-specific Routes */}
-            <ProtectedRoute exact path="/dj/signin" component={DJSignUp}></ProtectedRoute>
+            <ProtectedRoute exact path="/dj/signup" component={DJSignUp}></ProtectedRoute>
             <ProtectedRoute exact path="/dj/dashboard" component={DJHome}></ProtectedRoute>
             <ProtectedRoute exact path="/dj/requests" component={DJRequests}></ProtectedRoute>
             <ProtectedRoute exact path="/dj/activity" component={DJActivity}></ProtectedRoute>
