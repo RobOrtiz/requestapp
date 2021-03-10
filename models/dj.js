@@ -53,9 +53,9 @@ const djSchema = new Schema({
         type: String
     },
 
-    // userSub: {
-    //     type: String
-    // },
+    userSub: {
+        type: String
+    },
 
     events: [
         {

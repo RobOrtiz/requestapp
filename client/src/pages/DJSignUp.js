@@ -87,7 +87,7 @@ function DJSignUp() {
       password: formObject.password,
       instagram: formObject.instagram,
       profileImage: image,
-      // userSub: user.sub
+      userSub: user.sub
     })
       .then((res) => console.log(res))
       .catch(err => console.log(err));
