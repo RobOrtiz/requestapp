@@ -4,6 +4,8 @@ import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
+import Helpers from "../utils/Helpers";
+import UploadImage from "../components/UploadImage";
 import UnauthorizedMessage from "../components/UnauthorizedMessage"
 
 // Import uuid to create a random _id for a newly created Event. 
@@ -29,6 +31,16 @@ function DJHome() {
     const [addEvent, setAddEvent] = useState({
         add: false,
     });
+
+    // Set loading and selectedFile states for the upload event image feature.
+    // Loading is set to false and made true once the uploading starts (thus showing "Loading ..." text), and made
+    // false again once the uploading is completed and the image URL is returned from the Cloudinary API.
+    // The selectedFile state is defined when the user chooses a file via the select a file to upload input via. 
+    const [loading, setLoading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState();
+
+    // Set image to default 150px x 150px placeholder URL. 
+    const [image, setImage] = useState("https://via.placeholder.com/150");
 
     function handleFormChange() {
         if (addEvent.add === false) {
@@ -61,7 +73,8 @@ function DJHome() {
             eventName: formObject.eventName,
             eventType: formObject.eventType,
             venueName: formObject.venueName,
-            venueAddress: formObject.eventLocation
+            venueAddress: formObject.eventLocation,
+            eventImage: image,
         })
             .then((res) => window.location.replace("/dj/dashboard"))
             .catch(err => console.log(err));
@@ -70,7 +83,7 @@ function DJHome() {
     // function checkExistingProfile() {
     //     if ()
     // }
-    
+
     // API get request to get upcoming events
 
     return (
@@ -166,6 +179,14 @@ function DJHome() {
                                 label="What time does the event end?"
                                 className="form-control"
                             />
+                            <UploadImage
+                                selectImage={(event) => Helpers.selectImage(event, setSelectedFile)}
+                                uploadImage={(event) => Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
+                                loading={loading}
+                                image={image}
+                                altTag="event logo"
+                                imageDescription="event"
+                            />
                             <FormBtn className="btn btn-dark formBtn" onClick={handleFormSubmit} >Save Event</FormBtn>
                             <FormBtn className="btn btn-dark formBtn" onClick={handleFormChange}>Cancel Creating Event</FormBtn>
                         </form>
@@ -183,8 +204,8 @@ function DJHome() {
 
             <Footer current="home" />
         </div>
-        )
-    
+    )
+
 }
 
 export default DJHome;
