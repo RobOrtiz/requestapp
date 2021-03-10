@@ -4,6 +4,7 @@ import style from "./style.css"
 import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 
+// This component is for testing features of auth0 user 
 function Profile() {
   const { user, isAuthenticated } = useAuth0();
   console.log(user)

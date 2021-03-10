@@ -12,7 +12,8 @@ module.exports = {
   // New DJ signup
   createDj: function (req, res) {
     db.Dj
-      .register(req.body, req.body.password)
+      // .register(req.body, req.body.password)
+      .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

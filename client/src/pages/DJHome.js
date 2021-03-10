@@ -14,6 +14,7 @@ import UnauthorizedMessage from "../components/UnauthorizedMessage"
 // When working correctly without seed data the ObjectId is fine.
 import uuid from "react-uuid";
 import API from "../utils/API";
+import { PromiseProvider } from "mongoose";
 
 
 function DJHome() {
@@ -66,6 +67,10 @@ function DJHome() {
             .catch(err => console.log(err));
     }
 
+    // function checkExistingProfile() {
+    //     if ()
+    // }
+    
     // API get request to get upcoming events
 
     return (

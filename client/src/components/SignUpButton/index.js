@@ -8,7 +8,6 @@ function SignUpButton() {
     <button onClick={() => loginWithRedirect()}>
       Sign Up
     </button>
-    
   )
 }
 
