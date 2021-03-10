@@ -164,19 +164,14 @@ function DJSignUp() {
                   label="What's your Instagram handle?"
                   className="form-control"
                 />
-                <div className="App">
-                  <p>Select profile image to upload:</p>
-                  <input type="file" name="file" placeholder="Upload an Image"
-                    onChange={selectImage} />
-                  <div>
-                    <button onClick={uploadImage}>Upload Image</button>
-                  </div>
-                  <ImageContainer
+                <ImageContainer
+                    selectImage = {selectImage}
+                    uploadImage = {uploadImage}
                     loading={loading}
                     image={image}
                     altTag="dj head shot"
-                  />
-                </div>
+                    imageDescription = "profile"
+                />
                 <InputCheckbox
                   type="checkbox"
                   id="terms"
