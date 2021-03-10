@@ -3,8 +3,9 @@ import { Container, Col } from "../components/Grid";
 import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
-import ImageContainer from "../components/ImageContainer";
+import UploadImage from "../components/UploadImage";
 import { useAuth0 } from "@auth0/auth0-react";
+import Helpers from "../utils/Helpers";
 
 function DJSignUp() {
   const { user, isAuthenticated } = useAuth0();
@@ -20,10 +21,14 @@ function DJSignUp() {
     instagram: ""
   });
 
-  // Set states for the upload profile image feature.
+  // Set loading and selectedFile states for the upload profile image feature.
+  // Loading is set to false and made true once the uploading starts (thus showing "Loading ..." text), and made
+  // false again once the uploading is completed and the image URL is returned from the Cloudinary API.
+  // The selectedFile state is defined when the user chooses a file via the select a file to upload input via. 
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
-  // const [isSelected, setIsSelected] = useState(false);
+
+  // Set image to default 150px x 150px placeholder URL. 
   const [image, setImage] = useState("https://via.placeholder.com/150");
 
   const [signUp, setSignUp] = useState({
@@ -40,34 +45,6 @@ function DJSignUp() {
         signup: false,
       });
     }
-  }
-
-  // Function to change state of selectedFile to the file that the user chooses to upload.
-  const selectImage = async event => {
-    setSelectedFile(event.target.files[0]);
-    // setIsSelected(true)
-  }
-
-  // Function to upload the selectedFile to Cloudinary via their API once the user clicks on the upload image button.
-  // The Cloudinary API will return a JSON object that contains the profile image URL that we can attach to the the Dj document.
-  // The Cloudinary account is currently setup under Charles' information.
-  const uploadImage = async event => {
-    event.preventDefault();
-    setLoading(true);
-    const data = new FormData();
-    data.append('file', selectedFile);
-    data.append('upload_preset', 'bxqprejb')
-    setLoading(true);
-
-    const res = await fetch("https://api.cloudinary.com/v1_1/noimgmt/image/upload",
-      {
-        method: 'POST',
-        body: data
-      })
-    const file = await res.json();
-    console.log(file);
-    setImage(file.secure_url);
-    setLoading(false);
   }
 
   // Handles updating component state when the user types into the input field
@@ -164,9 +141,9 @@ function DJSignUp() {
                   label="What's your Instagram handle?"
                   className="form-control"
                 />
-                <ImageContainer
-                    selectImage = {selectImage}
-                    uploadImage = {uploadImage}
+                <UploadImage
+                    selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile)}
+                    uploadImage = {(event)=>Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
                     loading={loading}
                     image={image}
                     altTag="dj head shot"

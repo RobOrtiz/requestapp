@@ -9,6 +9,9 @@ export default {
   },
   createEvent: function(eventData) {
     return axios.post("/api/djs/event", eventData)
+  },
+  uploadImage: function(imageData) {
+    return axios.post("https://api.cloudinary.com/v1_1/noimgmt/image/upload", imageData)
   }
   // Gets all books
   // getBooks: function() {
