@@ -27,7 +27,7 @@ module.exports = {
   // You need to explicitly set the new option to true to get the new version of the doc, after the update is applied.
   // Probably can get away with leaving new set to default of false, unless we plan on displaying the updated data after the update.
   createEvent: function (req, res) {
-    const djIdToUpdate = ObjectId("604716f8ce29103558ac6b48");
+    const djIdToUpdate = ObjectId("6047c790c27d34aa70378efe");
     db.Event
       .create(req.body)
       .then(({ _id }) => db.Dj.findByIdAndUpdate({ _id: djIdToUpdate }, { $push: { events: _id } }, { new: true }))

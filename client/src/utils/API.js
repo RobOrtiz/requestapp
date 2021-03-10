@@ -9,6 +9,11 @@ export default {
   },
   createEvent: function(eventData) {
     return axios.post("/api/djs/event", eventData)
+  },
+
+  // Cloudinary API to upload image to their server and return a URL linking to the image for reference in Dj Profile and Dj Event.
+  uploadImage: function(imageData) {
+    return axios.post("https://api.cloudinary.com/v1_1/noimgmt/image/upload", imageData)
   }
   // Gets all books
   // getBooks: function() {
