@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 
-// import './style.css'
+import './styles.css'
 
 function UpLoadProfileImage(props) {
 
     return (
-        <div className="App">
-                  <p>Select {props.imageDescription} image to upload:</p>
-                  <input type="file" name="file" placeholder="Upload an Image"
-                    onChange={props.selectImage} />
-                  <div>
-                    <button onClick={props.uploadImage}>Upload Image</button>
-                  </div>
-                  
+        <div className="imageContainer">
+            <p>Select {props.imageDescription} image to upload:</p>
+            <input className ="selectImageField" type="file" name="file" placeholder="Upload an Image"
+                onChange={props.selectImage} />
+            <div>
+                <button className="uploadImageBtns" onClick={props.uploadImage}>Upload Image</button>
+            </div>
+
             {
                 props.loading ? (
                     <h3>Loading ...</h3>
                 ) : (
-                    <img src={props.image} alt={props.altTag} style={{ width: '150px', color:'white'}} />
+                    <img className ="imageHolder" src={props.image} alt={props.altTag} style={{ width: '150px', color: 'white' }} />
                 )
             }
         </div>

@@ -1,0 +1,25 @@
+.imageContainer {
+    text-align: left;
+  }
+
+.uploadImageBtns {
+
+    background-color: rgb(0, 0, 0); /* For browsers that do not support gradients */
+    background-image: linear-gradient(rgb(179,150,13), black);
+    color: white;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border-radius: 7px;
+}
+
+.imageHolder {
+    margin-bottom: 1rem;
+    border-radius: 7px;
+}
+
+.selectImageField {
+    background-color: rgb(0, 0, 0); /* For browsers that do not support gradients */
+    background-image: linear-gradient(rgb(179,150,13), black);
+    color: white;
+    border-radius: 7px;
+}
