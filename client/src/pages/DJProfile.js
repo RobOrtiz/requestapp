@@ -1,18 +1,23 @@
-import React, { useState } from "react";
-import { Container, Row, Col } from "../components/Grid";
+import React, { useEffect } from "react";
+import { Container } from "../components/Grid";
 import UserProfile from "../components/UserProfile";
-import { Input, FormBtn } from "../components/Form";
+import { FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import checkIfProfileExists from "../utils/checkProfileCreated"
 
 function DJProfile() {
-    const [ userProfile, setUserProfile ] = useState([]);
+    const { user } = useAuth0();
+    // const [ userProfile, setUserProfile ] = useState([]);
 
+    useEffect(() => {
+        checkIfProfileExists(user.sub);
+      }, [])
 
     // API get request for user informatoin
 
     // Handle logout button
-
     return(
         <div>
             <Header title="PROFILE"/>

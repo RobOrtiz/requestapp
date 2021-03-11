@@ -16,7 +16,7 @@ function Landing() {
         !isAuthenticated && (
         <div className="landing-page">
             
-            <img src="https://i.ibb.co/bdJNc5g/Noi-Logo-200x200.png" alt="Noi-Logo" border="0" width="200" height="200" className="d-block mx-auto" alt="" />
+            <img src="https://i.ibb.co/bdJNc5g/Noi-Logo-200x200.png" alt="Noi-Logo" border="0" width="200" height="200" className="d-block mx-auto" />
             <Container classes="text-center landing-top">
                 
                 <Row>

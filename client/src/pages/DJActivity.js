@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import ActivityRow from "../components/ActivityRow";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import checkIfProfileExists from "../utils/checkProfileCreated"
 
 function DJActivity() {
-    const [ activity, setActivity ] = useState([]);
+    const { user } = useAuth0();
+    // const [ activity, setActivity ] = useState([]);
 
 
-    // API get request for Activity
-
+    
+    useEffect(() => {
+        checkIfProfileExists(user.sub);
+      }, [])
 
     return(
         <div>
