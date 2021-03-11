@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Col } from "../components/Grid";
-import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
+import { InputText, InputCheckbox, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
 import UploadImage from "../components/UploadImage";
@@ -8,9 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 
 function DJSignUp() {
-  const { user, isAuthenticated } = useAuth0();
-  console.log(user)
-
+  const { user } = useAuth0();
+  
   const [formObject, setFormObject] = useState({
     fullName: "",
     djName: "",
@@ -66,7 +65,14 @@ function DJSignUp() {
       profileImage: image,
       userSub: user.sub
     })
-      .then((res) => console.log(res))
+      // .then((res) => console.log(res))
+      .then(function(res) {
+        // If they create a profile, send to dashboard
+        if (res.data !== null) {
+          console.log(res)
+          window.location.replace("/dj/dashboard")
+        }
+      })
       .catch(err => console.log(err));
   }
 

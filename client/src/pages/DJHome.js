@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
-import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
+import { InputText, FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 import UploadImage from "../components/UploadImage";
-import UnauthorizedMessage from "../components/UnauthorizedMessage"
+import checkIfProfileExists from "../utils/checkProfileCreated"
 
 // Import uuid to create a random _id for a newly created Event. 
 // I did it this way because of the way we seeded the DB. We couldn't create random ObjectIds for the Events in a way
@@ -16,14 +16,14 @@ import UnauthorizedMessage from "../components/UnauthorizedMessage"
 // When working correctly without seed data the ObjectId is fine.
 import uuid from "react-uuid";
 import API from "../utils/API";
-import { PromiseProvider } from "mongoose";
 
 
 function DJHome() {
     // Checks if user is logged in
-    const { user, isAuthenticated } = useAuth0();
+    const { user } = useAuth0();
     // The login object of the user
-    console.log(user)
+    // console.log(user)
+    // console.log(useAuth0)
 
     const [formObject, setFormObject] = useState({
     });
@@ -41,6 +41,25 @@ function DJHome() {
 
     // Set image to default 150px x 150px placeholder URL. 
     const [image, setImage] = useState("https://via.placeholder.com/150");
+
+    
+    useEffect(() => {
+        checkIfProfileExists(user.sub);
+      }, [])
+
+    // // Check if user has a profile associated with their Auth0
+    // //   If not, send to signup page
+    // function connectProfile(id) {
+    //     API.getDj(id)
+    //     .then(function(res){
+    //         if (res.data.length >= 1) {
+    //         } else {
+    //             window.location.replace("/dj/signup")
+    //         }
+    //     })
+    //     .catch(err => console.log(err))
+    // }
+    
 
     function handleFormChange() {
         if (addEvent.add === false) {

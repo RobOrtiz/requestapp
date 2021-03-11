@@ -1,14 +1,21 @@
-import React, { useState } from "react";
-import { Container, Row, Col } from "../components/Grid";
-import { Input, FormBtn } from "../components/Form";
+import React, { useEffect } from "react";
+import { Container, Row } from "../components/Grid";
+// import { Input, FormBtn } from "../components/Form";
 import SongReq from "../components/SongReq";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import checkIfProfileExists from "../utils/checkProfileCreated"
 
 function DJRequests() {
-    const [ queue, setQueue ] = useState([]);
-    const [ playNow, setPlayNow ] = useState([]);
-    const [ generalRequests, setGeneralRequests ] = useState([]); 
+    const { user } = useAuth0();
+    // const [ queue, setQueue ] = useState([]);
+    // const [ playNow, setPlayNow ] = useState([]);
+    // const [ generalRequests, setGeneralRequests ] = useState([]); 
+
+    useEffect(() => {
+        checkIfProfileExists(user.sub);
+      }, [])
 
     // 3 API get requests in order to get queue list, play now list, and general request list
 

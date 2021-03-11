@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
 import googleBadge from "../images/googleplaybadge.png";
 import appleBadge from "../images/badge-download-on-the-app-store.svg";
+import { useAuth0 } from "@auth0/auth0-react";
+import checkIfProfileExists from "../utils/checkProfileCreated"
 
 function RequestPage() {
+  const { user } = useAuth0();
   const [formObject, setFormObject] = useState({
     fullName: "",
     title: "",
     artist: "",
   });
+
+  useEffect(() => {
+    checkIfProfileExists(user.sub);
+  }, [])
 
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
@@ -110,7 +117,7 @@ function RequestPage() {
           </Row>
           <FormBtn onClick={handleFormSubmit}>Submit</FormBtn>
         </form>
-        <img src={appleBadge}></img><img src={googleBadge} style={{width: ""}}></img>
+        <img src={appleBadge} alt={"appleBadge"}></img><img src={googleBadge} alt={"googleBadge"} style={{width: ""}}></img>
       </Container>
     </div>
   );
