@@ -21,10 +21,10 @@ function DJActivity() {
             <Header title="ACTIVITY"/>
             <Container classes="top-container bottom-container text-center">
                 <Row classes="pt-0 mt-0 activity-header-bottom">
-                    <Col size="4"><h5>SONG</h5></Col>
-                    <Col size="4"><h5>TIP AMOUNT</h5></Col>
-                    <Col size="4"><h5>GUEST NAME</h5><p>(REQUEST TYPE)</p></Col>
-                    <Col size="4"><h5>DATE / TIME</h5></Col>
+                    <Col size="4"><h5 className="text-warning">SONG</h5></Col>
+                    <Col size="4"><h5 className="text-warning">TIP AMOUNT</h5></Col>
+                    <Col size="4"><h5 className="text-warning">GUEST NAME</h5><p className="text-warning">(REQUEST TYPE)</p></Col>
+                    <Col size="4"><h5 className="text-warning">DATE / TIME</h5></Col>
                 </Row>
                 {/* .map to activity list */}
                 {/* props: key, id, title, artist, tip, guestName, timeStamp*/}
