@@ -2,5 +2,9 @@
     background: black;
     color: white;
     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin-bottom: 5rem;
+}
+
+.navbar h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
 }
