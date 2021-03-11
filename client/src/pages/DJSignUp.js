@@ -9,7 +9,8 @@ import Helpers from "../utils/Helpers";
 
 function DJSignUp() {
   const { user } = useAuth0();
-  
+  console.log(user);
+
   const [formObject, setFormObject] = useState({
     fullName: "",
     djName: "",
