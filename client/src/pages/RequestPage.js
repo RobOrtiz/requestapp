@@ -5,20 +5,13 @@ import API from "../utils/API";
 import Header from "../components/Header";
 import googleBadge from "../images/googleplaybadge.png";
 import appleBadge from "../images/badge-download-on-the-app-store.svg";
-import { useAuth0 } from "@auth0/auth0-react";
-import checkIfProfileExists from "../utils/checkProfileCreated"
 
 function RequestPage() {
-  const { user } = useAuth0();
   const [formObject, setFormObject] = useState({
     fullName: "",
     title: "",
     artist: "",
   });
-
-  useEffect(() => {
-    checkIfProfileExists(user.sub);
-  }, [])
 
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {

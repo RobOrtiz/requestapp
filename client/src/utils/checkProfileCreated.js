@@ -8,7 +8,7 @@ function checkIfProfileExists(id) {
   API.getDj(id)
     .then(function (res) {
       if (res.data.length >= 1) {
-        console.log("exists")
+        // console.log("exists")
       } else {
         window.location.replace("/dj/signup");
       }
