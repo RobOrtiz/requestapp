@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "../components/Grid";
 import UserProfile from "../components/UserProfile";
-import { FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated"
 import API from "../utils/API";
-import { PromiseProvider } from "mongoose";
+import LogoutButton from "../components/LogoutButton";
 
 function DJProfile() {
     const { user } = useAuth0();
@@ -33,7 +32,8 @@ function DJProfile() {
                 <UserProfile {...userProfile} />
             </Container>
             <Container classes="bottom-container text-center mt-3">
-                <FormBtn className="btn btn-dark mt-5">Logout</FormBtn>
+                {/* <FormBtn className="btn btn-dark mt-5">Logout</FormBtn> */}
+                <LogoutButton />
             </Container>
             <Footer current="profile"/>
         </div>
