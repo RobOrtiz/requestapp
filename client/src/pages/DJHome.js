@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import Header from "../components/Header";
@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 import UploadImage from "../components/UploadImage";
+import DjEvent from "../components/DjEvent"
 import UnauthorizedMessage from "../components/UnauthorizedMessage"
 
 // Import uuid to create a random _id for a newly created Event. 
@@ -20,8 +21,50 @@ import { PromiseProvider } from "mongoose";
 
 
 function DJHome() {
+
     // Checks if user is logged in
     const { user, isAuthenticated } = useAuth0();
+
+    // Setting our events' initial state
+    const [events, setEvents] = useState([
+        {
+            genre: "Hip Hop",
+            eventDate: "10/13/2021",
+            startTime: "6:00pm",
+            endTime: "9:00pm",
+            eventName: "Freddy's Big 4-0!",
+            eventType: "Birthday Party",
+            venueName: "Stacy's Pub",
+            venueAddress: "12334 Party Lane; San Diego, CA 92021",
+            eventImage: "https://res.cloudinary.com/noimgmt/image/upload/v1615428617/noireqapp/xyef8yduq4qmwogc6smw.png"
+        },
+        {
+            genre: "Country",
+            eventDate: "11/13/2021",
+            startTime: "6:00pm",
+            endTime: "9:00pm",
+            eventName: "Freddy's Big 4-0!",
+            eventType: "Birthday Party",
+            venueName: "Stacy's Pub",
+            venueAddress: "12334 Party Lane; San Diego, CA 92021",
+            eventImage: "https://res.cloudinary.com/noimgmt/image/upload/v1615428617/noireqapp/xyef8yduq4qmwogc6smw.png"
+        },
+    ]);
+
+    // // Load all events and store them with setEvents
+    // useEffect(() => {
+    //     loadEvents()
+    // }, [])
+
+    // // Loads all events for the Dj and sets them to events
+    // function loadEvents() {
+    //     API.getEvents(user.auth)
+    //         .then(res =>
+    //             setEvents(res.data)
+    //         )
+    //         .catch(err => console.log(err));
+    // };
+
     // The login object of the user
     console.log(user)
 
@@ -93,8 +136,11 @@ function DJHome() {
             <Container classes="top-container">
                 <h1>UPCOMING EVENTS</h1>
                 <Row>
-                    {/* For each upcoming event, add to the row*/}
-                    <Col></Col>
+                    {events.map(djEvent => (
+                        <Col>
+                            <DjEvent {...djEvent} />
+                        </Col>
+                    ))}
                 </Row>
             </Container>
             <Container classes="mt-5 mb-5">
