@@ -66,7 +66,14 @@ function DJSignUp() {
       profileImage: image,
       userSub: user.sub
     })
-      .then((res) => console.log(res))
+      // .then((res) => console.log(res))
+      .then(function(res) {
+        // If they create a profile, send to dashboard
+        if (res.data !== null) {
+          console.log(res)
+          window.location.replace("/dj/dashboard")
+        }
+      })
       .catch(err => console.log(err));
   }
 

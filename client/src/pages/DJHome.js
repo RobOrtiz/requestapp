@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
 import Header from "../components/Header";
@@ -21,9 +21,9 @@ import { PromiseProvider } from "mongoose";
 
 function DJHome() {
     // Checks if user is logged in
-    const { user, isAuthenticated } = useAuth0();
+    const { user } = useAuth0();
     // The login object of the user
-    console.log(user)
+    // console.log(user)
 
     const [formObject, setFormObject] = useState({
     });
@@ -41,6 +41,24 @@ function DJHome() {
 
     // Set image to default 150px x 150px placeholder URL. 
     const [image, setImage] = useState("https://via.placeholder.com/150");
+
+    
+    useEffect(() => {
+        connectProfile(user.sub)
+      }, [])
+
+    // Check if user has a profile associated with their Auth0
+    //   If not, send to signup page
+    function connectProfile(id) {
+        API.getDj(id)
+        .then(function(res){
+            if (res.data.length >= 1) {
+            } else {
+                window.location.replace("/dj/signup")
+            }
+        })
+        .catch(err => console.log(err))
+    }
 
     function handleFormChange() {
         if (addEvent.add === false) {
