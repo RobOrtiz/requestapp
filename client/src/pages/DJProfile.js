@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated"
+import LogoutButton from "../components/LogoutButton";
 
 function DJProfile() {
     const { user } = useAuth0();
@@ -36,7 +37,8 @@ function DJProfile() {
                 />
             </Container>
             <Container classes="bottom-container text-center mt-3">
-                <FormBtn className="btn btn-dark mt-5">Logout</FormBtn>
+                {/* <FormBtn className="btn btn-dark mt-5">Logout</FormBtn> */}
+                <LogoutButton />
             </Container>
             <Footer current="profile"/>
         </div>

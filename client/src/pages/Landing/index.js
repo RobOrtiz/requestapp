@@ -2,8 +2,8 @@ import React from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import './styles.css'
 import LoginButton from "../../components/LoginButton"
-import SignUpButton from "../../components/SignUpButton"
-import LogoutButton from "../../components/LogoutButton"
+// import SignUpButton from "../../components/SignUpButton"
+//import LogoutButton from "../../components/LogoutButton"
 import { useAuth0 } from "@auth0/auth0-react";
 
 function Landing() {
@@ -31,7 +31,9 @@ function Landing() {
                     <Col>
                         <h2 className="text-center mt-3 landing-text">CREATE YOUR <span className="logo-text">NOI</span> DJ ACCOUNT TO BEGIN RECEIVING REQUESTS!</h2>
                         {/* <h2 className="text-center mt-5"><a href="/dj/signin" className="landing-link">SIGN IN / SIGN UP</a></h2> */}
-                        <LoginButton/><SignUpButton/><LogoutButton/>
+                        <div className="text-center mt-5">
+                            <LoginButton/>
+                        </div>
                     </Col>
                 </Row>
                 <Row>
