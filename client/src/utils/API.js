@@ -7,6 +7,9 @@ export default {
   createEvent: function(eventData) {
     return axios.post("/api/djs/event", eventData)
   },
+  createRequest: function(requestData) {
+    return axios.put("/api/djs/event", requestData)
+  },
   // This is for checking if a logged in dj has a profile created.
   getDj: function(data) {
     return axios.get("/api/djs/?userSub=" + data)

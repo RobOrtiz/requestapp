@@ -55,7 +55,7 @@ function DJHome() {
     useEffect(() => {
         loadEvents()
     }, [])
-
+    
     // Loads all events for the Dj and sets them to events
     // Get the Dj with the user.sub id and populate the event documents to the Dj
     function loadEvents() {
@@ -70,7 +70,7 @@ function DJHome() {
 
     const { user } = useAuth0();
     // The login object of the user
-    console.log(user)
+    // console.log(user)
     // console.log(useAuth0)
 
     const [formObject, setFormObject] = useState({
@@ -90,9 +90,8 @@ function DJHome() {
     // Set image to default 150px x 150px placeholder URL. 
     const [image, setImage] = useState("https://via.placeholder.com/150");
 
-    
     useEffect(() => {
-        checkIfProfileExists(user.sub);
+        checkIfProfileExists(user.sub)
       }, [])
 
     // // Check if user has a profile associated with their Auth0

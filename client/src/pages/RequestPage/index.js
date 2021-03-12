@@ -20,15 +20,18 @@ function RequestPage() {
     setFormObject({ ...formObject, [name]: value });
   }
 
+  var djId = "ObjectId('604adee88e6c26228884748d')";
   function handleFormSubmit(event) {
     event.preventDefault();
-    // API.createDj({
-    //   fullName: formObject.fullName,
-    //   title: formObject.djName,
-    //   artist: formObject.hometown,
-    // })
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
+    API.createRequest({
+      tip: formObject.tip,
+      fullName: formObject.fullName,
+      title: formObject.title,
+      artist: formObject.artist,
+      _id: djId
+    })
+      // .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -42,8 +45,8 @@ function RequestPage() {
           <InputText
             onChange={handleInputChange}
             type="text"
-            id="name"
-            name="name"
+            id="fullName"
+            name="fullName"
             placeholder="Your name here"
             label="Your name:"
             className="form-control"
