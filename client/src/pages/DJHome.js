@@ -7,6 +7,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 import UploadImage from "../components/UploadImage";
 import DjEvent from "../components/DjEvent";
+import ScrollContainer from 'react-indiana-drag-scroll';
+
 
 import UnauthorizedMessage from "../components/UnauthorizedMessage";
 import checkIfProfileExists from "../utils/checkProfileCreated"
@@ -157,13 +159,15 @@ function DJHome() {
             {/* Will need to add if statement for if there are upcoming events */}
             <Container classes="top-container">
                 <h1>UPCOMING EVENTS</h1>
-                <Row>
-                    {events.map(djEvent => (
-                        <Col key={djEvent.eventDate}>
-                            <DjEvent {...djEvent} />
-                        </Col>
-                    ))}
-                </Row>
+                <ScrollContainer className="scroll-container">
+                    <Row classes="flex-nowrap">
+                        {events.map(djEvent => (
+                            <Col key={djEvent.eventDate}>
+                                <DjEvent {...djEvent} />
+                            </Col>
+                        ))}
+                    </Row>
+                </ScrollContainer>
             </Container>
             <Container classes="mt-5 mb-5">
                 {!addEvent.add ? (
@@ -262,13 +266,13 @@ function DJHome() {
                 )}
             </Container>
             {/* Will need to add if statement for if there are any requests */}
-            <Container classes="bottom-container">
+            {/* <Container classes="bottom-container">
                 <h1>RECENT REQUESTS</h1>
                 <Row>
-                    {/* For each new requests, add to the row*/}
+                    For each new requests, add to the row
                     <Col></Col>
                 </Row>
-            </Container>
+            </Container> */}
 
             <Footer current="home" />
         </div>
