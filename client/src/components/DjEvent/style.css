@@ -1,16 +1,14 @@
 .event-card {
-    background: white;
-    height: 425px;
+    background: rgb(179, 150, 14);
     margin: 1rem;
     position: relative;
-    width: 350px;
+    width: 15rem;
     box-shadow: 0 3px 6px #999, 0 3px 6px #999;
     border-radius: 3%;
     float: left;
   }
   
   .event-card > .event-img-container {
-    height: 39%;
     overflow: hidden;
     text-align: center;
     border-radius: 3%;
@@ -18,8 +16,7 @@
   }
   
   .event-card > .event-img-container > img {
-    border-radius: 3%;
-    margin-top: 8px;
+    min-width: 100%;
   }
   
   .event-card > .event-content > ul {
