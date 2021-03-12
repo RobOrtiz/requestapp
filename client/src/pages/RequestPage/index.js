@@ -42,64 +42,65 @@ function RequestPage() {
         <form>
           <Row>
             <Col>
-          <InputText
-            onChange={handleInputChange}
-            type="text"
-            id="fullName"
-            name="fullName"
-            placeholder="Your name here"
-            label="Your name:"
-            className="form-control"
-          />
-          <InputText
-            onChange={handleInputChange}
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Song title"
-            label="Title:"
-            className="form-control"
-          />
-          <InputText
-            onChange={handleInputChange}
-            type="text"
-            id="artist"
-            name="artist"
-            placeholder="Artist"
-            label="Artist:"
-            className="form-control"
-          />
+              <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i>
             </Col>
             <Col>
-            <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i>
+              <InputText
+                onChange={handleInputChange}
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Your name here"
+                label="Your name:"
+                className="form-control"
+              />
+              <InputText
+                onChange={handleInputChange}
+                type="text"
+                id="title"
+                name="title"
+                placeholder="Song title"
+                label="Title:"
+                className="form-control"
+              />
+              <InputText
+                onChange={handleInputChange}
+                type="text"
+                id="artist"
+                name="artist"
+                placeholder="Artist"
+                label="Artist:"
+                className="form-control"
+              />
             </Col>
           </Row>
+          <br />
           <Row>
-            <Col size="4">
+            <Col size="md-3 sm-12">
             <InputCheckbox
               type="checkbox"
               id="generalRequest" 
-              label="General Request"
-              classname="form-check-input"
+              label="General"
+              className="form-check-input"
               tooltipTitle="A request will be sent to the DJ.  The DJ will review these after the Play Now requests."
               />
             </Col>
-            <Col size="4">
-              <p>Minimum tip: $2</p>
+            <Col size="md-9 sm-12">
+              <p className="ml-3">Minimum tip: $2</p>
             </Col>
           </Row>
           <Row>
-            <Col size="4">
+            <Col size="md-3 sm-12">
             <InputCheckbox
               type="checkbox"
               id="playNow" 
               label="Play Now"
-              classname="form-check-input"
+              className="form-check-input"
               tooltipTitle="The DJ will see these requests immediately."
               />
             </Col>
-            <Col size="4">
-              <p>Minimum tip: $100</p>
+            <Col size="md-9 sm-12">
+              <p className="ml-3">Minimum tip: $100</p>
             </Col>
           </Row>
           <Row>
@@ -114,11 +115,11 @@ function RequestPage() {
           />
           </Col>
           </Row>
-          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>Submit</FormBtn>
+          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>Checkout</FormBtn>
         </form>
         <div className="text-center">
-          <img src={appleBadge} alt={"appleBadge"} className="mr-3"></img>
-          <img src={googleBadge} alt={"googleBadge"} style={{width: ""}}></img>
+          <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
+          <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>
         </div>
       </Container>
     </div>

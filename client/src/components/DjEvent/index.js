@@ -21,8 +21,15 @@ function DjEvent(props) {
         dateEnd = "th"
     }
 
+    // For safetly, not passing in full ID into elements
+    let newId = ""
+    if(props._id){
+        newId = props._id.slice(0,6)
+    }
+
+
     function handleSwitch() {
-        if(document.getElementById(`${props._id}`).checked) {
+        if(document.getElementById(`activate-${newId}`).checked) {
             setEndButton(true);
         } else {
             setEndButton(false);
@@ -44,9 +51,9 @@ function DjEvent(props) {
                 <img alt="event logo" src={props.eventImage} />
             </div>
             <div className="event-content">
-                <ul className="text-center">
-                    <li>
-                        <strong>{props.eventName}</strong>
+                <ul className="text-center pl-0">
+                    <li className="mt-2">
+                        <h3><strong className="event-title">{props.eventName}</strong></h3>
                     </li>
                     <li>
                         {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}
@@ -55,20 +62,37 @@ function DjEvent(props) {
                         {props.startTime} - {props.endTime}
                     </li>
                     <li>
-                        {props.eventType}
+                        <button type="button" className="btn btn-dark mt-3" data-toggle="modal" data-target={`#modal-${newId}`}>
+                            Details
+                        </button>
                     </li>
-                    <li>
-                        {props.genre}
-                    </li>
-                    <li>Venue:</li>
-                    <li>
-                        {props.venueName}
-                    </li>
-                    <li>
-                        {props.venueAddress}
-                    </li>
+                    {/* Modal */}
+                    <div className="modal fade" id={`modal-${newId}`} tabIndex="-1" role="dialog" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">{props.eventName}</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p className="modal-text">{`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`} &#183; {props.startTime} - {props.endTime}</p>
+                                <p className="modal-text">{props.eventType} &#183; &#183; {props.genre}</p>
+                                <p className="modal-text">
+                                    Venue: <br />
+                                    {props.venueName} <br />
+                                    {props.venueAddress}
+                                </p>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-dark" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     <Switch 
-                        id={props._id}
+                        id={`activate-${newId}`}
                         switchTitle="Activate"
                         change={handleSwitch}
                     />

@@ -66,9 +66,9 @@ function DJSignUp() {
   }
 
   return (
-    <div>
-      <Header title="NOI SIGNUP" />
-      <Container classes="top-container bottom-container">
+    <div className="signup">
+      <Header title="SIGNUP" />
+      <Container classes="top-container">
         <Col size="12">
             <div>
               <h1 className="mb-3">CREATE YOUR NOI PROFILE</h1>
@@ -148,7 +148,7 @@ function DJSignUp() {
                   type="checkbox"
                   id="terms"
                   label="I agree to the NOI Terms and Conditions"
-                  className="form-check-input"
+                  tooltipTitle="."
                 />
                 <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Create NOI Profile</FormBtn>
               </form>

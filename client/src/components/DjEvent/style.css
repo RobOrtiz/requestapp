@@ -2,7 +2,7 @@
     background: rgb(179, 150, 14);
     margin: 1rem;
     position: relative;
-    width: 15rem;
+    width: 20rem;
     box-shadow: 0 3px 6px #999, 0 3px 6px #999;
     border-radius: 3%;
     float: left;
@@ -20,10 +20,28 @@
   }
   
   .event-card > .event-content > ul {
-    font-size: 20px;
-    text-align: left;
     list-style-type: none;
     padding-inline-start: 25px;
     color: black;
   }
   
+  .modal {
+    margin-top: 10rem;
+  }
+
+  .modal-content {
+    background-color: rgb(77, 77, 77) !important;
+  }
+
+  .modal-text {
+    color:rgb(179, 150, 14) !important;
+  }
+  
+  @media (max-width: 600px){
+
+    .event-card {
+      width: 13rem;
+    }
+
+
+  }

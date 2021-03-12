@@ -35,9 +35,9 @@ function DJProfile() {
             <Container classes="bottom-container text-center mt-3">
                 {/* <FormBtn className="btn btn-dark mt-5">Logout</FormBtn> */}
                 <LogoutButton />
+                <QR djCode={user.sub}/>
             </Container>
             <Footer current="profile"/>
-            <QR djCode={user.sub}/>
         </div>
     )
 }

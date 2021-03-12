@@ -10,7 +10,7 @@ function Header(props) {
                 <img src="https://i.ibb.co/bdJNc5g/Noi-Logo-200x200.png" alt="Noi-Logo-200x200" border="0" width="95" height="95" className="navbar-brand d-inline-block align-top" />
                 {/* <LoginButton/><LogoutButton/> */}
                 {props.title === 'welcome customer' ? (
-                    <h1 className="text-center mr-3 text-white">WELCOME TO <span className="gold-color">NOI</span></h1>
+                    <h1 className="text-center mr-3 text-white customer">WELCOME TO <span className="gold-color">NOI</span></h1>
                 ) : (
                     <h1 className="text-center mr-3">{props.title}</h1>
                 )}

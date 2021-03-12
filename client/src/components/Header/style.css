@@ -12,3 +12,16 @@
 .gold-color {
     color: rgb(179, 150, 14);
 }
+
+@media (max-width: 600px){
+
+    .navbar h1 {
+        font-size: 2.5rem !important;
+    }
+
+    .navbar .customer {
+        font-size: 1.5rem !important;
+        display: block;
+    }
+
+}
