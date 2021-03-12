@@ -10,52 +10,52 @@ const eventSchema = new Schema({
     eventStatus: {
         type: String,
         enum: ['activated', 'deactivated', 'end'],
-        default: "deactivated"
+        // default: "deactivated"
     },
 
     genre: {
         type: String,
         trim: true,
-        required: "Genre is required"
+        // required: "Genre is required"
     },
 
     eventDate: {
         type: Date,
-        required: "Date of event is required"
+        // required: "Date of event is required"
     },
 
     startTime: {
         type: String,
-        required: "Start time of event is required"
+        // required: "Start time of event is required"
     },
 
     endTime: {
         type: String,
-        required: "End time of event is required"
+        // required: "End time of event is required"
     },
 
     eventName: {
         type: String,
         trim: true,
-        required: "Name of event is required"
+        // required: "Name of event is required"
     },
 
     eventType: {
         type: String,
         trim: true,
-        required: "Type of event is required"
+        // required: "Type of event is required"
     },
 
     venueName: {
         type: String,
         trim: true,
-        required: "Venue name is required"
+        // required: "Venue name is required"
     },
 
     venueAddress: {
         type: String,
         trim: true,
-        required: "Street address is required"
+        // required: "Street address is required"
     },
 
     // Place to hold url string that will be generate via an API call to link uploaded image (from Event during Event creation) to an url.

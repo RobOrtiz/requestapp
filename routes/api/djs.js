@@ -13,7 +13,9 @@ router.route("/")
 
 
 
-router.route("/event")  
-  .post(djController.createEvent);
+router.route("/event")
+  .get(djController.findAllEvents)  
+  .post(djController.createEvent)
+  .put(djController.createRequest);
 
 module.exports = router;
