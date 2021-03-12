@@ -23,9 +23,6 @@ import API from "../utils/API";
 
 function DJHome() {
 
-    // Checks if user is logged in
-    const { user, isAuthenticated } = useAuth0();
-
     // Setting our events' initial state
     const [events, setEvents] = useState([
         {
@@ -68,11 +65,9 @@ function DJHome() {
             .catch(err => console.log(err));
     };
 
-    // The login object of the user
-    console.log(user.sub)
     const { user } = useAuth0();
     // The login object of the user
-    // console.log(user)
+    console.log(user)
     // console.log(useAuth0)
 
     const [formObject, setFormObject] = useState({
