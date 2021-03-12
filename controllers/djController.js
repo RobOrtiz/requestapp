@@ -40,7 +40,6 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   createRequest: function (req, res) {
-    console.log(req.body)
     const eventId = "75bec5d-dbe1-736-fa0b-eb2618f2cca";
     db.Event
       .findOneAndUpdate(
@@ -68,11 +67,12 @@ module.exports = {
   // You need to explicitly set the new option to true to get the new version of the doc, after the update is applied.
   // Probably can get away with leaving new set to default of false, unless we plan on displaying the updated data after the update.
   createEvent: function (req, res) {
+    console.log(req)
     const djIdToUpdate = ObjectId("6047c790c27d34aa70378efe");
     db.Event.create(req.body)
       .then(({ _id }) =>
         db.Dj.findByIdAndUpdate(
-          { _id: djIdToUpdate },
+          { _id: req.body.djId },
           { $push: { events: _id } },
           { new: true }
         )
