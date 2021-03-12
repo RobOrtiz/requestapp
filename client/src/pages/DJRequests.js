@@ -5,7 +5,9 @@ import SongReq from "../components/SongReq";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
-import checkIfProfileExists from "../utils/checkProfileCreated"
+import checkIfProfileExists from "../utils/checkProfileCreated";
+import ScrollContainer from 'react-indiana-drag-scroll';
+
 
 function DJRequests() {
     const { user } = useAuth0();
@@ -33,59 +35,74 @@ function DJRequests() {
                 <Row>
                     <h1>QUEUE</h1>
                 </Row>
-                <Row>
-                    {/* .map to list queue songs */}
-                    {/* props: key, id, img, title, artist, tip, buttons*/}
-                    <SongReq 
-                        key="1"
-                        id="1"
-                        img="https://img.discogs.com/NAj18_fF1LYnyQ0NDCRPdpamdX8=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-1291724-1509461282-7177.jpeg.jpg"
-                        title="Laffy Taffy"
-                        artist="D4L"
-                        tip="$100"
-                        btn1="PLAYED"
-                        btn2="REMOVE"
-                    />
-                </Row>
+                <ScrollContainer className="scroll-container">
+                    <Row classes="flex-nowrap">
+                        {/* {events.map(djEvent => (
+                            <Col key={djEvent.eventDate}>
+                                <DjEvent {...djEvent} />
+                            </Col>
+                        ))} */}
+                        <SongReq 
+                            key="1"
+                            id="1"
+                            img="https://img.discogs.com/NAj18_fF1LYnyQ0NDCRPdpamdX8=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-1291724-1509461282-7177.jpeg.jpg"
+                            title="Laffy Taffy"
+                            artist="D4L"
+                            tip="$100"
+                            btn1="PLAYED"
+                            btn2="REMOVE"
+                        />
+                    </Row>
+                </ScrollContainer>
             </Container>
             {/* Play Now */}
             <Container classes="mt-5 mb-5">
                 <Row>
                     <h1>PLAY NOW</h1>
                 </Row>
-                <Row>
-                    {/* .map to list playNow songs */}
-                    {/* props: key, id, img, title, artist, tip, buttons*/}
-                    <SongReq 
-                        key="1"
-                        id="1"
-                        img="https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg"
-                        title="Chop Suey"
-                        artist="System of a Down"
-                        tip="$80"
-                        btn1="ACCEPT"
-                        btn2="DECLINE"
-                    />
-                </Row>
+                <ScrollContainer className="scroll-container">
+                    <Row classes="flex-nowrap">
+                        {/* {events.map(djEvent => (
+                            <Col key={djEvent.eventDate}>
+                                <DjEvent {...djEvent} />
+                            </Col>
+                        ))} */}
+                        <SongReq 
+                            key="1"
+                            id="1"
+                            img="https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg"
+                            title="Chop Suey"
+                            artist="System of a Down"
+                            tip="$80"
+                            btn1="ACCEPT"
+                            btn2="DECLINE"
+                        />
+                    </Row>
+                </ScrollContainer>
             </Container>
             {/* General Requests */}
             <Container classes="bottom-container">
                 <Row>
                     <h1>GENERAL REQUESTS</h1>
                 </Row>
-                <Row>
-                    {/* .map to list genReq songs */}
-                    {/* props: key, id, img, title, artist, tip, buttons*/}
-                    <SongReq 
-                        key="1"
-                        id="1"
-                        img="https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg"
-                        title="Peachs & Cream"
-                        tip="$50"
-                        btn1="ACCEPT"
-                        btn2="DECLINE"
-                    />
-                </Row>
+                <ScrollContainer className="scroll-container">
+                    <Row classes="flex-nowrap">
+                        {/* {events.map(djEvent => (
+                            <Col key={djEvent.eventDate}>
+                                <DjEvent {...djEvent} />
+                            </Col>
+                        ))} */}
+                        <SongReq 
+                            key="1"
+                            id="1"
+                            img="https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg"
+                            title="Peachs & Cream"
+                            tip="$50"
+                            btn1="ACCEPT"
+                            btn2="DECLINE"
+                        />
+                    </Row>
+                </ScrollContainer>
             </Container>
             <Footer current="request"/>
         </div>

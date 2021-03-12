@@ -26,3 +26,16 @@ label {
     display: inline-block;
     text-align: right;
 }
+
+.scroll-container:hover {
+    cursor: grab;
+} 
+
+.scrollable {
+    overflow: auto !important;
+} 
+
+.scrollable .col{
+    display: inline-block !important;
+    float: none !important;
+}
