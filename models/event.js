@@ -10,7 +10,7 @@ const eventSchema = new Schema({
     eventStatus: {
         type: String,
         enum: ['activated', 'deactivated', 'end'],
-        // default: "deactivated"
+        default: "deactivated"
     },
 
     genre: {
