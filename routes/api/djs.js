@@ -11,10 +11,11 @@ router.route("/")
 // router.route("/:id")
 //   .get(djController.findByIdDj)
 
-
+router.route("/event/:id")
+  .get(djController.findEventById);
 
 router.route("/event")
-  .get(djController.findAllEvents)  
+  // .get(djController.findEvent)  
   .post(djController.createEvent)
   .put(djController.createRequest);
 

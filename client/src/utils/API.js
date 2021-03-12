@@ -14,6 +14,10 @@ export default {
   getDj: function(data) {
     return axios.get("/api/djs/?userSub=" + data)
   },
+
+  getRequests: function(id) {
+    return axios.get("/api/djs/event/" + '604716f8ce29103558ac6b48')
+  },
   // getDj: function(data) {
   //   return axios.get("/api/djs", data)
   // },

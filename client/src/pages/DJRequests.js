@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row } from "../components/Grid";
 // import { Input, FormBtn } from "../components/Form";
 import SongReq from "../components/SongReq";
@@ -7,29 +7,48 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated";
 import ScrollContainer from 'react-indiana-drag-scroll';
-
+import API from "../utils/API";
 
 function DJRequests() {
     const { user } = useAuth0();
-    // const [ queue, setQueue ] = useState([]);
-    // const [ playNow, setPlayNow ] = useState([]);
-    // const [ generalRequests, setGeneralRequests ] = useState([]); 
+    // const [queue, setQueue] = useState([]);
+    // const [playNow, setPlayNow] = useState([]);
+    // const [generalRequests, setGeneralRequests] = useState([]);
+    const [ userId, setUserId ] = useState("");
 
     useEffect(() => {
         checkIfProfileExists(user.sub);
-      }, [])
+        loadProfile(user.sub);
+        loadRequest();
+    }, [])
+      
+      // API get request for user informatoin
+    function loadProfile(id) {
+        API.getDj(id)
+        .then(res => setUserId(res.data[0]._id))
+        .catch(err => console.log(err))
+    }
 
-    // 3 API get requests in order to get queue list, play now list, and general request list
+    function loadRequest() {
+        console.log("hello"+userId);
 
+        API.getRequests(userId)
+            .then(res => {
+                // setEvents(res.data[0].events)
+                console.log(res)
+            }
+            )
+            .catch(err => console.log(err));
+    };
     // API put requests (for handling buttons) to update the lists
-        // Queue - if played/remove, update database and remove;
-        // PlayNow/GenReq - if accept, update database and move to queue; if declined, update database and remove
+    // Queue - if played/remove, update database and remove;
+    // PlayNow/GenReq - if accept, update database and move to queue; if declined, update database and remove
 
     // Possible api for getting song information from spotify
 
-    return(
+    return (
         <div>
-            <Header title="REQUESTS"/>
+            <Header title="REQUESTS" />
             {/* Queue */}
             <Container classes="top-container">
                 <Row>
@@ -42,7 +61,7 @@ function DJRequests() {
                                 <DjEvent {...djEvent} />
                             </Col>
                         ))} */}
-                        <SongReq 
+                        <SongReq
                             key="1"
                             id="1"
                             img="https://img.discogs.com/NAj18_fF1LYnyQ0NDCRPdpamdX8=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-1291724-1509461282-7177.jpeg.jpg"
@@ -67,7 +86,7 @@ function DJRequests() {
                                 <DjEvent {...djEvent} />
                             </Col>
                         ))} */}
-                        <SongReq 
+                        <SongReq
                             key="1"
                             id="1"
                             img="https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg"
@@ -92,7 +111,7 @@ function DJRequests() {
                                 <DjEvent {...djEvent} />
                             </Col>
                         ))} */}
-                        <SongReq 
+                        <SongReq
                             key="1"
                             id="1"
                             img="https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg"
@@ -104,7 +123,7 @@ function DJRequests() {
                     </Row>
                 </ScrollContainer>
             </Container>
-            <Footer current="request"/>
+            <Footer current="request" />
         </div>
     )
 }
