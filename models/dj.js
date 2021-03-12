@@ -39,7 +39,7 @@ const djSchema = new Schema({
     password: {
         type: String,
         trim: true,
-        required: "Password is required",
+        // required: "Password is required",
     },
 
     instagram: {

@@ -1,5 +1,4 @@
 const db = require("../models");
-const passport = require("../config/passport");
 
 // Require in mongodb to use ObjectId to pass the current Dj ObjectId into findByIdAndUpdate Update call.
 // TEchnically I could have just used the text portion of the ObjectId and it would have still worked. 
@@ -17,7 +16,24 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-
+  // findByIdDj: function(req, res) {
+  //   db.Dj
+  //     .findById(req.params.userSub)
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
+  findByIdDj: function(req, res) {
+    db.Dj
+      .findById({userSub: req.params.userSub})
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  findAll: function(req, res) {
+    db.Dj
+      .find(req.query)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   // New Event signup for Dj.
   // After the new event is created we then find the Dj by ObjectId and push the new Event _id to the events array in the Dj document.
   // Const djIdToUpdate links to ObjectId of one of the Djs in the DB as a test to see if the update Events works 
@@ -34,16 +50,6 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-
-  login: function (req, res) {
-    passport.authenticate('local')(req, res, function () {
-      res.json({
-        email: req.user.email,
-        id: req.user.id
-      });
-    })
-  },
-
   deleteMany: function (req, res) {
     db.Dj
       .findById({ _id: req.params.id })

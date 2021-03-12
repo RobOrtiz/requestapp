@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Col } from "../components/Grid";
-import { InputText, InputCheckbox, Input, FormBtn } from "../components/Form";
+import { InputText, InputCheckbox, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
 import UploadImage from "../components/UploadImage";
@@ -8,8 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 
 function DJSignUp() {
-  const { user, isAuthenticated } = useAuth0();
-  console.log(user)
+  const { user } = useAuth0();
+  console.log(user);
 
   const [formObject, setFormObject] = useState({
     fullName: "",
@@ -35,18 +35,6 @@ function DJSignUp() {
     signup: false,
   });
 
-  function handleFormChange() {
-    if (signUp.signup === false) {
-      setSignUp({
-        signup: true,
-      });
-    } else {
-      setSignUp({
-        signup: false,
-      });
-    }
-  }
-
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -66,17 +54,24 @@ function DJSignUp() {
       profileImage: image,
       userSub: user.sub
     })
-      .then((res) => console.log(res))
+      // .then((res) => console.log(res))
+      .then(function(res) {
+        // If they create a profile, send to dashboard
+        if (res.data !== null) {
+          console.log(res)
+          window.location.replace("/dj/dashboard")
+        }
+      })
       .catch(err => console.log(err));
   }
 
   return (
     <div>
-      <Header title="Sign In or Sign Up" />
+      <Header title="NOI SIGNUP" />
       <Container classes="top-container bottom-container">
         <Col size="12">
             <div>
-              <h1 className="mb-3">Sign Up</h1>
+              <h1 className="mb-3">CREATE YOUR NOI PROFILE</h1>
               <form style={{ width: "400px" }}>
                 <InputText
                   onChange={handleInputChange}
@@ -123,7 +118,7 @@ function DJSignUp() {
                   label="What's your email?"
                   className="form-control"
                 />
-                <InputText
+                {/* <InputText
                   onChange={handleInputChange}
                   type="password"
                   id="password"
@@ -131,7 +126,7 @@ function DJSignUp() {
                   placeholder="PASSWORD"
                   label="Please enter in a password:"
                   className="form-control"
-                />
+                /> */}
                 <InputText
                   onChange={handleInputChange}
                   type="text"
@@ -155,8 +150,7 @@ function DJSignUp() {
                   label="I agree to the NOI Terms and Conditions"
                   className="form-check-input"
                 />
-                <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Sign Up</FormBtn>
-                <FormBtn onClick={handleFormChange} className="btn btn-dark formBtn mt-3">Or Sign In Here!</FormBtn>
+                <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Create NOI Profile</FormBtn>
               </form>
             </div>
         </Col>

@@ -5,7 +5,7 @@ function SignUpButton() {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <button onClick={() => loginWithRedirect()}>
+    <button className="btn btn-dark btn-outline-warning ml-5" onClick={() => loginWithRedirect()}>
       Sign Up
     </button>
   )

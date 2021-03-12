@@ -21,8 +21,8 @@ export function InputText(props) {
 export function InputCheckbox(props) {
     return (
         <div className="form-check">
-            <input {...props}/>
-            <label forhtml={props.id} className="form-check-label">{props.label} <i className="fas fa-info-circle"></i></label>
+            <input type={props.type} id={props.id} className={props.className}/>
+            <label forhtml={props.id} className="form-check-label ml-3" data-toggle="tooltip" title={props.tooltipTitle}>{props.label} <i className="fas fa-info-circle"></i></label>
         </div>
     )
 }

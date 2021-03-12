@@ -1,25 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import ActivityRow from "../components/ActivityRow";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import checkIfProfileExists from "../utils/checkProfileCreated"
 
 function DJActivity() {
-    const [ activity, setActivity ] = useState([]);
+    const { user } = useAuth0();
+    // const [ activity, setActivity ] = useState([]);
 
 
-    // API get request for Activity
-
+    
+    useEffect(() => {
+        checkIfProfileExists(user.sub);
+      }, [])
 
     return(
         <div>
             <Header title="ACTIVITY"/>
             <Container classes="top-container bottom-container text-center">
                 <Row classes="pt-0 mt-0 activity-header-bottom">
-                    <Col size="4"><h5>SONG</h5></Col>
-                    <Col size="4"><h5>TIP AMOUNT</h5></Col>
-                    <Col size="4"><h5>GUEST NAME</h5><p>(REQUEST TYPE)</p></Col>
-                    <Col size="4"><h5>DATE / TIME</h5></Col>
+                    <Col size="4"><h5 className="text-warning">SONG</h5></Col>
+                    <Col size="4"><h5 className="text-warning">TIP AMOUNT</h5></Col>
+                    <Col size="4"><h5 className="text-warning">GUEST NAME</h5><p className="text-warning">(REQUEST TYPE)</p></Col>
+                    <Col size="4"><h5 className="text-warning">DATE / TIME</h5></Col>
                 </Row>
                 {/* .map to activity list */}
                 {/* props: key, id, title, artist, tip, guestName, timeStamp*/}
