@@ -169,7 +169,7 @@ function DJHome() {
                     </Row>
                 </ScrollContainer>
             </Container>
-            <Container classes="mt-5 mb-5">
+            <Container classes="mt-5 bottom-container">
                 {!addEvent.add ? (
                     <form>
                         <FormBtn className="btn btn-dark btn-lg btn-block" onClick={handleFormChange}>

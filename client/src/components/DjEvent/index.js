@@ -1,36 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FormBtn, Switch } from "../Form";
 import './style.css'
 
 function DjEvent(props) {
+    const [endButton, setEndButton] = useState();
+
+    const date = new Date(props.eventDate);
+    const month = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"][date.getMonth()];
+    const dateDay = date.getDate() + 1;
+    let dateEnd = "";
+
+    if (dateDay === 1 || dateDay === 21 || dateDay === 31) {
+        dateEnd = "st";
+    } else if (dateDay === 2 || dateDay === 22) {
+        dateEnd = "nd"
+    } else if (dateDay === 3 || dateDay === 23) {
+        dateEnd = "rd"
+    } else {
+        dateEnd = "th"
+    }
+
+    function handleSwitch() {
+        if(document.getElementById(`${props._id}`).checked) {
+            setEndButton(true);
+        } else {
+            setEndButton(false);
+        }
+        console.log("Changed");
+        // PUT REQUEST TO UPDATE DATABASE
+    }
+
+    function handleEnd() {
+        console.log("Ended");
+        // PUT REQUEST TO UPDATE DATABASE
+    }
+
+
+
     return (
         <div className="event-card">
             <div className="event-img-container">
                 <img alt="event logo" src={props.eventImage} />
             </div>
             <div className="event-content">
-                <ul>
+                <ul className="text-center">
                     <li>
-                        <strong>Event Name: </strong> {props.eventName}
+                        <strong>{props.eventName}</strong>
                     </li>
                     <li>
-                        <strong>Event Type: </strong> {props.eventType}
+                        {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}
                     </li>
                     <li>
-                        <strong>Event Date: </strong> {props.eventDate}
+                        {props.startTime} - {props.endTime}
                     </li>
                     <li>
-                        <strong>Time: </strong> {props.startTime} to: {props.endTime}
+                        {props.eventType}
                     </li>
                     <li>
-                        <strong>Venue Name: </strong> {props.venueName}
+                        {props.genre}
+                    </li>
+                    <li>Venue:</li>
+                    <li>
+                        {props.venueName}
                     </li>
                     <li>
-                        <strong>Venue Address</strong> {props.venueAddress}
+                        {props.venueAddress}
                     </li>
-                    <li>
-                        <strong>Genre: </strong> {props.genre}
-                    </li>
-
+                    <Switch 
+                        id={props._id}
+                        switchTitle="Activate"
+                        change={handleSwitch}
+                    />
+                    {endButton && <FormBtn className="btn btn-dark mt-3" onClick={handleEnd}>End Event</FormBtn>}
                 </ul>
             </div>
         </div>

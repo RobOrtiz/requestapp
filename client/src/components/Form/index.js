@@ -27,6 +27,15 @@ export function InputCheckbox(props) {
     )
 }
 
+export function Switch(props) {
+    return (
+      <div className="custom-control custom-switch mt-3">
+        <input type="checkbox" className="custom-control-input input-switch" id={props.id} onChange={props.change} />
+        <label className="custom-control-label" for={props.id}>{props.switchTitle}</label>
+      </div> 
+    )
+}
+
 export function FormBtn(props) {
     return (
         <div>

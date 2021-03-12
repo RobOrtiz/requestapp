@@ -5,3 +5,15 @@
 .not-current:hover {
     color: gold !important;
 }
+
+@media (max-width: 600px){
+
+    h3 {
+        font-size: 1rem !important;
+    }
+
+    .fas {
+        font-size: 2rem;
+    }
+
+}
