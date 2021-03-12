@@ -1,0 +1,27 @@
+.confirmation-page {
+    height: 100vh;
+    background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url("https://images.unsplash.com/photo-1614768230839-38f3ea999e18?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8ZGolMjBvdXRzaWRlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60") no-repeat center center fixed;
+    background-size: cover;
+    padding: 4rem;
+}
+
+.confirmation-top {
+    margin-bottom: 3rem;
+}
+
+.confirmation-text {
+    color: white;
+    text-shadow: 1px 1px rgb(121, 100, 6);
+}
+
+.confirmation-link {
+    border-radius: 5px;
+    color: rgb(179, 150, 14);
+    text-decoration: underline;
+    text-shadow: none;
+}
+
+.confirmation-link:hover {
+    color: rgb(240, 218, 123);
+    text-shadow: none;
+}
