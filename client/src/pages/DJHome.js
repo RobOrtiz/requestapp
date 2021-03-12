@@ -6,8 +6,9 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 import UploadImage from "../components/UploadImage";
-import DjEvent from "../components/DjEvent"
-import UnauthorizedMessage from "../components/UnauthorizedMessage"
+import DjEvent from "../components/DjEvent";
+
+import UnauthorizedMessage from "../components/UnauthorizedMessage";
 
 // Import uuid to create a random _id for a newly created Event. 
 // I did it this way because of the way we seeded the DB. We couldn't create random ObjectIds for the Events in a way
@@ -51,22 +52,24 @@ function DJHome() {
         },
     ]);
 
-    // // Load all events and store them with setEvents
-    // useEffect(() => {
-    //     loadEvents()
-    // }, [])
+    // Load all events and store them with setEvents
+    useEffect(() => {
+        loadEvents()
+    }, [])
 
-    // // Loads all events for the Dj and sets them to events
-    // function loadEvents() {
-    //     API.getEvents(user.auth)
-    //         .then(res =>
-    //             setEvents(res.data)
-    //         )
-    //         .catch(err => console.log(err));
-    // };
+    // Loads all events for the Dj and sets them to events
+    function loadEvents() {
+        API.getEvents(user.sub)
+            .then(res => {
+                setEvents(res.data[0].events)
+                console.log(res.data[0].events)
+            }
+            )
+            .catch(err => console.log(err));
+    };
 
     // The login object of the user
-    console.log(user)
+    console.log(user.sub)
 
     const [formObject, setFormObject] = useState({
     });
@@ -137,7 +140,7 @@ function DJHome() {
                 <h1>UPCOMING EVENTS</h1>
                 <Row>
                     {events.map(djEvent => (
-                        <Col>
+                        <Col key={djEvent._id}>
                             <DjEvent {...djEvent} />
                         </Col>
                     ))}
