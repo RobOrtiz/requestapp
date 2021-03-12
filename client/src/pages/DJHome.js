@@ -68,10 +68,8 @@ function DJHome() {
             .catch(err => console.log(err));
     };
 
-    const { user } = useAuth0();
-    // The login object of the user
-    // console.log(user)
-    // console.log(useAuth0)
+    
+    
 
     const [formObject, setFormObject] = useState({
     });
@@ -90,9 +88,21 @@ function DJHome() {
     // Set image to default 150px x 150px placeholder URL. 
     const [image, setImage] = useState("https://via.placeholder.com/150");
 
+    const { user } = useAuth0();
+    const [ userId, setUserId ] = useState("");
+
     useEffect(() => {
-        checkIfProfileExists(user.sub)
+        checkIfProfileExists(user.sub);
+        loadProfile(user.sub)
       }, [])
+      
+      // API get request for user informatoin
+    function loadProfile(id) {
+        API.getDj(id)
+        // .then(res => setUserId(res.data[0]._id))
+        .then(res => setUserId(res.data[0]._id))
+        .catch(err => console.log(err))
+    }
 
     // // Check if user has a profile associated with their Auth0
     // //   If not, send to signup page
@@ -141,6 +151,7 @@ function DJHome() {
             venueName: formObject.venueName,
             venueAddress: formObject.eventLocation,
             eventImage: image,
+            djId: userId
         })
             .then((res) => window.location.replace("/dj/dashboard"))
             .catch(err => console.log(err));

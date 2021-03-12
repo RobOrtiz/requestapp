@@ -12,7 +12,7 @@ import QR from "../components/QRCode/QRCode";
 function DJProfile() {
     const { user } = useAuth0();
     const [ userProfile, setUserProfile ] = useState([]);
-    console.log(user.sub)
+    // console.log(user.sub)
     useEffect(() => {
         checkIfProfileExists(user.sub);
         loadProfile(user.sub);
