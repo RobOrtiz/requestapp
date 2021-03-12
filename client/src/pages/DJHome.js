@@ -55,8 +55,9 @@ function DJHome() {
     }, [])
 
     // Loads all events for the Dj and sets them to events
+    // Get the Dj with the user.sub id and populate the event documents to the Dj
     function loadEvents() {
-        API.getEvents(user.sub)
+        API.getDj(user.sub)
             .then(res => {
                 setEvents(res.data[0].events)
                 console.log(res.data[0].events)
@@ -158,7 +159,7 @@ function DJHome() {
                 <h1>UPCOMING EVENTS</h1>
                 <Row>
                     {events.map(djEvent => (
-                        <Col key={djEvent._id}>
+                        <Col key={djEvent.eventDate}>
                             <DjEvent {...djEvent} />
                         </Col>
                     ))}

@@ -5,7 +5,7 @@ const djController = require("../../controllers/djController.js");
 router.route("/")
   .post(djController.createDj)
   .get(djController.findAll)
-  .get(djController.findByIdDj)
+  .get(djController.findByIdDj);
 
 // Matches with "/api/djs/:id"
 // router.route("/:id")
