@@ -7,11 +7,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated"
 import API from "../utils/API";
 import LogoutButton from "../components/LogoutButton";
+import QR from "../components/QRCode/QRCode";
 
 function DJProfile() {
     const { user } = useAuth0();
     const [ userProfile, setUserProfile ] = useState([]);
-
+    console.log(user.sub)
     useEffect(() => {
         checkIfProfileExists(user.sub);
         loadProfile(user.sub);
@@ -36,6 +37,7 @@ function DJProfile() {
                 <LogoutButton />
             </Container>
             <Footer current="profile"/>
+            <QR djCode={user.sub}/>
         </div>
     )
 }

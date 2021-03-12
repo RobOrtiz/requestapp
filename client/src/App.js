@@ -39,6 +39,7 @@ function App() {
             </Route>
             <Route exact path="/request/:djid/:eventid">
               {/* Request page for customer */}
+              {/* <RequestPage /> */}
             </Route>
             <Route exact path="/request/confirmation">
               {/* Confirmation page for customer */}
