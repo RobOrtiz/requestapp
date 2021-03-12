@@ -16,9 +16,8 @@ function Landing() {
         !isAuthenticated && (
         <div className="landing-page">
             
-            <img src="https://i.ibb.co/bdJNc5g/Noi-Logo-200x200.png" alt="Noi-Logo" border="0" width="200" height="200" className="d-block mx-auto" />
+            <img src="https://i.ibb.co/bdJNc5g/Noi-Logo-200x200.png" alt="Noi-Logo" border="0" width="200" height="200" className="d-block mx-auto landing-logo" />
             <Container classes="text-center landing-top">
-                
                 <Row>
                     <Col>
                         <h1 className="text-center mt-5 landing-text">WELCOME</h1>
@@ -31,14 +30,14 @@ function Landing() {
                     <Col>
                         <h2 className="text-center mt-3 landing-text">CREATE YOUR <span className="logo-text">NOI</span> DJ ACCOUNT TO BEGIN RECEIVING REQUESTS!</h2>
                         {/* <h2 className="text-center mt-5"><a href="/dj/signin" className="landing-link">SIGN IN / SIGN UP</a></h2> */}
-                        <div className="text-center mt-5">
+                        <div className="text-center login-button">
                             <LoginButton/>
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <h3 className="text-center mt-5 landing-text">Are you a customer making a request? Head over <a href="/request" className="landing-link">here!</a></h3>
+                        <h3 className="text-center landing-text customer-text">Are you a customer making a request? Head over <a href="/request" className="landing-link">here!</a></h3>
                     </Col>
                 </Row>
             

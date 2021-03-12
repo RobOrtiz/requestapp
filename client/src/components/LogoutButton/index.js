@@ -6,7 +6,7 @@ function LogoutButton() {
 
   return (
     isAuthenticated && (
-    <button className="btn btn-dark mt-5" onClick={() => logout()}>
+    <button className="btn btn-dark mt-5 mb-5" onClick={() => logout()}>
       Logout
     </button>
     )

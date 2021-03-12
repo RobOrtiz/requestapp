@@ -30,3 +30,8 @@ h2, h4, h5, p {
   background: url("https://images.unsplash.com/photo-1541296481353-b1eb3a4e0309?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80") no-repeat center center fixed;
   background-size: cover;
 }
+
+.signup {
+  overflow: auto;
+  margin-right: 1rem;
+}

@@ -1,5 +1,5 @@
 .request-page {
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url("https://images.unsplash.com/photo-1614768230839-38f3ea999e18?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8ZGolMjBvdXRzaWRlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60") no-repeat center center fixed;
     background-size: cover;
     padding: 4rem;
@@ -10,6 +10,7 @@
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000; 
+    overflow: auto;
 }
 
 .request-title {
@@ -24,4 +25,16 @@
 
 .request-page label i {
     cursor: help;
+}
+
+@media (max-width: 600px){
+
+    .request-page {
+        padding: 1rem !important;
+    }
+
+    h1 {
+        font-size: 1.5rem !important;
+    }
+
 }
