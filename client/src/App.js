@@ -8,6 +8,7 @@ import DJActivity from "./pages/DJActivity";
 import DJProfile from "./pages/DJProfile";
 import Landing from "./pages/Landing";
 import RequestPage from "./pages/RequestPage";
+import ConfirmationPage from "./pages/ConfirmationPage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import ProtectedRoute from "../src/auth/protected-route";
 
@@ -39,8 +40,9 @@ function App() {
             <Route exact path="/request/:djid/:eventid">
               {/* Request page for customer */}
             </Route>
-            <Route exact path="/request/:djid/:confirmation">
+            <Route exact path="/request/confirmation">
               {/* Confirmation page for customer */}
+              <ConfirmationPage />
             </Route>
             
             {/* DJ-specific Routes */}
