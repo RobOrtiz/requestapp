@@ -31,6 +31,7 @@ module.exports = {
   findAll: function(req, res) {
     db.Dj
       .find(req.query)
+      .populate('events')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

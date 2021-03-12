@@ -6,6 +6,9 @@ import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import Helpers from "../utils/Helpers";
 import UploadImage from "../components/UploadImage";
+import DjEvent from "../components/DjEvent";
+
+import UnauthorizedMessage from "../components/UnauthorizedMessage";
 import checkIfProfileExists from "../utils/checkProfileCreated"
 
 // Import uuid to create a random _id for a newly created Event. 
@@ -19,10 +22,53 @@ import API from "../utils/API";
 
 
 function DJHome() {
-    // Checks if user is logged in
+
+    // Setting our events' initial state
+    const [events, setEvents] = useState([
+        {
+            genre: "Hip Hop",
+            eventDate: "10/13/2021",
+            startTime: "6:00pm",
+            endTime: "9:00pm",
+            eventName: "Freddy's Big 4-0!",
+            eventType: "Birthday Party",
+            venueName: "Stacy's Pub",
+            venueAddress: "12334 Party Lane; San Diego, CA 92021",
+            eventImage: "https://res.cloudinary.com/noimgmt/image/upload/v1615428617/noireqapp/xyef8yduq4qmwogc6smw.png"
+        },
+        {
+            genre: "Country",
+            eventDate: "11/13/2021",
+            startTime: "6:00pm",
+            endTime: "9:00pm",
+            eventName: "Freddy's Big 4-0!",
+            eventType: "Birthday Party",
+            venueName: "Stacy's Pub",
+            venueAddress: "12334 Party Lane; San Diego, CA 92021",
+            eventImage: "https://res.cloudinary.com/noimgmt/image/upload/v1615428617/noireqapp/xyef8yduq4qmwogc6smw.png"
+        },
+    ]);
+
+    // Load all events and store them with setEvents
+    useEffect(() => {
+        loadEvents()
+    }, [])
+
+    // Loads all events for the Dj and sets them to events
+    // Get the Dj with the user.sub id and populate the event documents to the Dj
+    function loadEvents() {
+        API.getDj(user.sub)
+            .then(res => {
+                setEvents(res.data[0].events)
+                console.log(res.data[0].events)
+            }
+            )
+            .catch(err => console.log(err));
+    };
+
     const { user } = useAuth0();
     // The login object of the user
-    // console.log(user)
+    console.log(user)
     // console.log(useAuth0)
 
     const [formObject, setFormObject] = useState({
@@ -112,8 +158,11 @@ function DJHome() {
             <Container classes="top-container">
                 <h1>UPCOMING EVENTS</h1>
                 <Row>
-                    {/* For each upcoming event, add to the row*/}
-                    <Col></Col>
+                    {events.map(djEvent => (
+                        <Col key={djEvent.eventDate}>
+                            <DjEvent {...djEvent} />
+                        </Col>
+                    ))}
                 </Row>
             </Container>
             <Container classes="mt-5 mb-5">

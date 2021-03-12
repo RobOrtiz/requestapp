@@ -9,7 +9,7 @@ export default {
   },
   // This is for checking if a logged in dj has a profile created.
   getDj: function(data) {
-    return axios.get("/api/djs?userSub=" + data)
+    return axios.get("/api/djs/?userSub=" + data)
   },
   // getDj: function(data) {
   //   return axios.get("/api/djs", data)

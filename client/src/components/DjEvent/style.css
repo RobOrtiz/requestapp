@@ -1,0 +1,32 @@
+.event-card {
+    background: white;
+    height: 425px;
+    margin: 1rem;
+    position: relative;
+    width: 350px;
+    box-shadow: 0 3px 6px #999, 0 3px 6px #999;
+    border-radius: 3%;
+    float: left;
+  }
+  
+  .event-card > .event-img-container {
+    height: 39%;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 3%;
+    background: rgb(202, 202, 195);
+  }
+  
+  .event-card > .event-img-container > img {
+    border-radius: 3%;
+    margin-top: 8px;
+  }
+  
+  .event-card > .event-content > ul {
+    font-size: 20px;
+    text-align: left;
+    list-style-type: none;
+    padding-inline-start: 25px;
+    color: black;
+  }
+  
