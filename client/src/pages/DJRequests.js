@@ -16,21 +16,12 @@ function DJRequests() {
     const [activatedDjId, setActivatedDjId] = useState("");
 
     // Set state of requestList to one song to show on load. Until I get it to work!
-    const [requestList, setRequestList] = useState([
-        {
-            "albumCover": "https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg",
-            "title": "Ants Marching",
-            "artist": "DMB",
-            "tip": "100",
-            "requestType": "playNowRequest",
-            "songStatus": "playNowQueue",
-            "customerName": "Charles Robinson"
-        },]);
+    const [requestList, setRequestList] = useState([]);
 
 
-    // const [queue, setQueue] = useState([]);
-    // const [playNow, setPlayNow] = useState([]);
-    // const [generalRequests, setGeneralRequests] = useState([]);
+    // const [queueList, setQueue] = useState([]);
+    // const [playNowList, setPlayNow] = useState([]);
+    // const [generalList, setGeneralRequests] = useState([]);
 
     // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
     // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
@@ -45,7 +36,6 @@ function DJRequests() {
     // Where is the fingers crosses emoji for Visual Studio Code. :)
     // useEffect(() => {
     //     loadRequests()
-    //     // In the [] below enter in here the states that will effect this when changed...// 
     // }, [])
 
     // Get the Dj profile
@@ -62,7 +52,13 @@ function DJRequests() {
             .catch(err => console.log(err))
     }
 
-    // Return active event from that Dj as well as the requestList for the Dj
+    // Use the activatedDjId to access the associated events document in the Dj Document.
+    // The API.getActivatedEvent call will use the activatedDjId to get the one and only activated
+    // event._id in the Dj's event list. Once the res is returned we can set the requestList to the 
+    // requestList (an array of songs with their statuses) in the event document.
+    // Once the intial load is done it will call the loadRequests function.
+    // This will be accessed on the initial load and any time there after when the requestList changes.
+    // Once the intial load is done it will call the loadRequests function.
     function loadActivatedEventRequests(djId) {
         API.getActivatedEvent(djId)
             .then(res => {
@@ -71,24 +67,45 @@ function DJRequests() {
                 // Set djActivatedEvent to the Event._id for the one and only activated event in the Dj document.
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
-                
+
             })
+            // .then(() => { loadRequests() })
             .catch(err => console.log(err));
     }
 
-    // Function to get requestList whether at the first load or changes throught the event. 
+    // Function to get move requestList songs to their appropriate arrays as we can set the states to them later.
+    // This is done on the first load and everytime there is a change to the various requestList states.
     // Should there be a conditional in here if on initial load requestList is null - which it will be 
     // for all future events. For test purposes there will be seed data!
     // function loadRequests() {
-    //     API.getRequestList(activatedEvent)
-    //         .then(res => {
-    //             console.log("This is the requestList array for activated event: ")
-    //             console.log(res.data.events[0].requestList)
-    //             // Set requestList to the activated events requestList.
-    //             // Initially (at start of an activated event) it will be null - however for development purposes there is data in the DB to populate the request page.
-    //             setActivatedEvent(res.data.events[0]);
-    //         })
-    //         .catch(err => console.log(err));
+    //     // Perform the Javascript logic in here to set the playNowQueue, generalRequestQueue, and queue states.
+    //     // Declare consts to hold the various songStatuses.
+    //     var generalRequestList = [];
+    //     var playNowRequestList = [];
+    //     var queueList = [];
+
+    //     requestList.map(request => {
+    //         switch (request.songStatus) {
+    //             case "generalRequestQueue":
+    //                 generalRequestList.push(request);
+    //             case "playNowQueue":
+    //                 playNowRequestList.push(request);
+    //             case "queue":
+    //                 queueList.push(request);
+    //             default:
+    //                 break;
+    //         }
+    //     })
+    //     setGeneralRequests(generalRequestList);
+    //     setPlayNow(playNowRequestList);
+    //     setQueue(queueList);
+    //     console.log("This is the generalRequestList array for activated event: ")
+    //     console.log(generalRequestList)
+    //     console.log("This is the playNowRequestList array for activated event: ")
+    //     console.log(playNowRequestList)
+    //     console.log("This is the queueList array for activated event: ")
+    //     console.log(queueList)
+
     // }
 
     // API put requests (for handling buttons) to update the lists
@@ -107,21 +124,16 @@ function DJRequests() {
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
-                        {/* {events.map(djEvent => (
-                            <Col key={djEvent.eventDate}>
-                                <DjEvent {...djEvent} />
-                            </Col>
-                        ))} */}
-                        <SongReq
-                            key="1"
-                            id="1"
-                            img="https://img.discogs.com/NAj18_fF1LYnyQ0NDCRPdpamdX8=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-1291724-1509461282-7177.jpeg.jpg"
-                            title="Laffy Taffy"
-                            artist="D4L"
-                            tip="$100"
-                            btn1="PLAYED"
-                            btn2="REMOVE"
-                        />
+                        {requestList
+                            .filter(request => request.songStatus === "queue")
+                            .map(songs => (
+                                <SongReq
+                                    key={songs.customerName}
+                                    {...songs}
+                                    btn1="ACCEPT"
+                                    btn2="DECLINE"
+                                />
+                            ))}
                     </Row>
                 </ScrollContainer>
             </Container>
@@ -131,22 +143,17 @@ function DJRequests() {
                     <h1>PLAY NOW</h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
-                    <Row classes="flex-nowrap">
-                        {/* {events.map(djEvent => (
-                            <Col key={djEvent.eventDate}>
-                                <DjEvent {...djEvent} />
-                            </Col>
-                        ))} */}
-                        <SongReq
-                            key="1"
-                            id="1"
-                            img="https://upload.wikimedia.org/wikipedia/en/thumb/6/64/SystemofaDownToxicityalbumcover.jpg/220px-SystemofaDownToxicityalbumcover.jpg"
-                            title="Chop Suey"
-                            artist="System of a Down"
-                            tip="$80"
-                            btn1="ACCEPT"
-                            btn2="DECLINE"
-                        />
+                    <Row classesrequestList="flex-nowrap" >
+                        {requestList
+                            .filter(request => request.songStatus === "playNowQueue")
+                            .map(songs => (
+                                <SongReq
+                                    key={songs.customerName}
+                                    {...songs}
+                                    btn1="ACCEPT"
+                                    btn2="DECLINE"
+                                />
+                            ))}
                     </Row>
                 </ScrollContainer>
             </Container>
@@ -157,20 +164,16 @@ function DJRequests() {
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
-                        {/* {events.map(djEvent => (
-                            <Col key={djEvent.eventDate}>
-                                <DjEvent {...djEvent} />
-                            </Col>
-                        ))} */}
-                        <SongReq
-                            key="1"
-                            id="1"
-                            img="https://m.media-amazon.com/images/I/91UEL9iy26L._SS500_.jpg"
-                            title="Peachs & Cream"
-                            tip="$50"
-                            btn1="ACCEPT"
-                            btn2="DECLINE"
-                        />
+                        {requestList
+                            .filter(request => request.songStatus === "generalRequestQueue")
+                            .map(songs => (
+                                <SongReq
+                                    key={songs.customerName}
+                                    {...songs}
+                                    btn1="ACCEPT"
+                                    btn2="DECLINE"
+                                />
+                            ))}
                     </Row>
                 </ScrollContainer>
             </Container>
