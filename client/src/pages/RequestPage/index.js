@@ -16,10 +16,8 @@ function RequestPage() {
     artist: ""
   });
   
-  const [ checkedObject, setCheckedObject ] = useState({
-    generalRequest: false,
-    playNow: false
-  })
+  const [ general, setGeneral ] = useState(false)
+  const [ playNow, setPlayNow ] = useState(false)
 
   const [product, setProduct] = useState({
     name: "",
@@ -43,22 +41,25 @@ function RequestPage() {
       price: formObject.tip
     });
 
-    console.log(product)
-
     if (document.getElementById("generalRequest").checked === true) {
-      let true.infowindow = true
-      setCheckedObject({generalRequest: true})
+      setGeneral(true)
     } else {
-      setCheckedObject({playNow: true})
+      setPlayNow(true)
     }
+  }
 
+  useEffect(() => {
+    addToDatabase();
+  }, [general, playNow])
+
+  function addToDatabase() {
     API.createRequest({
       tip: formObject.tip,
       fullName: formObject.fullName,
       title: formObject.title,
       artist: formObject.artist,
-      generalRequest: checkedObject.generalRequest,
-      playNow: checkedObject.playNow,
+      generalRequest: general,
+      playNow: playNow,
       _id: djId
     }).then(res => console.log(res))
       .catch(err => console.log(err))
