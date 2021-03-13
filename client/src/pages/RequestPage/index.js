@@ -17,9 +17,12 @@ function RequestPage() {
     title: "",
     artist: ""
   });
-  
+  // For radio buttons
   const [ general, setGeneral ] = useState(false)
   const [ playNow, setPlayNow ] = useState(false)
+
+  // For djId
+  const [ djId, setDjId ] = useState("")
 
   const [product, setProduct] = useState({
     name: "",
@@ -33,8 +36,6 @@ function RequestPage() {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  var djId = 'ObjectId("604d0c075d26ca3f74fe8549")';
- 
   function handleFormSubmit(event) {
     
     event.preventDefault();
@@ -67,10 +68,8 @@ function RequestPage() {
       artist: formObject.artist,
       generalRequest: general,
       playNow: playNow,
-      _id: djId
-    }).then(res => {
-        document.querySelector(".StripeCheckout").click();
-      })
+      _id: getDJId()
+    }).then(res => console.log(res))
       .catch(err => console.log(err))
   }
 
@@ -81,6 +80,14 @@ function RequestPage() {
       console.log("worked")
       window.location.replace("/request/confirmation")
     }
+  }
+
+  // Parse URL for djId
+  function getDJId() {
+    const url = window.location.href;
+    var djId = url.substring(url.lastIndexOf("/") + 1)
+    var objId = "ObjectId('" + djId + "')";
+    return djId
   }
 
   return (
