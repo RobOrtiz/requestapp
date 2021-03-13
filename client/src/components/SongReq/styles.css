@@ -4,3 +4,15 @@
     max-height: 250px;
     max-width: 250px;
 }
+
+.card-text {
+    color: #000000;
+}
+
+.card-title {
+    color: #000000;
+}
+
+.card {
+    margin: 5px;
+}
