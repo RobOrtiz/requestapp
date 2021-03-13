@@ -16,7 +16,7 @@ export default {
   },
 
   getRequests: function(id) {
-    return axios.get("/api/djs/event/" + '604716f8ce29103558ac6b48')
+    return axios.get("/api/djs/event/" + id)
   },
   // getDj: function(data) {
   //   return axios.get("/api/djs", data)

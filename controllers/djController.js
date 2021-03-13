@@ -50,6 +50,8 @@ module.exports = {
               customerName: req.body.fullName,
               title: req.body.title,
               artist: req.body.artist,
+              generalRequest: req.body.generalRequest,
+              playNow: req.body.playNow,
               tip: req.body.tip
             },
           },
@@ -60,8 +62,6 @@ module.exports = {
   },
 
   findEventById: function (req, res) {
-    console.log("This is req.query");
-    console.log(req.params.id);
     db.Dj.findById(req.params.id)
       .populate({
         path:'events', 
