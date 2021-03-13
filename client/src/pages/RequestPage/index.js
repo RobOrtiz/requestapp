@@ -5,6 +5,8 @@ import API from "../../utils/API";
 import Header from "../../components/Header";
 import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
+import StripeCheckout from 'react-stripe-checkout';
+import Stripe from '../../utils/stripe';
 import './styles.css'
 
 function RequestPage() {
@@ -16,6 +18,12 @@ function RequestPage() {
     playNow: false
   });
   
+  const [product, setProduct] = useState({
+    name: "",
+    price: 0,
+    description: "Song Request"
+  });
+
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -27,6 +35,13 @@ function RequestPage() {
   function handleFormSubmit(event) {
     console.log(formObject.generalRequest)
     event.preventDefault();
+    setProduct({
+      name: formObject.title + ", " + formObject.artist,
+      price: formObject.tip
+    });
+
+    console.log(product)
+
     API.createRequest({
       tip: formObject.tip,
       fullName: formObject.fullName,
@@ -36,8 +51,16 @@ function RequestPage() {
       playNow: formObject.playNow,
       _id: djId
     })
-      // .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+
+  }
+
+  async function handleToken(token, addresses) {
+    const response = await Stripe.checkout(token, product);
+    const { status } = response.data
+    if (status === 'success') {
+      console.log("worked")
+      window.location.replace("/request/confirmation")
+    }
   }
 
   return (
@@ -123,8 +146,18 @@ function RequestPage() {
           />
           </Col>
           </Row>
-          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>Checkout</FormBtn>
+          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
+            Confirm
+          </FormBtn>
         </form>
+        <StripeCheckout 
+            stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
+            token={handleToken}
+            billingAddress
+            shippingAddress
+            amount={product.price * 100}
+            name={product.name}
+        />
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
           <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>
