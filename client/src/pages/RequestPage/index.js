@@ -13,11 +13,14 @@ function RequestPage() {
   const [formObject, setFormObject] = useState({
     fullName: "",
     title: "",
-    artist: "",
-    generalRequest: false,
-    playNow: false
+    artist: ""
   });
   
+  const [ checkedObject, setCheckedObject ] = useState({
+    generalRequest: false,
+    playNow: false
+  })
+
   const [product, setProduct] = useState({
     name: "",
     price: 0,
@@ -30,10 +33,10 @@ function RequestPage() {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  var djId = "ObjectId('604adee88e6c26228884748d')";
-  
+  var djId = 'ObjectId("604d0c075d26ca3f74fe8549")';
+ 
   function handleFormSubmit(event) {
-    console.log(formObject.generalRequest)
+    
     event.preventDefault();
     setProduct({
       name: formObject.title + ", " + formObject.artist,
@@ -42,16 +45,23 @@ function RequestPage() {
 
     console.log(product)
 
+    if (document.getElementById("generalRequest").checked === true) {
+      let true.infowindow = true
+      setCheckedObject({generalRequest: true})
+    } else {
+      setCheckedObject({playNow: true})
+    }
+
     API.createRequest({
       tip: formObject.tip,
       fullName: formObject.fullName,
       title: formObject.title,
       artist: formObject.artist,
-      generalRequest: formObject.generalRequest,
-      playNow: formObject.playNow,
+      generalRequest: checkedObject.generalRequest,
+      playNow: checkedObject.playNow,
       _id: djId
-    })
-
+    }).then(res => console.log(res))
+      .catch(err => console.log(err))
   }
 
   async function handleToken(token, addresses) {
@@ -108,7 +118,9 @@ function RequestPage() {
             <Col size="md-3 sm-12">
             <InputCheckbox
               onChange={handleInputChange}
-              type="checkbox"
+              type="radio"
+              name="requestType"
+              value="2"
               id="generalRequest" 
               label="General"
               className="form-check-input"
@@ -123,7 +135,9 @@ function RequestPage() {
             <Col size="md-3 sm-12">
             <InputCheckbox
               onChange={handleInputChange}
-              type="checkbox"
+              type="radio"
+              name="requestType"
+              value="100"
               id="playNow" 
               label="Play Now"
               className="form-check-input"
