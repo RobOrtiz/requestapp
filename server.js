@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const stripe = require('stripe')('sk_test_51IUJhcHM5nnUsQBqPYnu9HKgTJ06ACMwoDehn2wgcKVhhAhcb2rrItV9ntD0XbHaOjyugshEIZ7R5o2Xon8uI2ZX00bvUf2x8R')
+
+
+const stripeSK = process.env.STRIPE_SK;
+const stripe = require('stripe')(stripeSK)
 
 
 // Morgan is a middleware that logs the requests to the server to the console. 
