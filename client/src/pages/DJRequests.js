@@ -12,12 +12,23 @@ import API from "../utils/API";
 function DJRequests() {
     const { user } = useAuth0();
 
-    // Set state of djActivatedEvent
-    const [activatedDjId, setActivatedDjId] = useState("");
+    // Set state of djActivatedEvent --- this is the Dj's ObjectId
+    const [ activatedDjId, setActivatedDjId ] = useState("");
 
-    // Set state of requestList to one song to show on load. Until I get it to work!
-    const [requestList, setRequestList] = useState([]);
+    // Set state of requestList --- this holds the requestList for the event._id.
+    const [ requestList, setRequestList ] = useState([]);
 
+    // Set state to hold song request that needs to be updated. 
+    // This will be sent to the PUT API call to update requestList.
+    const [requestUpdate, setRequestUpdate ] = useState([]);
+
+    // Set state to activated event._id
+    // This will be sent to the PUT API call to update requestList for song that was moved.
+    const [activatedEventId, setActivatedEventId ] = useState([]);
+
+    const testData = [{
+
+    }];
 
     // const [queueList, setQueue] = useState([]);
     // const [playNowList, setPlayNow] = useState([]);
@@ -64,7 +75,11 @@ function DJRequests() {
             .then(res => {
                 console.log("This is the requestList array for activated event: ")
                 console.log(res.data.events[0].requestList)
-                // Set djActivatedEvent to the Event._id for the one and only activated event in the Dj document.
+                console.log("This is the activated event._id for the activated event: ")
+                console.log(res.data.events[0]._id)
+                
+                // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
+                setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
 
@@ -113,6 +128,20 @@ function DJRequests() {
 
     // Possible api for getting song information from spotify
 
+    function handleSaveToQueue (event) {
+        event.preventDefault();
+        alert("Add me to the Queue!");
+        console.log("This is the event")
+        console.log(event)
+
+        // I need the event._id in here so will have to create state for it. 
+    }
+
+    function handleDeclineRequest (event) {
+        event.preventDefault();
+        alert("Remove me from the queue!");
+    }
+
     return (
         <div>
             <Header title="REQUESTS" />
@@ -145,7 +174,7 @@ function DJRequests() {
                     <h1>PLAY NOW</h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
-                    <Row classesrequestList="flex-nowrap" >
+                    <Row classes="flex-nowrap" >
                         {requestList
                             .filter(request => request.songStatus === "playNowQueue")
                             .map(songs => (
@@ -153,7 +182,9 @@ function DJRequests() {
                                     key={songs.customerName}
                                     {...songs}
                                     btn1="ACCEPT"
+                                    button01onClick={handleSaveToQueue}
                                     btn2="DECLINE"
+                                    button02onClick={handleDeclineRequest}
                                 />
                             ))}
                     </Row>

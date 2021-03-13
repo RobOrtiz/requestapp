@@ -28,7 +28,7 @@ module.exports = {
   },
   findAll: function (req, res) {
     db.Dj.find(req.query)
-      .populate("events")
+      .populate({path: 'events', options: { sort: { 'eventDate': 1 } } })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
