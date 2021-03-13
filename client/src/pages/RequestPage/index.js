@@ -7,6 +7,7 @@ import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
 import StripeCheckout from 'react-stripe-checkout';
 import Stripe from '../../utils/stripe';
+import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
 
 function RequestPage() {
@@ -71,7 +72,8 @@ function RequestPage() {
         <form>
           <Row>
             <Col>
-              <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i>
+            <img src={EventPic} alt={"appleBadge"} className="eventPic"></img>
+              {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
             </Col>
             <Col>
               <InputText
