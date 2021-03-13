@@ -14,32 +14,28 @@ function DJRequests() {
     // const [queue, setQueue] = useState([]);
     // const [playNow, setPlayNow] = useState([]);
     // const [generalRequests, setGeneralRequests] = useState([]);
-    const [ userId, setUserId ] = useState("");
 
     useEffect(() => {
         checkIfProfileExists(user.sub);
-        loadProfile(user.sub);
-        loadRequest();
+        // This loads dj profile and active event for the queue
+        loadProfile(user.sub)
     }, [])
-      
-      // API get request for user informatoin
+    
+    // get the dj profile
+    // send their djId to loadRequest
     function loadProfile(id) {
         API.getDj(id)
-        .then(res => setUserId(res.data[0]._id))
+        .then(res => loadRequest(res.data[0]._id))
         .catch(err => console.log(err))
     }
-
-    function loadRequest() {
-        console.log("hello"+userId);
-
-        API.getRequests(userId)
-            .then(res => {
-                // setEvents(res.data[0].events)
-                console.log(res)
-            }
-            )
+    
+    // Return active event from that dj
+    function loadRequest(djId) {
+        API.getRequests(djId)
+            .then(res => console.log(res.data.events[0]))
             .catch(err => console.log(err));
-    };
+      }
+      
     // API put requests (for handling buttons) to update the lists
     // Queue - if played/remove, update database and remove;
     // PlayNow/GenReq - if accept, update database and move to queue; if declined, update database and remove

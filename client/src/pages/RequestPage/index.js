@@ -12,8 +12,10 @@ function RequestPage() {
     fullName: "",
     title: "",
     artist: "",
+    generalRequest: false,
+    playNow: false
   });
-
+  
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -21,13 +23,17 @@ function RequestPage() {
   }
 
   var djId = "ObjectId('604adee88e6c26228884748d')";
+  
   function handleFormSubmit(event) {
+    console.log(formObject.generalRequest)
     event.preventDefault();
     API.createRequest({
       tip: formObject.tip,
       fullName: formObject.fullName,
       title: formObject.title,
       artist: formObject.artist,
+      generalRequest: formObject.generalRequest,
+      playNow: formObject.playNow,
       _id: djId
     })
       // .then((res) => console.log(res))
@@ -78,6 +84,7 @@ function RequestPage() {
           <Row>
             <Col size="md-3 sm-12">
             <InputCheckbox
+              onChange={handleInputChange}
               type="checkbox"
               id="generalRequest" 
               label="General"
@@ -92,6 +99,7 @@ function RequestPage() {
           <Row>
             <Col size="md-3 sm-12">
             <InputCheckbox
+              onChange={handleInputChange}
               type="checkbox"
               id="playNow" 
               label="Play Now"
