@@ -27,6 +27,10 @@
     cursor: help;
 }
 
+.hidden {
+    display: none;
+}
+
 @media (max-width: 600px){
 
     .request-page {

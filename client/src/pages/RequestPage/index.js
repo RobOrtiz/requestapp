@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import API from "../../utils/API";
@@ -9,6 +9,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import Stripe from '../../utils/stripe';
 import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
+import { Link } from 'react-router-dom';
 
 function RequestPage() {
   const [formObject, setFormObject] = useState({
@@ -50,8 +51,13 @@ function RequestPage() {
     }
   }
 
-  useEffect(() => {
-    addToDatabase();
+  const firstUpdate = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+    } else {
+      addToDatabase()
+    }
   }, [general, playNow])
 
   function addToDatabase() {
@@ -172,18 +178,20 @@ function RequestPage() {
           />
           </Col>
           </Row>
-          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
-            Confirm
-          </FormBtn>
+            <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
+              Pay Now!
+            </FormBtn>
         </form>
-        <StripeCheckout 
-            stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
-            token={handleToken}
-            billingAddress
-            shippingAddress
-            amount={product.price * 100}
-            name={product.name}
-        />
+        <div className="hidden">
+          <StripeCheckout 
+              stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
+              token={handleToken}
+              billingAddress
+              shippingAddress
+              amount={product.price * 100}
+              name={product.name}
+          />
+        </div>
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
           <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>

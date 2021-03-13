@@ -13,7 +13,7 @@ function UserProfile(props) {
                         <h4>Genre</h4>
                         <h4>Instagram</h4>
                         <h4>Username</h4>
-                        <h4>Stripe Billing Info</h4>
+                       {/* <h4>Stripe Billing Info</h4> */}
                     </Col>
                     <Col size="6" classes="user-info">
                         <h4>{props.djName}</h4>
@@ -21,7 +21,7 @@ function UserProfile(props) {
                         <h4>{props.djStyle}</h4>
                         <h4>{props.instagram}</h4>
                         <h4>{props.username}</h4>
-                        <h4>{props.stripe}</h4>
+                       {/* <h4>{props.stripe}</h4> */}
                     </Col>
                 </Row>
             </Col>
