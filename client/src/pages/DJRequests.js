@@ -105,7 +105,6 @@ function DJRequests() {
     //     console.log(playNowRequestList)
     //     console.log("This is the queueList array for activated event: ")
     //     console.log(queueList)
-
     // }
 
     // API put requests (for handling buttons) to update the lists
@@ -129,10 +128,13 @@ function DJRequests() {
                             .map(songs => (
                                 <SongReq
                                     key={songs.customerName}
-                                    {...songs}
+                                    albumCover={songs.albumCover}
+                                    title={songs.title}
+                                    artist={songs.artist}
+                                    tip={songs.tip}
                                     btn1="ACCEPT"
                                     btn2="DECLINE"
-                                />
+                               />
                             ))}
                     </Row>
                 </ScrollContainer>
