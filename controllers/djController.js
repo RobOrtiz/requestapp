@@ -40,7 +40,7 @@ module.exports = {
   //     .catch((err) => res.status(422).json(err));
   // },
   createRequest: function (req, res) {
-    const eventId = "75bec5d-dbe1-736-fa0b-eb2618f2cca";
+    const eventId = "0dcf453-313-3a5-42ea-0bcf0331c88";
     db.Event
       .findOneAndUpdate(
         { _id: eventId },
