@@ -145,7 +145,7 @@ function DJRequests() {
                     <h1>PLAY NOW</h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
-                    <Row classesrequestList="flex-nowrap" >
+                    <Row classes="flex-nowrap" >
                         {requestList
                             .filter(request => request.songStatus === "playNowQueue")
                             .map(songs => (
@@ -160,7 +160,7 @@ function DJRequests() {
                 </ScrollContainer>
             </Container>
             {/* General Requests */}
-            <Container classes="bottom-container">
+            <Container className="bottom-container">
                 <Row>
                     <h1>GENERAL REQUESTS</h1>
                 </Row>

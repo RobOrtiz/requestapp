@@ -35,11 +35,11 @@ function App() {
             {/* Customer-specific Routes */}
             <Route exact path="/request">
               {/* Select a DJ or Event for customer */}
-              <RequestPage />
+              {<RequestPage />}
             </Route>
-            <Route exact path="/request/:djid/:eventid">
+            <Route exact path="/request/:djid">
               {/* Request page for customer */}
-              {/* <RequestPage /> */}
+              <RequestPage />
             </Route>
             <Route exact path="/request/confirmation">
               {/* Confirmation page for customer */}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import API from "../../utils/API";
@@ -7,17 +7,23 @@ import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
 import StripeCheckout from 'react-stripe-checkout';
 import Stripe from '../../utils/stripe';
+import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
+import { Link } from 'react-router-dom';
 
 function RequestPage() {
   const [formObject, setFormObject] = useState({
     fullName: "",
     title: "",
-    artist: "",
-    generalRequest: false,
-    playNow: false
+    artist: ""
   });
-  
+  // For radio buttons
+  const [ general, setGeneral ] = useState(false)
+  const [ playNow, setPlayNow ] = useState(false)
+
+  // For djId
+  const [ djId, setDjId ] = useState("")
+
   const [product, setProduct] = useState({
     name: "",
     price: 0,
@@ -30,28 +36,41 @@ function RequestPage() {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  var djId = "ObjectId('604adee88e6c26228884748d')";
-  
   function handleFormSubmit(event) {
-    console.log(formObject.generalRequest)
+    
     event.preventDefault();
     setProduct({
       name: formObject.title + ", " + formObject.artist,
       price: formObject.tip
     });
 
-    console.log(product)
+    if (document.getElementById("generalRequest").checked === true) {
+      setGeneral(true)
+    } else {
+      setPlayNow(true)
+    }
+  }
 
+  const firstUpdate = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+    } else {
+      addToDatabase()
+    }
+  }, [general, playNow])
+
+  function addToDatabase() {
     API.createRequest({
       tip: formObject.tip,
       fullName: formObject.fullName,
       title: formObject.title,
       artist: formObject.artist,
-      generalRequest: formObject.generalRequest,
-      playNow: formObject.playNow,
-      _id: djId
-    })
-
+      generalRequest: general,
+      playNow: playNow,
+      _id: getDJId()
+    }).then(res => console.log(res))
+      .catch(err => console.log(err))
   }
 
   async function handleToken(token, addresses) {
@@ -63,6 +82,14 @@ function RequestPage() {
     }
   }
 
+  // Parse URL for djId
+  function getDJId() {
+    const url = window.location.href;
+    var djId = url.substring(url.lastIndexOf("/") + 1)
+    var objId = "ObjectId('" + djId + "')";
+    return djId
+  }
+
   return (
     <div className="request-page">
       <Header title="welcome customer" />
@@ -71,7 +98,8 @@ function RequestPage() {
         <form>
           <Row>
             <Col>
-              <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i>
+            <img src={EventPic} alt={"appleBadge"} className="eventPic"></img>
+              {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
             </Col>
             <Col>
               <InputText
@@ -108,7 +136,9 @@ function RequestPage() {
             <Col size="md-3 sm-12">
             <InputCheckbox
               onChange={handleInputChange}
-              type="checkbox"
+              type="radio"
+              name="requestType"
+              value="2"
               id="generalRequest" 
               label="General"
               className="form-check-input"
@@ -123,7 +153,9 @@ function RequestPage() {
             <Col size="md-3 sm-12">
             <InputCheckbox
               onChange={handleInputChange}
-              type="checkbox"
+              type="radio"
+              name="requestType"
+              value="100"
               id="playNow" 
               label="Play Now"
               className="form-check-input"
@@ -146,18 +178,20 @@ function RequestPage() {
           />
           </Col>
           </Row>
-          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
-            Confirm
-          </FormBtn>
+            <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
+              Pay Now!
+            </FormBtn>
         </form>
-        <StripeCheckout 
-            stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
-            token={handleToken}
-            billingAddress
-            shippingAddress
-            amount={product.price * 100}
-            name={product.name}
-        />
+        <div className="hidden">
+          <StripeCheckout 
+              stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
+              token={handleToken}
+              billingAddress
+              shippingAddress
+              amount={product.price * 100}
+              name={product.name}
+          />
+        </div>
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
           <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>
