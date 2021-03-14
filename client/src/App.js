@@ -38,15 +38,11 @@ function App() {
               {/* Select a DJ or Event for customer */}
               <SelectDj />
             </Route>
-            {/* <Route exact path="/request/:djid">
-              Request page for customer
-              <RequestPage />
-            </Route> */}
-            <Route exact path="/request/testid">
-              {/* Take this out later */}
+            <Route exact path="/request/:djid">
+              {/* Request page for customer */}
               <RequestPage />
             </Route>
-            <Route exact path="/request/confirmation/testid">
+            <Route exact path="/request/confirmation/:djid">
               {/* Confirmation page for customer */}
               <ConfirmationPage />
             </Route>

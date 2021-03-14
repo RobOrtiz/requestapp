@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import API from "../../utils/API";
@@ -9,7 +9,6 @@ import StripeCheckout from 'react-stripe-checkout';
 import Stripe from '../../utils/stripe';
 import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
-import { Link } from 'react-router-dom';
 
 function RequestPage() {
   const [formObject, setFormObject] = useState({
@@ -69,8 +68,7 @@ function RequestPage() {
       artist: formObject.artist,
       generalRequest: general,
       playNow: playNow,
-      // _id: getDJId()
-      _id: "604d0123b297b24e38677fae"
+      _id: getDJId()
     }).then(res => document.querySelector(".StripeCheckout").click())
       .catch(err => console.log(err))
   }
@@ -79,8 +77,7 @@ function RequestPage() {
     const response = await Stripe.checkout(token, product);
     const { status } = response.data
     if (status === 'success') {
-      console.log("worked")
-      window.location.replace("/request/confirmation")
+      window.location.replace(`/request/confirmation/${djId}`)
     }
   }
 
@@ -88,7 +85,7 @@ function RequestPage() {
   function getDJId() {
     const url = window.location.href;
     var djId = url.substring(url.lastIndexOf("/") + 1)
-    var objId = "ObjectId('" + djId + "')";
+    setDjId(djId);
     return djId
   }
 
