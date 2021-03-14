@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import API from "../../utils/API";
@@ -7,6 +7,7 @@ import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
 import StripeCheckout from 'react-stripe-checkout';
 import Stripe from '../../utils/stripe';
+import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
 
 function RequestPage() {
@@ -15,9 +16,12 @@ function RequestPage() {
     title: "",
     artist: ""
   });
-  
+  // For radio buttons
   const [ general, setGeneral ] = useState(false)
   const [ playNow, setPlayNow ] = useState(false)
+
+  // For djId
+  const [ djId, setDjId ] = useState("")
 
   const [product, setProduct] = useState({
     name: "",
@@ -31,8 +35,6 @@ function RequestPage() {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  var djId = 'ObjectId("604d0c075d26ca3f74fe8549")';
- 
   function handleFormSubmit(event) {
     
     event.preventDefault();
@@ -48,10 +50,16 @@ function RequestPage() {
     }
   }
 
-  useEffect(() => {
-    addToDatabase();
+  const firstUpdate = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+    } else {
+      addToDatabase()
+    }
   }, [general, playNow])
 
+  // Currently posting then paying
   function addToDatabase() {
     API.createRequest({
       tip: formObject.tip,
@@ -60,8 +68,8 @@ function RequestPage() {
       artist: formObject.artist,
       generalRequest: general,
       playNow: playNow,
-      _id: djId
-    }).then(res => console.log(res))
+      _id: getDJId()
+    }).then(res => document.querySelector(".StripeCheckout").click())
       .catch(err => console.log(err))
   }
 
@@ -69,9 +77,16 @@ function RequestPage() {
     const response = await Stripe.checkout(token, product);
     const { status } = response.data
     if (status === 'success') {
-      console.log("worked")
-      window.location.replace("/request/confirmation")
+      window.location.replace(`/request/confirmation/${djId}`)
     }
+  }
+
+  // Parse URL for djId
+  function getDJId() {
+    const url = window.location.href;
+    var djId = url.substring(url.lastIndexOf("/") + 1)
+    setDjId(djId);
+    return djId
   }
 
   return (
@@ -82,7 +97,9 @@ function RequestPage() {
         <form>
           <Row>
             <Col>
-              <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i>
+            <img src={EventPic} alt={"appleBadge"} className="eventPic"></img>
+              {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
+            <p className="h6 ml-2">Doesn't look familiar?  Click <a href="/request">here</a> to find your DJ!</p>
             </Col>
             <Col>
               <InputText
@@ -161,18 +178,20 @@ function RequestPage() {
           />
           </Col>
           </Row>
-          <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
-            Confirm
-          </FormBtn>
+            <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
+              Pay Now!
+            </FormBtn>
         </form>
-        <StripeCheckout 
-            stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
-            token={handleToken}
-            billingAddress
-            shippingAddress
-            amount={product.price * 100}
-            name={product.name}
-        />
+        <div className="hidden">
+          <StripeCheckout 
+              stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
+              token={handleToken}
+              billingAddress
+              shippingAddress
+              amount={product.price * 100}
+              name={product.name}
+          />
+        </div>
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
           <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>

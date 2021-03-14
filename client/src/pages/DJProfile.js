@@ -11,8 +11,12 @@ import QR from "../components/QRCode/QRCode";
 
 function DJProfile() {
     const { user } = useAuth0();
+    // User profile info
     const [ userProfile, setUserProfile ] = useState([]);
-    // console.log(user.sub)
+    // User Id for qr code
+    const [ userId, setUserId ] = useState("");
+
+    
     useEffect(() => {
         checkIfProfileExists(user.sub);
         loadProfile(user.sub);
@@ -21,7 +25,7 @@ function DJProfile() {
     // API get request for user informatoin
     function loadProfile(id) {
         API.getDj(id)
-        .then(res => setUserProfile(res.data[0]))
+        .then(res => { setUserProfile(res.data[0]); setUserId(res.data[0]._id) })
         .catch(err => console.log(err))
     }
     
@@ -35,7 +39,8 @@ function DJProfile() {
             <Container classes="bottom-container text-center mt-3">
                 {/* <FormBtn className="btn btn-dark mt-5">Logout</FormBtn> */}
                 <LogoutButton />
-                <QR djCode={user.sub}/>
+                <p>Here is your QR code <a href={"http://localhost:3000/request/" + userId}>link</a></p>
+                <QR djCode={userId}/>
             </Container>
             <Footer current="profile"/>
         </div>

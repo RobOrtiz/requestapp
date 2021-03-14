@@ -9,8 +9,6 @@ import UploadImage from "../components/UploadImage";
 import DjEvent from "../components/DjEvent";
 import ScrollContainer from 'react-indiana-drag-scroll';
 
-
-import UnauthorizedMessage from "../components/UnauthorizedMessage";
 import checkIfProfileExists from "../utils/checkProfileCreated"
 
 // Import uuid to create a random _id for a newly created Event. 
