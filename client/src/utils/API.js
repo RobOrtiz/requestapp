@@ -14,7 +14,9 @@ export default {
   getDj: function(data) {
     return axios.get("/api/djs/?userSub=" + data)
   },
-
+  getAllDjs: function() {
+    return axios.get("/api/djs/all")
+  },
   getActivatedEvent: function(id) {
     return axios.get("/api/djs/event/" + id)
   },

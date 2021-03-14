@@ -7,6 +7,7 @@ import DJRequests from "./pages/DJRequests";
 import DJActivity from "./pages/DJActivity";
 import DJProfile from "./pages/DJProfile";
 import Landing from "./pages/Landing";
+import SelectDj from "./pages/SelectDj";
 import RequestPage from "./pages/RequestPage";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import { Auth0Provider } from "@auth0/auth0-react";
@@ -35,13 +36,17 @@ function App() {
             {/* Customer-specific Routes */}
             <Route exact path="/request">
               {/* Select a DJ or Event for customer */}
-              {<RequestPage />}
+              <SelectDj />
             </Route>
-            <Route exact path="/request/:djid">
-              {/* Request page for customer */}
+            {/* <Route exact path="/request/:djid">
+              Request page for customer
+              <RequestPage />
+            </Route> */}
+            <Route exact path="/request/testid">
+              {/* Take this out later */}
               <RequestPage />
             </Route>
-            <Route exact path="/request/confirmation">
+            <Route exact path="/request/confirmation/testid">
               {/* Confirmation page for customer */}
               <ConfirmationPage />
             </Route>

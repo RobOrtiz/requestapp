@@ -37,6 +37,17 @@ export function Switch(props) {
     )
 }
 
+export function Dropdown(props) {
+    return (
+    <div className="form-group">
+        <label forhtml={props.id}>{props.label}</label>
+        <select className="form-control" id={props.id}>
+            {props.children}
+        </select>
+    </div>
+    )
+}
+
 export function FormBtn(props) {
     return (
         <div>

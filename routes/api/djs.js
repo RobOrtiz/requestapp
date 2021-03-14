@@ -7,6 +7,9 @@ router.route("/")
   .get(djController.findAll)
   .get(djController.findByIdDj);
 
+router.route("/all")
+  .get(djController.findAll)
+  
 // Matches with "/api/djs/:id"
 // router.route("/:id")
 //   .get(djController.findByIdDj)

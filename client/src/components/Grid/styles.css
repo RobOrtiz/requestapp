@@ -6,6 +6,10 @@
     margin-bottom: 150px;
 }
 
+.center-container {
+    min-height: 90vh;
+}
+
 .activity-header-bottom {
     border-bottom: 3px solid rgb(94, 94, 94);
 }

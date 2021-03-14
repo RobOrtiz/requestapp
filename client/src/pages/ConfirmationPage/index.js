@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import './styles.css'
 
 
 function Confirmation() {
-    
+
+    const [djUrl, setDjUrl] = useState();
+
+    useEffect(() => {
+        getDJId();
+    }, [])
+
+  // Parse URL for djId
+  function getDJId() {
+    const url = window.location.href;
+    var djId = url.substring(url.lastIndexOf("/") + 1)
+    setDjUrl(djId);
+  }
+
     return (
         <div className="confirmation-page">
             
@@ -26,7 +39,7 @@ function Confirmation() {
                 </Row>
                 <Row>
                     <Col>
-                        <h3 className="text-center mt-5 confirmation-text">Want to make another request?  Just click <a href="/request" className="confirmation-link">here!</a></h3>
+                        <h3 className="text-center mt-5 confirmation-text">Want to make another request?  Just click <a href={`/request/${djUrl}`}className="confirmation-link">here!</a></h3>
                     </Col>
                 </Row>
             
