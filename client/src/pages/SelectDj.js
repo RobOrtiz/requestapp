@@ -29,10 +29,8 @@ function SelectDj() {
 
         let findDjId = djList.filter(dj => dj.djName === djSelected)
         let djId = findDjId[0]._id;
-        console.log(djId)
 
-        //window.location.replace(`/request/${djId}`)
-        window.location.replace(`/request/testid`)
+        window.location.replace(`/request/${djId}`)
 
     }
 

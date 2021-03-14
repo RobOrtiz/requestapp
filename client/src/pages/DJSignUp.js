@@ -31,10 +31,6 @@ function DJSignUp() {
   // Set image to default 150px x 150px placeholder URL. 
   const [image, setImage] = useState("https://via.placeholder.com/150");
 
-  const [signUp, setSignUp] = useState({
-    signup: false,
-  });
-
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
