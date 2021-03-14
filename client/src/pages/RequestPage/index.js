@@ -60,6 +60,7 @@ function RequestPage() {
     }
   }, [general, playNow])
 
+  // Currently posting then paying
   function addToDatabase() {
     API.createRequest({
       tip: formObject.tip,
@@ -68,8 +69,9 @@ function RequestPage() {
       artist: formObject.artist,
       generalRequest: general,
       playNow: playNow,
-      _id: getDJId()
-    }).then(res => console.log(res))
+      // _id: getDJId()
+      _id: "604d0123b297b24e38677fae"
+    }).then(res => document.querySelector(".StripeCheckout").click())
       .catch(err => console.log(err))
   }
 
