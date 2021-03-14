@@ -100,6 +100,7 @@ function RequestPage() {
             <Col>
             <img src={EventPic} alt={"appleBadge"} className="eventPic"></img>
               {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
+            <p className="h6 ml-2">Doesn't look familiar?  Click <a href="/request">here</a> to find your DJ!</p>
             </Col>
             <Col>
               <InputText
