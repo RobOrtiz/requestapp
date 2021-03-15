@@ -13,7 +13,7 @@ function DJRequests() {
     const { user } = useAuth0();
 
     // Set state of djActivatedEvent --- this is the Dj's ObjectId
-    const [ activatedDjId, setActivatedDjId ] = useState("");
+    const [ activatedDjId, setActivatedDjId ] = useState("Hello");
 
     // Set state of requestList --- this holds the requestList for the event._id.
     const [ requestList, setRequestList ] = useState([]);
@@ -45,9 +45,21 @@ function DJRequests() {
 
     // This useEffect updates the updated requestList as changes are made (POST via customer or PUT via Dj).
     // Where is the fingers crosses emoji for Visual Studio Code. :)
-    // useEffect(() => {
-    //     loadRequests()
-    // }, [])
+    useEffect(() => {
+        showStatesWithConsoleLogs()
+    }, [])
+
+    function showStatesWithConsoleLogs () {
+        console.log("I'm in the showStatesWithConsoleLogs function!")
+        console.log("This will only show on initial load of Request page and when states change on the Request page.")
+        console.log("This is the setActivatedDjId: ")
+        console.log(activatedDjId)
+        console.log("Still inside the showStatesWithConsoleLogs. This is the setActivatedEventId: ")
+        console.log(activatedEventId)
+        console.log("Still inside the showStatesWithConsoleLogs. This is the setRequestList: ")
+        console.log(requestList)
+        console.log("I'm leaving the showStatesWithConsoleLogs. See you on the next state change!")
+    }
 
     // Get the Dj profile
     // Send their djId to loadActivatedEvent to get the activated event._id
@@ -55,7 +67,7 @@ function DJRequests() {
     function loadProfile(id) {
         API.getDj(id)
             .then(res => {
-                console.log("This is the Dj's ObjectId: ");
+                console.log("I'm in the loadProfile function. This is the Dj's ObjectId via res.data[0]._id:");
                 console.log(res.data[0]._id);
                 setActivatedDjId(res.data[0]._id)
                 loadActivatedEventRequests(res.data[0]._id)
@@ -73,10 +85,12 @@ function DJRequests() {
     function loadActivatedEventRequests(djId) {
         API.getActivatedEvent(djId)
             .then(res => {
-                console.log("This is the requestList array for activated event: ")
+                console.log("I'm inside the loadActivatedEventRequests function. This is the requestList array for activated event derived from res.data.events[0].requestList : ")
                 console.log(res.data.events[0].requestList)
-                console.log("This is the activated event._id for the activated event: ")
+                console.log("I'm still inside the loadActivatedEventRequests function. This is the activated event._id for the activated event derived from res.data.events[0]._id: ")
                 console.log(res.data.events[0]._id)
+                console.log("I'm still inside the loadActivatedEventRequests function. This is the Dj Object_id STATE. Why is it the initial state and not the Dj Object._id???")
+                console.log(activatedDjId)
                 
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
                 setActivatedEventId(res.data.events[0]._id);
@@ -129,13 +143,35 @@ function DJRequests() {
     // Possible api for getting song information from spotify
 
     function handleSaveToQueue (event) {
+
+        console.log("I'm in the handleSaveToQueue function!")
+        console.log("This is the setActivatedEventId: ")
+        console.log(activatedEventId)
+        console.log("I'm still in the handleSaveToQueue function! For shits and giggles! This is the setActivatedDjId: ")
+        console.log(activatedDjId)
+
         event.preventDefault();
         alert("Add me to the Queue!");
         console.log("This is the event")
         console.log(event)
 
-        // I need the event._id in here so will have to create state for it. 
+        API.createRequest({
+            fullName: "Kyle Young",
+            title: "Just Dance",
+            artist: "Lady Gaga",
+            generalRequest: true,
+            playNow: false,
+            tip: "20",
+            _id: activatedDjId
+        })
+            .then(res => {
+                console.log(res);
+                loadActivatedEventRequests(activatedDjId);
+            })
+            .catch(err => console.log(err))
     }
+
+        
 
     function handleDeclineRequest (event) {
         event.preventDefault();
@@ -185,6 +221,7 @@ function DJRequests() {
                                     button01onClick={handleSaveToQueue}
                                     btn2="DECLINE"
                                     button02onClick={handleDeclineRequest}
+                                    id = {songs._id}
                                 />
                             ))}
                     </Row>

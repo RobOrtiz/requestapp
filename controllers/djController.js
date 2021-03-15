@@ -49,6 +49,7 @@ module.exports = {
             generalRequest: req.body.generalRequest,
             playNow: req.body.playNow,
             tip: req.body.tip,
+            songStatus: req.body.songStatus,
           },
         },
       }
