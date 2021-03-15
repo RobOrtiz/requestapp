@@ -161,7 +161,7 @@ function DJRequests() {
                                 <SongReq
                                     key={songs._id}
                                     {...songs}
-                                    btn1="Played"
+                                    btn1="ACCEPT"
                                     button01onClick={handleSaveToQueue}
                                     btn2="DECLINE"
                                     button02onClick={handleDeclineRequest}
