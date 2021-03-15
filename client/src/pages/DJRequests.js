@@ -107,7 +107,7 @@ function DJRequests() {
         alert("Add me to the Queue!");
         console.log("This is the event")
         console.log(event.target)
-        const eventId = "604ed8f3d345674b906e3477";
+        // const songId = "604fc1504c10105a54ae2a78";
 
         API.updateRequest(activatedEventId)
             .then(res => {

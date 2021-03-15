@@ -65,11 +65,16 @@ module.exports = {
     console.log(req.params.id);
 
     db.Event.findByIdAndUpdate(req.params.id,
-      { startTime: "7:00pm" }
+      { startTime: "7:00pm" },
+      { new: true }
     )
-    .then((dbModel) => res.json(dbModel))
-    .catch((err) => console.log(err));
-  
+      .then(res => {
+        console.log("This is the res");
+        console.log(res);
+        (dbModel) => res.json(dbModel)
+      })
+      .catch((err) => console.log(err));
+
   },
 
   findEventById: function (req, res) {
