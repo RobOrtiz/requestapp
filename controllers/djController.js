@@ -43,6 +43,7 @@ module.exports = {
       {
         $push: {
           requestList: {
+            albumCover: req.body.albumCover,
             customerName: req.body.fullName,
             title: req.body.title,
             artist: req.body.artist,

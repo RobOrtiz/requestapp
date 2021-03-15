@@ -2,6 +2,7 @@ import React, { useState, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import API from "../../utils/API";
+import lastFMAPI from "../../utils/lastFMAPI";
 import Header from "../../components/Header";
 import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
@@ -23,6 +24,10 @@ function RequestPage() {
   // For djId
   const [ djId, setDjId ] = useState("")
 
+  // For AlbumCover
+  const [ albumCover, setAlbumCover ] = useState("");
+
+  // For Stripe
   const [product, setProduct] = useState({
     name: "",
     price: 0,
@@ -36,18 +41,12 @@ function RequestPage() {
   }
 
   function handleFormSubmit(event) {
-    
     event.preventDefault();
     setProduct({
       name: formObject.title + ", " + formObject.artist,
       price: formObject.tip
     });
-
-    if (document.getElementById("generalRequest").checked === true) {
-      setGeneral(true)
-    } else {
-      setPlayNow(true)
-    }
+    getAlbumCover(formObject.title, formObject.artist);
   }
 
   const firstUpdate = useRef(true);
@@ -75,6 +74,7 @@ function RequestPage() {
     }
 
     API.createRequest({
+      albumCover: albumCover,
       tip: formObject.tip,
       fullName: formObject.fullName,
       title: formObject.title,
@@ -101,6 +101,26 @@ function RequestPage() {
     var djId = url.substring(url.lastIndexOf("/") + 1)
     setDjId(djId);
     return djId
+  }
+
+  function getAlbumCover(title, artist) {
+    lastFMAPI.findAlbumCover(title, artist)
+    .then(res => {
+        let image = res.data.track.album.image[2]["#text"];
+        setAlbumCover(image);
+        if (document.getElementById("generalRequest").checked === true) {
+          setGeneral(true)
+          if (albumCover === "") {
+            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg")
+          }
+        } else {
+          setPlayNow(true)
+          if (albumCover === "") {
+            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg")
+          }
+        };
+    });
+
   }
 
   return (
