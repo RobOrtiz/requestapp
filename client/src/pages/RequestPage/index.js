@@ -73,6 +73,8 @@ function RequestPage() {
         break;
     }
 
+    console.log(albumCover);
+
     API.createRequest({
       albumCover: albumCover,
       tip: formObject.tip,
@@ -85,6 +87,7 @@ function RequestPage() {
       _id: getDJId()
     }).then(res => document.querySelector(".StripeCheckout").click())
       .catch(err => console.log(err))
+
   }
 
   async function handleToken(token, addresses) {
@@ -106,19 +109,20 @@ function RequestPage() {
   function getAlbumCover(title, artist) {
     lastFMAPI.findAlbumCover(title, artist)
     .then(res => {
-        console.log(res);
-        if (res.data.message != "Track not found" && res.data.album) {
-          let image = res.data.track.album.image[2]["#text"];
-          setAlbumCover(image);
-        };
         if (document.getElementById("generalRequest").checked === true) {
-          if (albumCover === "") {
-            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg")
+          if (res.data.message != "Track not found" && res.data.track.album) {
+            let image = res.data.track.album.image[2]["#text"];
+            setAlbumCover(image);
+          } else if (albumCover === "") {
+            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg")
           }
           setGeneral(true)
         } else {
-          if (albumCover === "") {
-            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg")
+          if (res.data.message != "Track not found" && res.data.track.album) {
+            let image = res.data.track.album.image[2]["#text"];
+            setAlbumCover(image);
+          } else if (albumCover === "") {
+            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg")
           }
           setPlayNow(true)
         };
