@@ -6,7 +6,7 @@ const stripeKey = process.env.STRIPE_SK;
 const stripe = require('stripe')(stripeKey);
 
 router.post("/checkout", async (req, res) => {
-    console.log("Request:", req.body);
+    //console.log("Request:", req.body);
   
     let error;
     let status;
@@ -41,10 +41,10 @@ router.post("/checkout", async (req, res) => {
           idempotencyKey
         }
       );
-      console.log("Charge: ", { charge });
+      //console.log("Charge: ", { charge });
       status = "success";
     } catch (error) {
-      console.error("Error:", error);
+      //console.error("Error:", error);
       status = "failure";
     }
   
