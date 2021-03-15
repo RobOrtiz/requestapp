@@ -109,7 +109,7 @@ function DJRequests() {
         console.log(event.target)
         const eventId = "604ed8f3d345674b906e3477";
 
-        API.updateRequest(eventId)
+        API.updateRequest(activatedEventId)
             .then(res => {
                 "WTF@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
                 console.log(res);
@@ -137,13 +137,12 @@ function DJRequests() {
                             .filter(request => request.songStatus === "queue")
                             .map(songs => (
                                 <SongReq
-                                    key={songs.customerName}
-                                    albumCover={songs.albumCover}
-                                    title={songs.title}
-                                    artist={songs.artist}
-                                    tip={songs.tip}
-                                    btn1="ACCEPT"
-                                    btn2="DECLINE"
+                                    key={songs._id}
+                                    {...songs}
+                                    btn1="PLAYED"
+                                    // button01onClick={handleSaveToQueue}
+                                    btn2="REMOVE"
+                                    // button02onClick={handleDeclineRequest}
                                 />
                             ))}
                     </Row>
@@ -160,13 +159,12 @@ function DJRequests() {
                             .filter(request => request.songStatus === "playNowQueue")
                             .map(songs => (
                                 <SongReq
-                                    key={songs.customerName}
+                                    key={songs._id}
                                     {...songs}
-                                    btn1="ACCEPT"
+                                    btn1="Played"
                                     button01onClick={handleSaveToQueue}
                                     btn2="DECLINE"
                                     button02onClick={handleDeclineRequest}
-                                    // id={songs._id}
                                 />
                             ))}
                     </Row>
@@ -183,10 +181,12 @@ function DJRequests() {
                             .filter(request => request.songStatus === "generalRequestQueue")
                             .map(songs => (
                                 <SongReq
-                                    key={songs.customerName}
+                                    key={songs._id}
                                     {...songs}
                                     btn1="ACCEPT"
+                                    button01onClick={handleSaveToQueue}
                                     btn2="DECLINE"
+                                    button02onClick={handleDeclineRequest}
                                 />
                             ))}
                     </Row>
