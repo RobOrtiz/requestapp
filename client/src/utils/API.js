@@ -20,6 +20,11 @@ export default {
   getActivatedEvent: function(id) {
     return axios.get("/api/djs/event/" + id)
   },
+
+  updateRequest: function(id) {
+    return axios.put("/api/djs/event/" + id)
+  },
+
   // getDj: function(data) {
   //   return axios.get("/api/djs", data)
   // },
