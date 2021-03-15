@@ -66,15 +66,10 @@ module.exports = {
 
     db.Event.findByIdAndUpdate(req.params.id,
       { startTime: "7:00pm" }
-    ),
-      function (err, res) {
-        if (err) {
-          console.log(err)
-        }
-        else {
-          console.log("Updated songStatus : ", res);
-        }
-      };
+    )
+    .then((dbModel) => res.json(dbModel))
+    .catch((err) => console.log(err));
+  
   },
 
   findEventById: function (req, res) {
