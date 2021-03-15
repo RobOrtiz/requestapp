@@ -15,11 +15,12 @@ router.route("/all")
 //   .get(djController.findByIdDj)
 
 router.route("/event/:id")
-  .get(djController.findEventById);
+  .get(djController.findEventById)
+  .put(djController.findSongById);
 
 router.route("/event")
   // .get(djController.findEvent)  
   .post(djController.createEvent)
-  .put(djController.createRequest);
+  .put(djController.createRequest)
 
 module.exports = router;

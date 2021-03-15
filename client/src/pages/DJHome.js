@@ -24,30 +24,7 @@ import API from "../utils/API";
 function DJHome() {
 
     // Setting our events' initial state
-    const [events, setEvents] = useState([
-        {
-            genre: "Hip Hop",
-            eventDate: "10/13/2021",
-            startTime: "6:00pm",
-            endTime: "9:00pm",
-            eventName: "Freddy's Big 4-0!",
-            eventType: "Birthday Party",
-            venueName: "Stacy's Pub",
-            venueAddress: "12334 Party Lane; San Diego, CA 92021",
-            eventImage: "https://res.cloudinary.com/noimgmt/image/upload/v1615428617/noireqapp/xyef8yduq4qmwogc6smw.png"
-        },
-        {
-            genre: "Country",
-            eventDate: "11/13/2021",
-            startTime: "6:00pm",
-            endTime: "9:00pm",
-            eventName: "Freddy's Big 4-0!",
-            eventType: "Birthday Party",
-            venueName: "Stacy's Pub",
-            venueAddress: "12334 Party Lane; San Diego, CA 92021",
-            eventImage: "https://res.cloudinary.com/noimgmt/image/upload/v1615428617/noireqapp/xyef8yduq4qmwogc6smw.png"
-        },
-    ]);
+    const [events, setEvents] = useState([]);
 
     // Load all events and store them with setEvents
     useEffect(() => {

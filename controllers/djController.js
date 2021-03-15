@@ -22,7 +22,7 @@ module.exports = {
   },
   findAll: function (req, res) {
     db.Dj.find(req.query)
-      .populate("events")
+      .populate({ path: 'events', options: { sort: { 'eventDate': 1 } } })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
@@ -36,28 +36,46 @@ module.exports = {
       })
       .then(res => insertRequest(res.events[0]._id))
       .catch((err) => console.log(err));
-    
+
     function insertRequest(eventId) {
-    db.Event.findOneAndUpdate(
-      { _id: eventId },
-      {
-        $push: {
-          requestList: {
-            albumCover: req.body.albumCover,
-            customerName: req.body.fullName,
-            title: req.body.title,
-            artist: req.body.artist,
-            generalRequest: req.body.generalRequest,
-            playNow: req.body.playNow,
-            tip: req.body.tip,
+      db.Event.findOneAndUpdate(
+        { _id: eventId },
+        {
+          $push: {
+            requestList: {
+              albumCover: req.body.albumCover,
+              customerName: req.body.fullName,
+              title: req.body.title,
+              artist: req.body.artist,
+              generalRequest: req.body.generalRequest,
+              playNow: req.body.playNow,
+              tip: req.body.tip,
+              songStatus: req.body.songStatus,
+            },
           },
-        },
-      }
-    )
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => console.log(err));
-  }
-},
+        }
+      )
+        .then((dbModel) => res.json(dbModel))
+        .catch((err) => console.log(err));
+    }
+  },
+
+  findSongById: function (req, res) {
+    console.log("This is req.params._id: ");
+    console.log(req.params.id);
+
+    db.Event.findByIdAndUpdate(req.params.id,
+      { startTime: "7:00pm" }
+    ),
+      function (err, res) {
+        if (err) {
+          console.log(err)
+        }
+        else {
+          console.log("Updated songStatus : ", res);
+        }
+      };
+  },
 
   findEventById: function (req, res) {
     db.Dj.findById(req.params.id)
@@ -68,6 +86,7 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+
   createEvent: function (req, res) {
     db.Event.create(req.body)
       .then(({ _id }) =>

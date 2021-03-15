@@ -60,6 +60,19 @@ function RequestPage() {
 
   // Currently posting then paying
   function addToDatabase() {
+
+    switch (general) {
+      case true:
+        var requestSongStatus = "generalRequestQueue";
+        break;
+      case false:
+        var requestSongStatus = "playNowQueue";
+        break;
+      default:
+        console.log("It didn't work. Fix it!")
+        break;
+    }
+
     API.createRequest({
       albumCover: albumCover,
       tip: formObject.tip,
@@ -68,6 +81,7 @@ function RequestPage() {
       artist: formObject.artist,
       generalRequest: general,
       playNow: playNow,
+      songStatus: requestSongStatus,
       _id: getDJId()
     }).then(res => document.querySelector(".StripeCheckout").click())
       .catch(err => console.log(err))
