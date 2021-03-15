@@ -171,7 +171,7 @@ function DJRequests() {
                 </ScrollContainer>
             </Container>
             {/* General Requests */}
-            <Container className="bottom-container">
+            <Container classes="bottom-container">
                 <Row>
                     <h1>GENERAL REQUESTS</h1>
                 </Row>

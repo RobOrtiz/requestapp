@@ -12,11 +12,13 @@ import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
 
 function RequestPage() {
+  // For form
   const [formObject, setFormObject] = useState({
     fullName: "",
     title: "",
     artist: ""
   });
+
   // For radio buttons
   const [ general, setGeneral ] = useState(false)
   const [ playNow, setPlayNow ] = useState(false)
@@ -34,31 +36,80 @@ function RequestPage() {
     description: "Song Request"
   });
 
+  // When page is opened for first time, will do nothing.  After, when general/playNow are changed, Stripe Checkout will be triggered (this is only changed when the user submits the form).
+  const firstUpdate = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      getDJId();
+      firstUpdate.current = false;
+    } else {
+      document.querySelector(".StripeCheckout").click();
+    }
+  }, [general, playNow])
+
+  // Parse URL for djId
+  function getDJId() {
+    const url = window.location.href;
+    var djId = url.substring(url.lastIndexOf("/") + 1)
+    setDjId(djId);
+    return djId
+  }
+
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
 
+  // When user clicks on "Pay Now"
   function handleFormSubmit(event) {
     event.preventDefault();
+    // Sets product for stripe
     setProduct({
       name: formObject.title + ", " + formObject.artist,
       price: formObject.tip
     });
+    // To album cover function
     getAlbumCover(formObject.title, formObject.artist);
   }
 
-  const firstUpdate = useRef(true);
-  useLayoutEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-    } else {
-      addToDatabase()
-    }
-  }, [general, playNow])
+  // Saves album cover, then changes general or playNow state
+  function getAlbumCover(title, artist) {
+    lastFMAPI.findAlbumCover(title, artist)
+    .then(res => {
+        if (document.getElementById("generalRequest").checked === true) {
+          if (res.data.message !== "Track not found" && res.data.track.album) {
+            let image = res.data.track.album.image[2]["#text"];
+            setAlbumCover(image);
+          } else if (albumCover === "") {
+            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg")
+          }
+          setGeneral(true)
+        } else {
+          if (res.data.message !== "Track not found" && res.data.track.album) {
+            let image = res.data.track.album.image[2]["#text"];
+            setAlbumCover(image);
+          } else if (albumCover === "") {
+            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg")
+          }
+          setPlayNow(true)
+        };
+    });
+  }
 
-  // Currently posting then paying
+  // Stripe checkout;  On success, goes to addToDatabase function
+  async function handleToken(token, addresses) {
+    const response = await Stripe.checkout(token, product);
+
+    const { status } = response.data
+    if (status === 'success') {
+      addToDatabase();
+    } else {
+      console.log("Payment not successful");
+    }
+  }
+
+  // Will post to database once payment is successful; then re-directs to the confirmation page
   function addToDatabase() {
 
     switch (general) {
@@ -66,14 +117,12 @@ function RequestPage() {
         var requestSongStatus = "generalRequestQueue";
         break;
       case false:
-        var requestSongStatus = "playNowQueue";
+        requestSongStatus = "playNowQueue";
         break;
       default:
         console.log("It didn't work. Fix it!")
         break;
     }
-
-    console.log(albumCover);
 
     API.createRequest({
       albumCover: albumCover,
@@ -84,50 +133,13 @@ function RequestPage() {
       generalRequest: general,
       playNow: playNow,
       songStatus: requestSongStatus,
-      _id: getDJId()
-    }).then(res => document.querySelector(".StripeCheckout").click())
+      _id: djId
+    })
+      .then(res => {
+        console.log(djId);
+        window.location.replace(`/request/confirmation/${djId}`);
+      })
       .catch(err => console.log(err))
-
-  }
-
-  async function handleToken(token, addresses) {
-    const response = await Stripe.checkout(token, product);
-    const { status } = response.data
-    if (status === 'success') {
-      window.location.replace(`/request/confirmation/${djId}`)
-    }
-  }
-
-  // Parse URL for djId
-  function getDJId() {
-    const url = window.location.href;
-    var djId = url.substring(url.lastIndexOf("/") + 1)
-    setDjId(djId);
-    return djId
-  }
-
-  function getAlbumCover(title, artist) {
-    lastFMAPI.findAlbumCover(title, artist)
-    .then(res => {
-        if (document.getElementById("generalRequest").checked === true) {
-          if (res.data.message != "Track not found" && res.data.track.album) {
-            let image = res.data.track.album.image[2]["#text"];
-            setAlbumCover(image);
-          } else if (albumCover === "") {
-            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg")
-          }
-          setGeneral(true)
-        } else {
-          if (res.data.message != "Track not found" && res.data.track.album) {
-            let image = res.data.track.album.image[2]["#text"];
-            setAlbumCover(image);
-          } else if (albumCover === "") {
-            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg")
-          }
-          setPlayNow(true)
-        };
-    });
-
   }
 
   return (
