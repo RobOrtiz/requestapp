@@ -17,7 +17,7 @@ function QRModal(props) {
                 <div className="modal-body" ref={componentRef}>
                     <div className="conatiner-fluid">
                         <Row classes="justify-content-center mt-5">
-                            <img src="https://i.ibb.co/bdJNc5g/Noi-Logo-200x200.png" alt="Noi-Logo-200x200" border="0" width="150" height="150" />
+                            <img src="https://i.ibb.co/kMDmZfY/Noi-Logo-200x200-black.png" alt="Noi-Logo-200x200" border="0" width="150" height="150" />
                         </Row>
                         <Row classes="justify-content-center">
                             <Col size="12">
