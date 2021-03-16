@@ -21,7 +21,7 @@ router.post("/checkout", async (req, res) => {
       }
     ],
     mode: 'payment',
-    cancel_url: "http://localhost:3000/request",
+    cancel_url: `http://localhost:3000/request/${req.body.product._id}`,
     success_url: `http://localhost:3000/request/confirmation/${req.body.product._id}?session_id={CHECKOUT_SESSION_ID}`,
     metadata: {
       "albumCover": req.body.product.albumCover,
