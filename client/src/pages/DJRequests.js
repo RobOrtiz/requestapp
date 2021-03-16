@@ -129,7 +129,7 @@ function DJRequests() {
             {/* Queue */}
             <Container classes="top-container">
                 <Row>
-                    <h1>QUEUE</h1>
+                    <h1>Queue</h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
@@ -151,7 +151,7 @@ function DJRequests() {
             {/* Play Now */}
             <Container classes="mt-5 mb-5">
                 <Row>
-                    <h1>PLAY NOW</h1>
+                    <h1>Play Now</h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap" >
@@ -173,7 +173,7 @@ function DJRequests() {
             {/* General Requests */}
             <Container classes="bottom-container">
                 <Row>
-                    <h1>GENERAL REQUESTS</h1>
+                    <h1>General Requests</h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">

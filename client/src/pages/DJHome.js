@@ -143,7 +143,7 @@ function DJHome() {
             <Header title="HOME" />
             {/* Will need to add if statement for if there are upcoming events */}
             <Container classes="top-container">
-                <h1>MY EVENTS</h1>
+                <h1>My Events</h1>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
                         {events.map(djEvent => (
