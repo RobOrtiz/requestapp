@@ -36,6 +36,8 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
     "qrcode.react": "^1.0.1",
+    "react-bootstrap": "^1.5.2",
+    "react-modal": "^3.12.1",
     "react-uuid": "^1.0.2",
     "stripe": "^8.138.0",
     "uuid": "^8.3.2"

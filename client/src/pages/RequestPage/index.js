@@ -1,4 +1,5 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
+import Modal from 'react-bootstrap/Modal';
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import lastFMAPI from "../../utils/lastFMAPI";
@@ -9,6 +10,7 @@ import StripeAPI from '../../utils/stripe';
 import { loadStripe } from '@stripe/stripe-js';
 import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
+import RequestModalWarning from "../../components/RequestModalWarning";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_PK);
 
@@ -17,7 +19,8 @@ function RequestPage() {
   const [formObject, setFormObject] = useState({
     fullName: "",
     title: "",
-    artist: ""
+    artist: "",
+    tip: ""
   });
 
   // For radio buttons
@@ -104,11 +107,44 @@ function RequestPage() {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
-
+ 
   // When user clicks on "Pay Now"
   function handleFormSubmit(event) {
     event.preventDefault();
 
+    // This checks if the request form has blank values
+    // for text fields and buttons
+    checkIfFormUnfilled(formObject, "radio")
+    function checkIfFormUnfilled(obj, buttonType) {
+      // Check buttons
+      var inputs = document.getElementsByTagName('input');
+      let buttons = [];
+      for (var i = 0; i < inputs.length; i++) {
+        if(inputs[i].type.toLowerCase() == buttonType) {
+          buttons.push(inputs[i].checked)
+        }
+      }
+      // if none are clicked, show modal
+      if (!buttons.includes(true)) {
+        document.getElementById("warning-radio-button-button").click();
+        return false;
+      }
+      
+      // Check form fields
+      for (var key in obj) {
+        // if one is blank, show modal
+          if (obj[key] === null || obj[key] === "") {
+            document.getElementById("warning-form-button").click();
+              return false;
+          }
+      }
+  }
+    // Sets product for stripe
+    setProduct({
+      name: formObject.title + ", " + formObject.artist,
+      price: formObject.tip
+    });
+    // To album cover function
     getAlbumCover(formObject.title, formObject.artist);
   }
 
@@ -152,9 +188,12 @@ function RequestPage() {
 
   return (
     <div className="request-page">
+      
       <Header title="welcome customer" />
       <Container classes="top-container">
         <h1 className="request-title">SEND A REQUEST</h1>
+        
+                        
         <form>
           <Row>
             <Col>
@@ -250,6 +289,14 @@ function RequestPage() {
           <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>
         </div>
       </Container>
+      <button id={"warning-form-button"} style={{display: "none"}} type="button" className="btn btn-dark mt-3" data-toggle="modal" data-target={`#modal-warning-form`}>
+        Details
+      </button>
+      <button id={"warning-radio-button-button"} style={{display: "none"}} type="button" className="btn btn-dark mt-3" data-toggle="modal" data-target={`#modal-warning-radio-button`}>
+        Details
+      </button>
+      <RequestModalWarning id={"modal-warning-form"} name={"Form error"} message={"Please fill out the entire form."}/>
+      <RequestModalWarning id={"modal-warning-radio-button"} name={"Request type error"} message={"Please select your request type: 'General' or 'Play Now'"}/>
     </div>
   );
 }

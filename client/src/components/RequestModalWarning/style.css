@@ -1,0 +1,11 @@
+  .modal {
+    margin-top: 10rem;
+  }
+
+  .modal-content {
+    background-color: rgb(77, 77, 77) !important;
+  }
+
+  .modal-text {
+    color:rgb(179, 150, 14) !important;
+  }
