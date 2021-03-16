@@ -10,6 +10,7 @@ import Landing from "./pages/Landing";
 import SelectDj from "./pages/SelectDj";
 import RequestPage from "./pages/RequestPage";
 import ConfirmationPage from "./pages/ConfirmationPage";
+import SuccessPage from "./pages/Success";
 import { Auth0Provider } from "@auth0/auth0-react";
 import ProtectedRoute from "../src/auth/protected-route";
 
@@ -45,6 +46,10 @@ function App() {
             <Route exact path="/request/confirmation/:djid">
               {/* Confirmation page for customer */}
               <ConfirmationPage />
+            </Route>
+            <Route exact path="/request/success/:djid">
+              {/* Confirmation page for customer */}
+              <SuccessPage />
             </Route>
             
             {/* DJ-specific Routes */}
