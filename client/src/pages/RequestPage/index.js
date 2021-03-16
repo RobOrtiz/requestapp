@@ -1,15 +1,16 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
-import API from "../../utils/API";
 import lastFMAPI from "../../utils/lastFMAPI";
 import Header from "../../components/Header";
 import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
-import StripeCheckout from 'react-stripe-checkout';
-import Stripe from '../../utils/stripe';
+import StripeAPI from '../../utils/stripe';
+import { loadStripe } from '@stripe/stripe-js';
 import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_PK);
 
 function RequestPage() {
   // For form
@@ -33,19 +34,62 @@ function RequestPage() {
   const [product, setProduct] = useState({
     name: "",
     price: 0,
-    description: "Song Request"
+    description: "Song Request",
+    albumCover: "",
+    tip: 0,
+    fullName: "",
+    title: "",
+    artist: "",
+    generalRequest: false,
+    playNow: false,
+    songStatus: "",
+    _id: ""
   });
 
   // When page is opened for first time, will do nothing.  After, when general/playNow are changed, Stripe Checkout will be triggered (this is only changed when the user submits the form).
-  const firstUpdate = useRef(true);
+  const firstUpdate1 = useRef(true);
   useLayoutEffect(() => {
-    if (firstUpdate.current) {
+    if (firstUpdate1.current) {
       getDJId();
-      firstUpdate.current = false;
+      firstUpdate1.current = false;
     } else {
-      document.querySelector(".StripeCheckout").click();
+      switch (general) {
+        case true:
+          var requestSongStatus = "generalRequestQueue";
+          break;
+        case false:
+          requestSongStatus = "playNowQueue";
+          break;
+        default:
+          console.log("It didn't work. Fix it!")
+          break;
+      }
+
+      setProduct({
+        name: formObject.title + ", " + formObject.artist,
+        price: formObject.tip * 100,
+        albumCover: albumCover,
+        tip: formObject.tip,
+        fullName: formObject.fullName,
+        title: formObject.title,
+        artist: formObject.artist,
+        generalRequest: general,
+        playNow: playNow,
+        songStatus: requestSongStatus,
+        _id: djId
+      })
+
     }
   }, [general, playNow])
+
+  const firstUpdate2 = useRef(true)
+  useLayoutEffect(() => {
+    if (firstUpdate2.current) {
+      firstUpdate2.current = false;
+    } else {
+      handleStripe();
+    }
+  }, [product])
 
   // Parse URL for djId
   function getDJId() {
@@ -64,12 +108,7 @@ function RequestPage() {
   // When user clicks on "Pay Now"
   function handleFormSubmit(event) {
     event.preventDefault();
-    // Sets product for stripe
-    setProduct({
-      name: formObject.title + ", " + formObject.artist,
-      price: formObject.tip
-    });
-    // To album cover function
+
     getAlbumCover(formObject.title, formObject.artist);
   }
 
@@ -97,49 +136,18 @@ function RequestPage() {
     });
   }
 
-  // Stripe checkout;  On success, goes to addToDatabase function
-  async function handleToken(token, addresses) {
-    const response = await Stripe.checkout(token, product);
+  const handleStripe = async () => {
+    const stripe = await stripePromise;
 
-    const { status } = response.data
-    if (status === 'success') {
-      addToDatabase();
-    } else {
-      console.log("Payment not successful");
-    }
-  }
+    const response = await StripeAPI.checkout(product);
 
-  // Will post to database once payment is successful; then re-directs to the confirmation page
-  function addToDatabase() {
+    const result = await stripe.redirectToCheckout({
+      sessionId: response.data.id
+    });
 
-    switch (general) {
-      case true:
-        var requestSongStatus = "generalRequestQueue";
-        break;
-      case false:
-        requestSongStatus = "playNowQueue";
-        break;
-      default:
-        console.log("It didn't work. Fix it!")
-        break;
-    }
-
-    API.createRequest({
-      albumCover: albumCover,
-      tip: formObject.tip,
-      fullName: formObject.fullName,
-      title: formObject.title,
-      artist: formObject.artist,
-      generalRequest: general,
-      playNow: playNow,
-      songStatus: requestSongStatus,
-      _id: djId
-    })
-      .then(res => {
-        console.log(djId);
-        window.location.replace(`/request/confirmation/${djId}`);
-      })
-      .catch(err => console.log(err))
+    if (result.error) {
+      console.err(result.error.message)
+    } 
   }
 
   return (
@@ -236,14 +244,6 @@ function RequestPage() {
             </FormBtn>
         </form>
         <div className="hidden">
-          <StripeCheckout 
-              stripeKey="pk_test_51IUJhcHM5nnUsQBqrf1yVa2R6C7BhNjV6uLVJVkJUmZyYDkaOv5RAAq7N7JwmZr9cmwpwBbRF0achPVIO8lybn8p002lQBMQ2L"
-              token={handleToken}
-              billingAddress
-              shippingAddress
-              amount={product.price * 100}
-              name={product.name}
-          />
         </div>
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>

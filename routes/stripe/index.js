@@ -6,50 +6,46 @@ const stripeKey = process.env.STRIPE_SK;
 const stripe = require('stripe')(stripeKey);
 
 router.post("/checkout", async (req, res) => {
-    //console.log("Request:", req.body);
-  
-    let error;
-    let status;
-    try {
-      const { product, token } = req.body;
-  
-      const customer = await stripe.customers.create({
-        email: token.email,
-        source: token.id
-      });
-  
-      const idempotencyKey = uuidv4();
-      const charge = await stripe.charges.create(
-        {
-          amount: product.price * 100,
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price_data: {
           currency: 'usd',
-          customer: customer.id,
-          receipt_email: token.email,
-          description: `Purchased the song: ${product.name}`,
-          shipping: {
-            name: token.card.name,
-            address: {
-              line1: token.card.address_line1,
-              line2: token.card.address_line2,
-              city: token.card.address_city,
-              country: token.card.address_country,
-              postal_code: token.card.address_zip
-            }
-          }
+          product_data: {
+            name: req.body.product.name
+          },
+          unit_amount: req.body.product.price
         },
-        {
-          idempotencyKey
-        }
-      );
-      //console.log("Charge: ", { charge });
-      status = "success";
-    } catch (error) {
-      //console.error("Error:", error);
-      status = "failure";
+        quantity: 1
+      }
+    ],
+    mode: 'payment',
+    cancel_url: "http://localhost:3000/request",
+    success_url: `http://localhost:3000/request/confirmation/${req.body.product._id}?session_id={CHECKOUT_SESSION_ID}`,
+    metadata: {
+      "albumCover": req.body.product.albumCover,
+      "tip": req.body.product.tip,
+      "fullName": req.body.product.fullName,
+      "title": req.body.product.title,
+      "artist": req.body.product.artist,
+      "generalRequest": req.body.product.generalRequest,
+      "playNow": req.body.product.playNow,
+      "songStatus": req.body.product.songStatus,
+      "_id": req.body.product._id
     }
+  });
+
+  return res.json({ id: session.id })
   
-    res.json({ error, status});
-  
+});
+
+router.post("/success", async (req, res) => {
+
+  const session = await stripe.checkout.sessions.retrieve(req.body.sessionId);
+
+  res.json(session.metadata);
+
 });
 
 

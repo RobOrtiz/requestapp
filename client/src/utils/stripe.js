@@ -1,10 +1,14 @@
 import axios from "axios";
 
 export default {
-    checkout: function(token, product) {
+    checkout: function(product) {
         return axios.post("/stripe/checkout", {
-            token,
             product
+        })
+    },
+    successData: function(sessionId) {
+        return axios.post("/stripe/success", {
+            sessionId
         })
     }
     // createAccount: function() {
