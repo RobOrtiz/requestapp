@@ -1,3 +1,7 @@
+.profile-image {
+    max-height: 200px;
+}
+
 .modal {
     margin: 0;
     padding-left: 0;
@@ -27,6 +31,16 @@
     font-size: 2.5rem !important;
 }
 
+.qr-modal-link {
+    display: inline-block;
+    word-break: break-word;
+    font-size: 1.5rem;
+}
+
+.qr-modal-link a {
+    color: black;
+}
+
 .qr-code {
-    min-height: 40vh;
+    min-height: 25vh;
 }

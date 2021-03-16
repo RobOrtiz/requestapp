@@ -1,13 +1,16 @@
 import React from 'react';
 import { Row, Col } from '../Grid';
 import QRModal from "../QRModal";
+
 import './styles.css'
 
 function UserProfile(props) {
+    let defaultImage = require(`../../images/default-profile-cover.jpg`)
+
     return(
         <Row>
             <Col size="12" classes="mt-3">
-                <img src={props.profileImage} alt={props.djName} />
+                <img className="profile-image" src={props.profileImage !== "https://via.placeholder.com/150" ? `${props.profileImage}` : `${defaultImage}`} alt={props.djName} />
                 <Row classes="mt-5 user-headers">
                     <Col size="12">
                         <Row classes="mt-4">
@@ -68,8 +71,5 @@ function UserProfile(props) {
     )
 }
 
-{/* <p>Here is your QR code <a href={"http://localhost:3000/request/" + userId}>link</a></p>
-
- */}
 
 export default UserProfile;
