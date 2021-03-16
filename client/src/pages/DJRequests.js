@@ -9,6 +9,7 @@ import checkIfProfileExists from "../utils/checkProfileCreated";
 import ScrollContainer from 'react-indiana-drag-scroll';
 import API from "../utils/API";
 
+
 function DJRequests() {
     const { user } = useAuth0();
 
@@ -32,7 +33,11 @@ function DJRequests() {
     useEffect(() => {
         checkIfProfileExists(user.sub);
         // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
-        loadProfile(user.sub)
+        loadProfile(user.sub);
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+        console.log(activatedDjId);
+
     }, [user.sub])
 
     // This useEffect is just to show console.logs of states as states change throughout the process. 
@@ -56,12 +61,15 @@ function DJRequests() {
     // Get the Dj profile
     // Send their djId to loadActivatedEvent to get the activated event._id
     // Technically this only has to be done on load, as the event._id is attached to the Dj already/
-    function loadProfile(id) {
+    // function loadProfile(id) {
+    const loadProfile =  id => {
         API.getDj(id)
             .then(res => {
                 console.log("I'm in the loadProfile function. This is the Dj's ObjectId via res.data[0]._id:");
                 console.log(res.data[0]._id);
                 setActivatedDjId(res.data[0]._id)
+                console.log("******************************************************");
+                console.log(activatedDjId);
                 loadActivatedEventRequests(res.data[0]._id)
             })
             .catch(err => console.log(err))
@@ -107,9 +115,12 @@ function DJRequests() {
         alert("Add me to the Queue!");
         console.log("This is the event")
         console.log(event.target)
-        // const songId = "604fc1504c10105a54ae2a78";
-
-        API.updateRequest(activatedEventId)
+        const data = {
+            "eventId" : activatedEventId,
+            "songId":"604fc1504c10105a54ae2a78",
+            "newSongStatus":"queue"};
+        const songId = "604fc1504c10105a54ae2a78";
+        API.updateRequest(songId)
             .then(res => {
                 "WTF@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
                 console.log(res);
