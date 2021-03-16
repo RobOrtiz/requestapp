@@ -1,8 +1,8 @@
 body {
-  background-color: rgb(77, 77, 77); /* For browsers that do not support gradients */
-  background-image: linear-gradient(rgb(52, 52, 52), black);
+  background-color: rgb(0, 0, 0); /* For browsers that do not support gradients */
+  background-image: linear-gradient(rgb(34, 34, 34), black);
   background-size: cover;
-  margin: 0;
+  margin: 1rem;
   padding: 0;
   font-family: sans-serif;
 }
@@ -18,7 +18,9 @@ input {
 }
 
 h1 {
-  color: rgb(179, 150, 14);
+  color: rgb(255, 255, 255);
+  margin-left: 1rem;
+  font-family: 'Saira Condensed', sans-serif;
 }
 
 h2, h4, h5, p {
