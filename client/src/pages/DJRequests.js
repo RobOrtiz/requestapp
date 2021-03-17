@@ -82,6 +82,12 @@ function DJRequests() {
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
 
+                // Reset songId back to empty after each load to cause state change for when a user clicks the same song req twice in a row.
+                // As in they click ACCCEPT to add to queue and then they click PLAYED right after.
+                // Because the songId doesn't change - it doesn't "react"/"refresh" to remove the PLAYED song off of the request page.
+                // This fixes that!
+                setSongId("");
+
             })
             // .then(() => { loadRequests() })
             .catch(err => console.log(err));
