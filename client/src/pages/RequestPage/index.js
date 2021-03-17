@@ -196,6 +196,7 @@ function RequestPage() {
       if (document.getElementById("generalRequest").checked === true) {
         if (res.data.message !== "Track not found" && res.data.track.album) {
           let image = res.data.track.album.image[2]["#text"];
+          if (image === "") { image =  "https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg"}
           setAlbumCover(image);
         } else if (albumCover === "") {
           setAlbumCover(
@@ -206,6 +207,7 @@ function RequestPage() {
       } else {
         if (res.data.message !== "Track not found" && res.data.track.album) {
           let image = res.data.track.album.image[2]["#text"];
+          if (image === "") { image =  "https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg"}
           setAlbumCover(image);
         } else if (albumCover === "") {
           setAlbumCover(
