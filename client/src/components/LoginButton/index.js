@@ -6,7 +6,7 @@ function LoginButton() {
 
   return (
     !isAuthenticated && (
-    <button className="btn btn-dark btn-outline-warning" onClick={() => loginWithRedirect()}>
+    <button className="btn btn-dark gold-animated-btn" onClick={() => loginWithRedirect()}>
       Login
     </button>
     )
