@@ -11,6 +11,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import EventPic from '../../images/st pattys day.jpg'
 import './styles.css'
 import RequestModalWarning from "../../components/RequestModalWarning";
+import API from "../../utils/API";
+
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_PK);
 
@@ -72,7 +74,7 @@ function RequestPage() {
         name: formObject.title + ", " + formObject.artist,
         price: formObject.tip * 100,
         albumCover: albumCover,
-        tip: formObject.tip,
+        tip: parseInt(formObject.tip),
         fullName: formObject.fullName,
         title: formObject.title,
         artist: formObject.artist,
@@ -89,6 +91,20 @@ function RequestPage() {
   useLayoutEffect(() => {
     if (firstUpdate2.current) {
       firstUpdate2.current = false;
+    } else if (product.tip === 0) {
+        API.createRequest({
+          albumCover: product.albumCover,
+          tip: product.tip,
+          fullName: product.fullName,
+          title: product.title,
+          artist: product.artist,
+          generalRequest: product.generalRequest,
+          playNow: product.playNow,
+          songStatus: product.songStatus,
+          _id: product._id
+        })
+        .then(res => window.location.replace(`/request/success/${product._id}`))
+        .catch(err => console.log(err))
     } else {
       handleStripe();
     }
@@ -139,11 +155,6 @@ function RequestPage() {
           }
       }
   }
-    // Sets product for stripe
-    setProduct({
-      name: formObject.title + ", " + formObject.artist,
-      price: formObject.tip
-    });
     // To album cover function
     getAlbumCover(formObject.title, formObject.artist);
   }
@@ -233,7 +244,7 @@ function RequestPage() {
           </Row>
           <br />
           <Row>
-            <Col size="md-3 sm-12">
+            <Col size="md-4 sm-12">
             <InputCheckbox
               onChange={handleInputChange}
               type="radio"
@@ -245,12 +256,12 @@ function RequestPage() {
               tooltipTitle="A request will be sent to the DJ.  The DJ will review these after the Play Now requests."
               />
             </Col>
-            <Col size="md-9 sm-12">
+            <Col size="md-8 sm-12">
               <p className="ml-3">Minimum tip: $2</p>
             </Col>
           </Row>
           <Row>
-            <Col size="md-3 sm-12">
+            <Col size="md-4 sm-12">
             <InputCheckbox
               onChange={handleInputChange}
               type="radio"
@@ -262,7 +273,7 @@ function RequestPage() {
               tooltipTitle="The DJ will see these requests immediately."
               />
             </Col>
-            <Col size="md-9 sm-12">
+            <Col size="md-8 sm-12">
               <p className="ml-3">Minimum tip: $100</p>
             </Col>
           </Row>
