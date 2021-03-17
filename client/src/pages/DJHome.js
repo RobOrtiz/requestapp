@@ -44,7 +44,8 @@ function DJHome() {
                 if (events[i].eventStatus === "activated"){
                     setEventIsActive(true);
                     document.getElementById(`activate-${events[i]._id.slice(0,6)}`).checked = true;
-                    document.getElementById(`end-${events[i]._id.slice(0,6)}`).classList.remove("end-hidden")
+                    document.getElementById(`end-${events[i]._id.slice(0,6)}`).classList.remove("end-hidden");
+                    document.getElementById(`details-${events[i]._id.slice(0,6)}`).classList.add("details-hidden");
                 }
             }
             setRunOnce(2);
@@ -115,13 +116,17 @@ function DJHome() {
         } else {
 
             let endId = `end-${event.target.id.slice(9,16)}`;
+            let detailsId = `details-${event.target.id.slice(9,16)}`;
+
             if(document.getElementById(event.target.id).checked) {
                 document.getElementById(endId).classList.remove("end-hidden");
+                document.getElementById(detailsId).classList.add("details-hidden");
                 setEventIsActive(true);
                 // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
                 loadEvents()
             } else {
                 document.getElementById(endId).classList.add("end-hidden");
+                document.getElementById(detailsId).classList.remove("details-hidden");
                 setEventIsActive(false);
                 // API TO UPDATE EVENT TO SET EVENT AS DEACTIVATED
                 loadEvents()

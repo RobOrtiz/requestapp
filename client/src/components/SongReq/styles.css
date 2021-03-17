@@ -16,3 +16,8 @@
 .card {
     margin: 5px;
 }
+
+.song-card {
+    min-width: 253px;
+    max-width: 253px;
+}
