@@ -36,6 +36,10 @@
   .modal-text {
     color:rgb(179, 150, 14) !important;
   }
+
+  .end-hidden {
+    display: none !important;
+  }
   
   @media (max-width: 600px){
 
