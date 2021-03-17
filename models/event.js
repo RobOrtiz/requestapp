@@ -7,6 +7,10 @@ const eventSchema = new Schema({
         type: String
     },
 
+    subIdForEventStatusChange: {
+        type: String
+    },
+
     eventStatus: {
         type: String,
         enum: ['activated', 'deactivated', 'end'],

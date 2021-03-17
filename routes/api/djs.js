@@ -5,7 +5,8 @@ const djController = require("../../controllers/djController.js");
 router.route("/")
   .post(djController.createDj)
   .get(djController.findAll)
-  .get(djController.findByIdDj);
+  // We are not using this route - we use the findAll one to find all events for the Dj
+  // .get(djController.findByIdDj);
 
 router.route("/all")
   .get(djController.findAll)
@@ -21,6 +22,9 @@ router.route("/event")
   // .get(djController.findEvent)  
   .post(djController.createEvent)
   .put(djController.createRequest)
+
+router.route("/eventstatus")
+  .put(djController.updateEventStatus)
 
 router.route("/requests")
   .put(djController.findSongById);
