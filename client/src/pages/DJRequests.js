@@ -27,6 +27,8 @@ function DJRequests() {
     // This will be sent to the PUT API call to update requestList.
     const [songId, setSongId] = useState("");
 
+
+
     // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
     // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
     // Otherwise find their ObjectId for their Dj account and stay on the Dj dashboard page.
@@ -79,28 +81,24 @@ function DJRequests() {
                 setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
-            
-                // Resetting the songId here to fix issue of request page not resetting when you click same song twice.
-                // As in, click it to go to queue, and then click played right afterwards. 
-                // SongId's state doesn't change upon clicking play.
-                setSongId("");
-
 
             })
             // .then(() => { loadRequests() })
             .catch(err => console.log(err));
     }
 
+
+
     // This function is executed when the user clicks on the ACCEPT button on the song request on the request page.
     // Thus moving it to the queue.
-    function handleQueueMovement(event) {
+    async function handleQueueMovement(event) {
 
         event.preventDefault();
 
-        // setSongId to the ObjectId of the requested song that was clicked on - to move it to the queue.
-        // By setting it here, it will refresh the request page based on the state changing - using the
-        // firstUpdate1 function above with the useRef and useLayoutEffect hooks.
-        setSongId(event.target.id);
+          // setSongId to the ObjectId of the requested song that was clicked on - to move it to the queue.
+            // By setting it here, it will refresh the request page based on the state changing - using the
+            // firstUpdate1 function above with the useRef and useLayoutEffect hooks.
+            setSongId(event.target.id);
 
         // Declare requestButtonType to the textContent of the ACCEPT button on the song req component. 
         const requestButtonType = event.target.textContent;
@@ -133,18 +131,24 @@ function DJRequests() {
             "newSongStatus": requestSongStatusChangeTo
         };
 
+        console.log("*****obj", songData);
+
+        console.log("*****", songId);
+
         // PUT API route to update songStatus based on the songData
-        API.updateRequest(songData)
+       await API.updateRequest(songData)
             .then(res => {
-                console.log(res);
+                console.log("catfood:",res);
             })
             .catch(err => console.log(err))
+            
+  
     }
 
-    // function handleDeclineRequest(event) {
-    //     event.preventDefault();
-    //     alert("Remove me from the queue!");
-    // }
+    function handleDeclineRequest(event) {
+        event.preventDefault();
+        alert("Remove me from the queue!");
+    }
 
     return (
         <div>

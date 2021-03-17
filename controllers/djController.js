@@ -76,12 +76,7 @@ module.exports = {
         }
       }
       )
-      .then(res => {
-
-        console.log("This is the res");
-        console.log(res);
-        (dbModel) => res.json(dbModel)
-      })
+      .then((dbModel) => res.json(dbModel))
       .catch((err) => console.log(err));
 
   },
