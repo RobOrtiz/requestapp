@@ -22,7 +22,7 @@ export function InputCheckbox(props) {
     return (
         <div className="form-check">
             <input type={props.type} name={props.name} value={props.value} id={props.id} className={props.className}/>
-            <label forhtml={props.id} className="form-check-label" data-toggle="tooltip" title={props.tooltipTitle}>{props.label} <i className="fas fa-info-circle"></i></label>
+            <label forhtml={props.id} className="form-check-label text-left" data-toggle="tooltip" title={props.tooltipTitle}>{props.label} <i className="fas fa-info-circle"></i></label>
         </div>
     )
 }
