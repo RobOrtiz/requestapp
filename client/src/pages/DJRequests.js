@@ -27,8 +27,6 @@ function DJRequests() {
     // This will be sent to the PUT API call to update requestList.
     const [songId, setSongId] = useState("");
 
-
-
     // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
     // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
     // Otherwise find their ObjectId for their Dj account and stay on the Dj dashboard page.
@@ -36,19 +34,10 @@ function DJRequests() {
         checkIfProfileExists(user.sub);
         // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
         loadProfile(user.sub);
-
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        console.log(activatedDjId);
-
     }, [user.sub])
 
-    // This useEffect is just to show console.logs of states as states change throughout the process. 
-    // It calls the showStatesWithConsoleLogs function below on initial page load and everytime a state changes.
-
-    // useEffect(() => {
-    //     loadActivatedEventRequests()
-    // }, [songId])
-
+    // Function firstUpdate1 is to prevent the loadActivatedEventRequests() function from running twice on initial load.
+    // It is designed to run after initial load whenever the songId changes - based on the buttons the used clicks on song req component.
     const firstUpdate1 = useRef(true);
     useLayoutEffect(() => {
         if (firstUpdate1.current) {
@@ -57,18 +46,6 @@ function DJRequests() {
             loadActivatedEventRequests(activatedDjId)
         }
     }, [songId])
-
-    // function showStatesWithConsoleLogs() {
-    //     console.log("I'm in the showStatesWithConsoleLogs function!")
-    //     console.log("This will only show on initial load of Request page and when states change on the Request page.")
-    //     console.log("This is the setActivatedDjId: ")
-    //     console.log(activatedDjId)
-    //     console.log("Still inside the showStatesWithConsoleLogs. This is the setActivatedEventId: ")
-    //     console.log(activatedEventId)
-    //     console.log("Still inside the showStatesWithConsoleLogs. This is the setRequestList: ")
-    //     console.log(requestList)
-    //     console.log("I'm leaving the showStatesWithConsoleLogs. See you on the next state change!")
-    // }
 
     // Get the Dj profile
     // Send their djId to loadActivatedEvent to get the activated event._id
@@ -97,34 +74,39 @@ function DJRequests() {
     function loadActivatedEventRequests(djId) {
         API.getActivatedEvent(djId)
             .then(res => {
-                console.log("I'm inside the loadActivatedEventRequests function. This is the requestList array for activated event derived from res.data.events[0].requestList : ")
-                console.log(res.data.events[0].requestList)
-                console.log("I'm still inside the loadActivatedEventRequests function. This is the activated event._id for the activated event derived from res.data.events[0]._id: ")
-                console.log(res.data.events[0]._id)
-                console.log("I'm still inside the loadActivatedEventRequests function. This is the Dj Object_id STATE. Why is it the initial state and not the Dj Object._id???")
-                console.log(activatedDjId)
 
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
                 setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
+            
+                // Resetting the songId here to fix issue of request page not resetting when you click same song twice.
+                // As in, click it to go to queue, and then click played right afterwards. 
+                // SongId's state doesn't change upon clicking play.
+                setSongId("");
+
 
             })
             // .then(() => { loadRequests() })
             .catch(err => console.log(err));
     }
 
-    // This function is executed when the user click on the accept button on the song request on the request page.
-    function handleSaveToQueue(event) {
+    // This function is executed when the user clicks on the ACCEPT button on the song request on the request page.
+    // Thus moving it to the queue.
+    function handleQueueMovement(event) {
+
         event.preventDefault();
+
+        // setSongId to the ObjectId of the requested song that was clicked on - to move it to the queue.
+        // By setting it here, it will refresh the request page based on the state changing - using the
+        // firstUpdate1 function above with the useRef and useLayoutEffect hooks.
         setSongId(event.target.id);
 
-
-        // alert("Add me to the Queue!");
-        // console.log("This is the event")
-        console.log(event.target.textContent)
+        // Declare requestButtonType to the textContent of the ACCEPT button on the song req component. 
         const requestButtonType = event.target.textContent;
 
+        // Determine which button on the song req component was clicked so we can update the songStatus accordingly.
+        // This switch select the new songStatus based on the button clicked. 
         switch (requestButtonType) {
             case "ACCEPT":
                 var requestSongStatusChangeTo = "queue";
@@ -143,31 +125,26 @@ function DJRequests() {
                 break;
         }
 
+        // Delcare the songData to pass to the PUT API route. 
+        // songId is the ObjectId of the requested song that was clicked - to move to the queue.
+        // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type. 
         const songData = {
-            "songId":event.target.id,
+            "songId": event.target.id,
             "newSongStatus": requestSongStatusChangeTo
         };
 
-        console.log("This is the songId before passing it to API.updateRequest")
-        console.log(songData.songId);
-        console.log("This is the newSongStatus before passing it to API.updateRequest")
-        console.log(songData.newSongStatus);
-
-
-        const songId = "60510eae71340e09e8a15b69";
+        // PUT API route to update songStatus based on the songData
         API.updateRequest(songData)
             .then(res => {
-                "WTF@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
                 console.log(res);
-                // loadActivatedEventRequests(activatedDjId);
             })
             .catch(err => console.log(err))
     }
 
-    function handleDeclineRequest(event) {
-        event.preventDefault();
-        alert("Remove me from the queue!");
-    }
+    // function handleDeclineRequest(event) {
+    //     event.preventDefault();
+    //     alert("Remove me from the queue!");
+    // }
 
     return (
         <div>
@@ -186,9 +163,9 @@ function DJRequests() {
                                     key={songs._id}
                                     {...songs}
                                     btn1="PLAYED"
-                                    // button01onClick={handleSaveToQueue}
-                                    btn2="REMOVE"
-                                // button02onClick={handleDeclineRequest}
+                                    button01onClick={handleQueueMovement}
+                                    btn2="REMOVED"
+                                    button02onClick={handleQueueMovement}
                                 />
                             ))}
                     </Row>
@@ -208,9 +185,9 @@ function DJRequests() {
                                     key={songs._id}
                                     {...songs}
                                     btn1="ACCEPT"
-                                    button01onClick={handleSaveToQueue}
+                                    button01onClick={handleQueueMovement}
                                     btn2="DECLINE"
-                                    button02onClick={handleDeclineRequest}
+                                    button02onClick={handleQueueMovement}
                                 />
                             ))}
                     </Row>
@@ -230,9 +207,9 @@ function DJRequests() {
                                     key={songs._id}
                                     {...songs}
                                     btn1="ACCEPT"
-                                    button01onClick={handleSaveToQueue}
+                                    button01onClick={handleQueueMovement}
                                     btn2="DECLINE"
-                                    button02onClick={handleDeclineRequest}
+                                    button02onClick={handleQueueMovement}
                                 />
                             ))}
                     </Row>

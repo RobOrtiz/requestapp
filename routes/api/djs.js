@@ -16,7 +16,6 @@ router.route("/all")
 
 router.route("/event/:id")
   .get(djController.findEventById)
-  // .put(djController.findSongById);
 
 router.route("/event")
   // .get(djController.findEvent)  
