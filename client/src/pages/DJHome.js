@@ -167,10 +167,13 @@ function DJHome() {
             eventType: formObject.eventType,
             venueName: formObject.venueName,
             venueAddress: formObject.eventLocation,
+            generalRequestTipMin: formObject.generalRequestTipMin,
+            playNowTipMin: formObject.playNowTipMin,
             eventImage: image,
             djId: userId
         })
             .then((res) => window.location.replace("/dj/dashboard"))
+            // .then((res) => console.log(res))
             .catch(err => console.log(err));
     }
 
@@ -276,6 +279,24 @@ function DJHome() {
                                 name="eventTimeEnd"
                                 placeholder="9:00pm"
                                 label="What time does the event end?"
+                                className="form-control"
+                            />
+                            <InputText
+                                onChange={handleInputChange}
+                                type="number"
+                                id="generalRequestTipMin"
+                                name="generalRequestTipMin"
+                                placeholder="example: 0, 2"
+                                label="Enter minimum amount for general requests"
+                                className="form-control"
+                            />
+                            <InputText
+                                onChange={handleInputChange}
+                                type="number"
+                                id="playNowTipMin"
+                                name="playNowTipMin"
+                                placeholder="example: 20, 100"
+                                label="Enter minimum amount for play now requests"
                                 className="form-control"
                             />
                             <UploadImage
