@@ -11,6 +11,8 @@ import SelectDj from "./pages/SelectDj";
 import RequestPage from "./pages/RequestPage";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import SuccessPage from "./pages/Success";
+import NoMatch from "./pages/NoMatch";
+
 import { Auth0Provider } from "@auth0/auth0-react";
 import ProtectedRoute from "../src/auth/protected-route";
 
@@ -59,7 +61,7 @@ function App() {
             <ProtectedRoute exact path="/dj/activity" component={DJActivity}></ProtectedRoute>
             <ProtectedRoute exact path="/dj/profile" component={DJProfile}></ProtectedRoute>
             
-            <Route>{/* <NoMatch /> */}</Route>
+            <Route><NoMatch /></Route>
           </Switch>
         </div>
       </Auth0Provider>
