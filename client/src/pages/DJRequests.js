@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Container, Row } from "../components/Grid";
 // import { Input, FormBtn } from "../components/Form";
 import SongReq from "../components/SongReq";
@@ -13,19 +13,21 @@ import API from "../utils/API";
 function DJRequests() {
     const { user } = useAuth0();
 
-    // Set state of djActivatedEvent --- this is the Dj's ObjectId
-    const [activatedDjId, setActivatedDjId] = useState("Hello");
+    // Set state djActivatedDjId to the logged in Dj's ObjectId
+    const [activatedDjId, setActivatedDjId] = useState("");
 
-    // Set state of requestList --- this holds the requestList for the event._id.
-    const [requestList, setRequestList] = useState([]);
-
-    // Set state to hold song request that needs to be updated. 
-    // This will be sent to the PUT API call to update requestList.
-    const [requestUpdate, setRequestUpdate] = useState([]);
-
-    // Set state to activated event._id
+    // Set state activatedEventId to the activated event._id
     // This will be sent to the PUT API call to update requestList for song that was moved.
     const [activatedEventId, setActivatedEventId] = useState([]);
+
+    // Set state of requestList to the requestList array of song request objects attached to the activated event.
+    const [requestList, setRequestList] = useState([]);
+
+    // Set state setSongId to hold song request ObjectId that needs to be updated. 
+    // This will be sent to the PUT API call to update requestList.
+    const [songId, setSongId] = useState("");
+
+
 
     // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
     // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
@@ -34,35 +36,45 @@ function DJRequests() {
         checkIfProfileExists(user.sub);
         // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
         loadProfile(user.sub);
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         console.log(activatedDjId);
 
     }, [user.sub])
 
     // This useEffect is just to show console.logs of states as states change throughout the process. 
     // It calls the showStatesWithConsoleLogs function below on initial page load and everytime a state changes.
-    useEffect(() => {
-        showStatesWithConsoleLogs()
-    }, [])
 
-    function showStatesWithConsoleLogs() {
-        console.log("I'm in the showStatesWithConsoleLogs function!")
-        console.log("This will only show on initial load of Request page and when states change on the Request page.")
-        console.log("This is the setActivatedDjId: ")
-        console.log(activatedDjId)
-        console.log("Still inside the showStatesWithConsoleLogs. This is the setActivatedEventId: ")
-        console.log(activatedEventId)
-        console.log("Still inside the showStatesWithConsoleLogs. This is the setRequestList: ")
-        console.log(requestList)
-        console.log("I'm leaving the showStatesWithConsoleLogs. See you on the next state change!")
-    }
+    // useEffect(() => {
+    //     loadActivatedEventRequests()
+    // }, [songId])
+
+    const firstUpdate1 = useRef(true);
+    useLayoutEffect(() => {
+        if (firstUpdate1.current) {
+            firstUpdate1.current = false;
+        } else {
+            loadActivatedEventRequests(activatedDjId)
+        }
+    }, [songId])
+
+    // function showStatesWithConsoleLogs() {
+    //     console.log("I'm in the showStatesWithConsoleLogs function!")
+    //     console.log("This will only show on initial load of Request page and when states change on the Request page.")
+    //     console.log("This is the setActivatedDjId: ")
+    //     console.log(activatedDjId)
+    //     console.log("Still inside the showStatesWithConsoleLogs. This is the setActivatedEventId: ")
+    //     console.log(activatedEventId)
+    //     console.log("Still inside the showStatesWithConsoleLogs. This is the setRequestList: ")
+    //     console.log(requestList)
+    //     console.log("I'm leaving the showStatesWithConsoleLogs. See you on the next state change!")
+    // }
 
     // Get the Dj profile
     // Send their djId to loadActivatedEvent to get the activated event._id
     // Technically this only has to be done on load, as the event._id is attached to the Dj already/
     // function loadProfile(id) {
-    const loadProfile =  id => {
+    const loadProfile = id => {
         API.getDj(id)
             .then(res => {
                 console.log("I'm in the loadProfile function. This is the Dj's ObjectId via res.data[0]._id:");
@@ -104,27 +116,50 @@ function DJRequests() {
 
     // This function is executed when the user click on the accept button on the song request on the request page.
     function handleSaveToQueue(event) {
-
-        console.log("I'm in the handleSaveToQueue function!")
-        console.log("This is the setActivatedEventId: ")
-        console.log(activatedEventId)
-        console.log("I'm still in the handleSaveToQueue function! For shits and giggles! This is the setActivatedDjId: ")
-        console.log(activatedDjId)
-
         event.preventDefault();
-        alert("Add me to the Queue!");
-        console.log("This is the event")
-        console.log(event.target)
-        const data = {
-            "eventId" : activatedEventId,
-            "songId":"604fc1504c10105a54ae2a78",
-            "newSongStatus":"queue"};
-        const songId = "604fc1504c10105a54ae2a78";
-        API.updateRequest(songId)
+        setSongId(event.target.id);
+
+
+        // alert("Add me to the Queue!");
+        // console.log("This is the event")
+        console.log(event.target.textContent)
+        const requestButtonType = event.target.textContent;
+
+        switch (requestButtonType) {
+            case "ACCEPT":
+                var requestSongStatusChangeTo = "queue";
+                break;
+            case "DECLINE":
+                var requestSongStatusChangeTo = "declined";
+                break;
+            case "PLAYED":
+                var requestSongStatusChangeTo = "played";
+                break;
+            case "REMOVED":
+                var requestSongStatusChangeTo = "removed";
+                break;
+            default:
+                console.log("It didn't work. Fix it!")
+                break;
+        }
+
+        const songData = {
+            "songId":event.target.id,
+            "newSongStatus": requestSongStatusChangeTo
+        };
+
+        console.log("This is the songId before passing it to API.updateRequest")
+        console.log(songData.songId);
+        console.log("This is the newSongStatus before passing it to API.updateRequest")
+        console.log(songData.newSongStatus);
+
+
+        const songId = "60510eae71340e09e8a15b69";
+        API.updateRequest(songData)
             .then(res => {
                 "WTF@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
                 console.log(res);
-                loadActivatedEventRequests(activatedDjId);
+                // loadActivatedEventRequests(activatedDjId);
             })
             .catch(err => console.log(err))
     }
@@ -153,7 +188,7 @@ function DJRequests() {
                                     btn1="PLAYED"
                                     // button01onClick={handleSaveToQueue}
                                     btn2="REMOVE"
-                                    // button02onClick={handleDeclineRequest}
+                                // button02onClick={handleDeclineRequest}
                                 />
                             ))}
                     </Row>

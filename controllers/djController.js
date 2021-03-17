@@ -62,23 +62,20 @@ module.exports = {
 
   findSongById: function (req, res) {
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    console.log("This is req.params.eventId: ");
-    console.log(req.params.eventId);
-    console.log("This is req.params.songId: ");
-    console.log(req.params.id);
-    console.log("This is req.params.newSongStatus: ");
-    console.log(req.params.newSongStatus);
+    console.log("This is req.body.songId: ");
+    console.log(req.body.songId);
+    console.log("This is req.params.requestSongStatusChangeTo: ");
+    console.log(req.body.newSongStatus);
+
 
     db.Event.findOneAndUpdate(
-      { requestList: {$elemMatch: {"_id":req.params.id}}},
+      { requestList: {$elemMatch: {"_id":req.body.songId}}},
       {
         $set: {
-          "requestList.$.songStatus":"queue"
+          "requestList.$.songStatus":req.body.newSongStatus
         }
       }
-      // { 'requestList.songStatus' : "queue" },
-      // { new: true }
-    )
+      )
       .then(res => {
 
         console.log("This is the res");

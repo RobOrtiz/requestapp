@@ -13,7 +13,7 @@ function SongReq(props) {
                         <p className="card-text">{props.artist}</p>
                         <p className="card-text">${props.tip}</p>
                         <p className="card-text">${props._id}</p>
-                        <button className={props.btn1} onClick={props.button01onClick}>{props.btn1}</button>
+                        <button className={props.btn1} id={props._id} onClick={props.button01onClick}>{props.btn1}</button>
                         <button className={props.btn2} onClick={props.button02onClick}>{props.btn2}</button>
                     </div>
                 </div>
