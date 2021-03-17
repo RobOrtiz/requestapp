@@ -7,7 +7,9 @@ const db = require("../models");
 
 // Defining methods for the djController
 module.exports = {
-  // New DJ signup
+
+  // This is used to create new DJ profile page
+  // Used by POST on djs.js router.route("/")
   createDj: function (req, res) {
     db.Dj
       // .register(req.body, req.body.password)
@@ -15,19 +17,31 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-  findByIdDj: function (req, res) {
-    db.Dj.findById({ userSub: req.params.userSub })
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
-  },
+
+  // We are not using this controller/route
+  // findByIdDj: function (req, res) {
+  //   db.Dj.findById({ userSub: req.params.userSub })
+  //     .then((dbModel) => res.json(dbModel))
+  //     .catch((err) => res.status(422).json(err));
+  // },
+
+  // This is used to find all Events for a Dj - sorts in ascending order
+  // Used by GET on djs.js router.route("/")
   findAll: function (req, res) {
     db.Dj.find(req.query)
-      .populate({ path: 'events', options: { sort: { 'eventDate': 1 } } })
+      .populate({ 
+        path: 'events', 
+        options: { 
+          sort: { 'eventDate': 1 } 
+        } 
+      })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+
   // This takes the djid from request, finds the active event
   // and puts the song request in the event
+  // Used by PUT on djs.js router.route("/event")
   createRequest: function (req, res) {
     db.Dj.findById(req.body._id)
       .populate({
@@ -60,30 +74,35 @@ module.exports = {
     }
   },
 
+  // This is used to change the songStatus as the song request is moving around the request queue.
+  // Used by PUT on djs.js router.route("/requests")
   findSongById: function (req, res) {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    console.log("This is req.body.songId: ");
-    console.log(req.body.songId);
-    console.log("This is req.params.requestSongStatusChangeTo: ");
-    console.log(req.body.newSongStatus);
-
-
     db.Event.findOneAndUpdate(
-      { requestList: {$elemMatch: {"_id":req.body.songId}}},
+      { requestList: { $elemMatch: { "_id": req.body.songId } } },
       {
         $set: {
-          "requestList.$.songStatus":req.body.newSongStatus
+          "requestList.$.songStatus": req.body.newSongStatus
         }
       }
-      )
+    )
       .then((dbModel) => res.json(dbModel))
       .catch((err) => console.log(err));
-
   },
 
-  // { _id: ObjectId("604fc1504c10105a54ae2a78") },
-  // { $set: { "songStatus.$[element]" : "queue" } },
+  // This is used to change the eventStatus when the user clicks on the activate or deactivate switch on the event card.
+  // Used by PUT on djs.js route: router.route("/eventstatus")
+  updateEventStatus: function (req, res) {
+    db.Event.findOneAndUpdate(
+      { "subIdForEventStatusChange": req.body.eventSubIdToChange },
+      { eventStatus: req.body.changeStatusTo },
+      { new: true }
+    )
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => console.log(err));
+  },
 
+  // This is used to find the Event with eventStatus of activated - for the request page during the event.
+  // Used by GET on djs.js router.route("/event/:id")
   findEventById: function (req, res) {
     db.Dj.findById(req.params.id)
       .populate({
@@ -94,6 +113,8 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
 
+  // This is used to add a new Event on the DJ dashboard.
+  // Used by POST on djs.js router.route("/event")
   createEvent: function (req, res) {
     db.Event.create(req.body)
       .then(({ _id }) =>
@@ -106,6 +127,9 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+
+  // This was set up to be used with seeded data when we first started the project.
+  // It deleted the old data and added the new data.
   deleteMany: function (req, res) {
     db.Dj.findById({ _id: req.params.id })
       .then((dbModel) => dbModel.deleteMany())

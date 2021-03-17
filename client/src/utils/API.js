@@ -22,11 +22,11 @@ export default {
     return axios.get("/api/djs/event/" + id)
   },
 
+  updateEventStatus: function (eventData) {
+    return axios.put("/api/djs/eventstatus", eventData)
+  },
+
   updateRequest: function (songData) {
-    console.log("This is the songId inside Axios")
-    console.log(songData.songId);
-    console.log("This is the newSongStatus inside Axios")
-    console.log(songData.newSongStatus);
     return axios.put("/api/djs/requests", songData)
   },
 

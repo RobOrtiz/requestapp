@@ -111,6 +111,15 @@ function DJHome() {
     // }
 
     function handleSwitch(event) {
+
+        console.log("We are inside the handleSwitch function and this is event.target");
+        console.log(event.target.id);
+
+        var currentEventSubId = event.target.id;
+        currentEventSubId = currentEventSubId.substring(currentEventSubId.indexOf("-") + 1);
+        console.log("This is the new string to use to find in the DB:");
+        console.log(currentEventSubId);
+
         if (eventIsActive && document.getElementById(event.target.id).checked === true) {
             document.getElementById(event.target.id).checked = false;
         } else {
@@ -122,14 +131,40 @@ function DJHome() {
                 document.getElementById(endId).classList.remove("end-hidden");
                 document.getElementById(detailsId).classList.add("details-hidden");
                 setEventIsActive(true);
+
+                const eventStatus = {
+                    "eventSubIdToChange":currentEventSubId,
+                    "changeStatusTo":'activated'
+                };
+
                 // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
-                loadEvents()
+                API.updateEventStatus(eventStatus)
+                .then(res => {
+                    console.log("This is the response after PUT to change to activated:");
+                    console.log(res);
+                    loadEvents();   
+                })
+                .catch(err => console.log(err))
+
+                
             } else {
                 document.getElementById(endId).classList.add("end-hidden");
                 document.getElementById(detailsId).classList.remove("details-hidden");
                 setEventIsActive(false);
+
+                const eventStatus = {
+                    "eventSubIdToChange":currentEventSubId,
+                    "changeStatusTo":'deactivated'
+                };
+
                 // API TO UPDATE EVENT TO SET EVENT AS DEACTIVATED
-                loadEvents()
+                API.updateEventStatus(eventStatus)
+                .then(res => {
+                    console.log("This is the response after PUT to change to deactivated:");
+                    console.log(res);
+                    loadEvents();
+                })
+                .catch(err => console.log(err))
             }
 
         }
@@ -164,6 +199,7 @@ function DJHome() {
         const randomEventId = uuid();
         API.createEvent({
             _id: randomEventId,
+            subIdForEventStatusChange: randomEventId.slice(0,6),
             genre: formObject.genre,
             eventDate: formObject.eventDate,
             startTime: formObject.eventTimeStart,
@@ -198,7 +234,11 @@ function DJHome() {
                     <Row classes="flex-nowrap">
                         {events.map(djEvent => (
                             <Col key={djEvent._id}>
-                                <DjEvent {...djEvent} handleSwitch={handleSwitch} handleEnd={handleEnd}/>
+                                <DjEvent 
+                                    {...djEvent} 
+                                    handleSwitch={handleSwitch}
+                                    handleEnd={handleEnd}
+                                />
                             </Col>
                         ))}
                     </Row>
