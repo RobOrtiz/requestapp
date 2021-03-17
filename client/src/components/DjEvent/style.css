@@ -1,5 +1,5 @@
 .event-card {
-    background: rgb(179, 150, 14);
+    background: white;
     margin: 1rem;
     position: relative;
     width: 20rem;
@@ -24,9 +24,14 @@
     padding-inline-start: 25px;
     color: black;
   }
+
+  .event-card label {
+    color: black;
+    font-weight: bold;
+  }
   
   .modal {
-    margin-top: 10rem;
+    margin-top: 5rem;
   }
 
   .modal-content {
@@ -34,10 +39,10 @@
   }
 
   .modal-text {
-    color:rgb(179, 150, 14) !important;
+    color:rgb(230, 230, 230) !important;
   }
 
-  .end-hidden {
+  .end-hidden, .details-hidden {
     display: none !important;
   }
   

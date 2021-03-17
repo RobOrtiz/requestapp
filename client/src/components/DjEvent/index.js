@@ -37,14 +37,14 @@ function DjEvent(props) {
                     <li className="mt-2">
                         <h3><strong className="event-title">{props.eventName}</strong></h3>
                     </li>
-                    <li>
+                    <li className="font-italic">
                         {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}
                     </li>
-                    <li>
+                    <li className="font-italic">
                         {props.startTime} - {props.endTime}
                     </li>
                     <li>
-                        <button type="button" className="btn btn-dark mt-3" data-toggle="modal" data-target={`#modal-${newId}`}>
+                        <button type="button" className="btn btn-dark mt-3" id={`details-${newId}`} data-toggle="modal" data-target={`#modal-${newId}`}>
                             Details
                         </button>
                     </li>
@@ -52,17 +52,13 @@ function DjEvent(props) {
                     <div className="modal fade" id={`modal-${newId}`} tabIndex="-1" role="dialog" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">{props.eventName}</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
                             <div className="modal-body">
-                                <p className="modal-text">{`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`} &#183; {props.startTime} - {props.endTime}</p>
-                                <p className="modal-text">{props.eventType} &#183; &#183; {props.genre}</p>
+                                <h5 className="text-uppercase mb-3">{props.eventName}</h5>
+                                <p className="modal-text"><b>Date:</b> {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}</p>
+                                <p className="modal-text"><b>Time:</b> {props.startTime} - {props.endTime}</p>
+                                <p className="modal-text"><b>Type:</b> {props.eventType} &#183; {props.genre}</p>
                                 <p className="modal-text">
-                                    Venue: <br />
+                                    <b>Venue:</b> <br />
                                     {props.venueName} <br />
                                     {props.venueAddress}
                                 </p>
