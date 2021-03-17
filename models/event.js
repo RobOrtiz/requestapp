@@ -58,6 +58,16 @@ const eventSchema = new Schema({
         // required: "Street address is required"
     },
 
+    generalRequestTipMin: {
+        type: Number,
+        default: 0
+    },
+
+    playNowTipMin: {
+        type: Number,
+        default: 0
+    },
+
     // Place to hold url string that will be generate via an API call to link uploaded image (from Event during Event creation) to an url.
     eventImage: {
         type: String
