@@ -3,7 +3,7 @@ const db = require("../models");
 // Require in mongodb to use ObjectId to pass the current Dj ObjectId into findByIdAndUpdate Update call.
 // TEchnically I could have just used the text portion of the ObjectId and it would have still worked.
 // Do it this way until we figure out another way to do it. Is this the right way or best practice, who knows!
-const ObjectId = require("mongodb").ObjectID;
+// const ObjectId = require("mongodb").ObjectID;
 
 // Defining methods for the djController
 module.exports = {
@@ -61,21 +61,28 @@ module.exports = {
   },
 
   findSongById: function (req, res) {
-    console.log("This is req.params._id: ");
-    console.log(req.params.id);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.log("This is req.body.songId: ");
+    console.log(req.body.songId);
+    console.log("This is req.params.requestSongStatusChangeTo: ");
+    console.log(req.body.newSongStatus);
 
-    db.Event.findByIdAndUpdate(req.params.id,
-      { startTime: "7:00pm" },
-      { new: true }
-    )
-      .then(res => {
-        console.log("This is the res");
-        console.log(res);
-        (dbModel) => res.json(dbModel)
-      })
+
+    db.Event.findOneAndUpdate(
+      { requestList: {$elemMatch: {"_id":req.body.songId}}},
+      {
+        $set: {
+          "requestList.$.songStatus":req.body.newSongStatus
+        }
+      }
+      )
+      .then((dbModel) => res.json(dbModel))
       .catch((err) => console.log(err));
 
   },
+
+  // { _id: ObjectId("604fc1504c10105a54ae2a78") },
+  // { $set: { "songStatus.$[element]" : "queue" } },
 
   findEventById: function (req, res) {
     db.Dj.findById(req.params.id)

@@ -9,18 +9,21 @@ router.route("/")
 
 router.route("/all")
   .get(djController.findAll)
-  
+
 // Matches with "/api/djs/:id"
 // router.route("/:id")
 //   .get(djController.findByIdDj)
 
 router.route("/event/:id")
   .get(djController.findEventById)
-  .put(djController.findSongById);
 
 router.route("/event")
   // .get(djController.findEvent)  
   .post(djController.createEvent)
   .put(djController.createRequest)
+
+router.route("/requests")
+  .put(djController.findSongById);
+
 
 module.exports = router;
