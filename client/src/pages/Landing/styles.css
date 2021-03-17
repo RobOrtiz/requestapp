@@ -5,15 +5,36 @@
     padding: 4rem;
 }
 
-/* .landing-page::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-color: rgba(0,0,0,0.2);
-} */
+.hide-overflow {
+    overflow: hidden;
+}
+
+.landing-logo {
+    position: relative;
+    animation-name: landinglogomove;
+    animation-duration: 3s;
+}
+
+@keyframes landinglogomove {
+    0% {top: 0px; opacity: 0; z-index: 10;}
+    40% {top: 10%; opacity: 1; height: 500px; width: 500px; z-index: 10; transform:rotate(0deg);}
+    45% {transform: rotate(45deg);}
+    50% {transform:rotate(-1deg);}
+    55% {transform:rotate(45deg);}
+    60% {transform:rotate(0deg); top: 10%; opacity: 1; height: 500px; width: 500px;}
+    100% {top: 0px; opacity: 1; z-index: 10;}
+}
+
+.landing-content {
+    animation-name: landingcontentappear;
+    animation-duration: 5s;
+}
+
+@keyframes landingcontentappear {
+    0% {opacity: 0;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
 
 .landing-top {
     margin-bottom: 3rem;
@@ -59,4 +80,13 @@
         font-size: 1.5rem !important;
     }
 
+    @keyframes landinglogomove {
+        0% {top: 0px; opacity: 0; z-index: 10;}
+        40% {top: 40%; opacity: 1; z-index: 10; transform:rotate(0deg);}
+        45% {transform: rotate(45deg);}
+        50% {transform:rotate(-1deg);}
+        55% {transform:rotate(45deg);}
+        60% {transform:rotate(0deg); top: 40%; opacity: 1; height: 500px; width: 500px;}
+        100% {top: 0px; opacity: 1; z-index: 10;}
+    }
 }

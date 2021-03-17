@@ -370,7 +370,7 @@ function RequestPage() {
           </Row>
           <br />
           <Row>
-            <Col size="md-3 sm-12">
+            <Col size="md-4 sm-12">
               <InputCheckbox
                 onChange={handleInputChange}
                 type="radio"
@@ -382,12 +382,12 @@ function RequestPage() {
                 tooltipTitle="A request will be sent to the DJ.  The DJ will review these after the Play Now requests."
               />
             </Col>
-            <Col size="md-9 sm-12">
+            <Col size="md-8 sm-12">
               <p className="ml-3">Minimum tip: ${event.generalRequestTipMin}</p>
             </Col>
           </Row>
           <Row>
-            <Col size="md-3 sm-12">
+            <Col size="md-4 sm-12">
               <InputCheckbox
                 onChange={handleInputChange}
                 type="radio"
@@ -399,7 +399,7 @@ function RequestPage() {
                 tooltipTitle="The DJ will see these requests immediately."
               />
             </Col>
-            <Col size="md-9 sm-12">
+            <Col size="md-8 sm-12">
               <p className="ml-3">Minimum tip: ${event.playNowTipMin}</p>
             </Col>
           </Row>
@@ -416,7 +416,7 @@ function RequestPage() {
             </Col>
           </Row>
           <FormBtn
-            className="btn btn-dark btn-lg mb-3"
+            className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn"
             onClick={handleFormSubmit}
           >
             Pay Now!
