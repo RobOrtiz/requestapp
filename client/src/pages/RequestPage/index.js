@@ -1,18 +1,16 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
-import Modal from 'react-bootstrap/Modal';
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
 import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
 import lastFMAPI from "../../utils/lastFMAPI";
 import Header from "../../components/Header";
 import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
-import StripeAPI from '../../utils/stripe';
-import { loadStripe } from '@stripe/stripe-js';
-import EventPic from '../../images/st pattys day.jpg'
-import './styles.css'
+import StripeAPI from "../../utils/stripe";
+import { loadStripe } from "@stripe/stripe-js";
+// import EventPic from '../../images/st pattys day.jpg'
+import "./styles.css";
 import RequestModalWarning from "../../components/RequestModalWarning";
 import API from "../../utils/API";
-
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_PK);
 
@@ -22,18 +20,18 @@ function RequestPage() {
     fullName: "",
     title: "",
     artist: "",
-    tip: ""
+    tip: "",
   });
 
   // For radio buttons
-  const [ general, setGeneral ] = useState(false)
-  const [ playNow, setPlayNow ] = useState(false)
+  const [general, setGeneral] = useState(false);
+  const [playNow, setPlayNow] = useState(false);
 
   // For djId
-  const [ djId, setDjId ] = useState("")
+  const [djId, setDjId] = useState("");
 
   // For AlbumCover
-  const [ albumCover, setAlbumCover ] = useState("");
+  const [albumCover, setAlbumCover] = useState("");
 
   // For Stripe
   const [product, setProduct] = useState({
@@ -48,8 +46,36 @@ function RequestPage() {
     generalRequest: false,
     playNow: false,
     songStatus: "",
-    _id: ""
+    _id: "",
   });
+
+  // Setting our event's initial state
+  const [event, setEvent] = useState({});
+  const [djName, setDjName] = useState("");
+  // Load event
+  useEffect(() => {
+    loadEvent();
+  }, []);
+
+  function loadEvent() {
+    // API.getActivatedEvent("60513fbaae45c04174566ec2")
+    // Get the dj id and search db for their profile and active event info
+
+    API.getActivatedEvent(getDJId())
+      .then((res) => {
+        // If page can't find dj's active event, redirect
+        if (res.data.events[0].eventStatus !== "activated") {
+          noEventWarning();
+        }
+        setEvent(res.data.events[0]);
+        setDjName(res.data.djName);
+      })
+      .catch((err) => console.log(err));
+  }
+  function noEventWarning() {
+    alert("Whoops, looks like this dj doesn't have an active event. Check to make sure you're on the right dj's event")
+    window.location.replace("/request")
+  }
 
   // When page is opened for first time, will do nothing.  After, when general/playNow are changed, Stripe Checkout will be triggered (this is only changed when the user submits the form).
   const firstUpdate1 = useRef(true);
@@ -66,7 +92,7 @@ function RequestPage() {
           requestSongStatus = "playNowQueue";
           break;
         default:
-          console.log("It didn't work. Fix it!")
+          console.log("It didn't work. Fix it!");
           break;
       }
 
@@ -81,13 +107,12 @@ function RequestPage() {
         generalRequest: general,
         playNow: playNow,
         songStatus: requestSongStatus,
-        _id: djId
-      })
-
+        _id: djId,
+      });
     }
-  }, [general, playNow])
+  }, [general, playNow]);
 
-  const firstUpdate2 = useRef(true)
+  const firstUpdate2 = useRef(true);
   useLayoutEffect(() => {
     if (firstUpdate2.current) {
       firstUpdate2.current = false;
@@ -108,14 +133,14 @@ function RequestPage() {
     } else {
       handleStripe();
     }
-  }, [product])
+  }, [product]);
 
   // Parse URL for djId
   function getDJId() {
     const url = window.location.href;
-    var djId = url.substring(url.lastIndexOf("/") + 1)
+    var djId = url.substring(url.lastIndexOf("/") + 1);
     setDjId(djId);
-    return djId
+    return djId;
   }
 
   // Handles updating component state when the user types into the input field
@@ -123,21 +148,27 @@ function RequestPage() {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
- 
+
   // When user clicks on "Pay Now"
   function handleFormSubmit(event) {
     event.preventDefault();
+    // console.log(general)
+    // // Checks tip amount meets minimum
+    // if (!formObject.tip) {
+    //   alert("no tip")
+    // }
+    // if (formObject.gen < event.generalRequestTipMin)
 
     // This checks if the request form has blank values
     // for text fields and buttons
-    checkIfFormUnfilled(formObject, "radio")
+    checkIfFormUnfilled(formObject, "radio");
     function checkIfFormUnfilled(obj, buttonType) {
       // Check buttons
-      var inputs = document.getElementsByTagName('input');
+      var inputs = document.getElementsByTagName("input");
       let buttons = [];
       for (var i = 0; i < inputs.length; i++) {
-        if(inputs[i].type.toLowerCase() == buttonType) {
-          buttons.push(inputs[i].checked)
+        if (inputs[i].type.toLowerCase() == buttonType) {
+          buttons.push(inputs[i].checked);
         }
       }
       // if none are clicked, show modal
@@ -145,14 +176,14 @@ function RequestPage() {
         document.getElementById("warning-radio-button-button").click();
         return false;
       }
-      
+
       // Check form fields
       for (var key in obj) {
         // if one is blank, show modal
-          if (obj[key] === null || obj[key] === "") {
-            document.getElementById("warning-form-button").click();
-              return false;
-          }
+        if (obj[key] === null || obj[key] === "") {
+          document.getElementById("warning-form-button").click();
+          return false;
+        }
       }
   }
     // To album cover function
@@ -161,25 +192,28 @@ function RequestPage() {
 
   // Saves album cover, then changes general or playNow state
   function getAlbumCover(title, artist) {
-    lastFMAPI.findAlbumCover(title, artist)
-    .then(res => {
-        if (document.getElementById("generalRequest").checked === true) {
-          if (res.data.message !== "Track not found" && res.data.track.album) {
-            let image = res.data.track.album.image[2]["#text"];
-            setAlbumCover(image);
-          } else if (albumCover === "") {
-            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg")
-          }
-          setGeneral(true)
-        } else {
-          if (res.data.message !== "Track not found" && res.data.track.album) {
-            let image = res.data.track.album.image[2]["#text"];
-            setAlbumCover(image);
-          } else if (albumCover === "") {
-            setAlbumCover("https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg")
-          }
-          setPlayNow(true)
-        };
+    lastFMAPI.findAlbumCover(title, artist).then((res) => {
+      if (document.getElementById("generalRequest").checked === true) {
+        if (res.data.message !== "Track not found" && res.data.track.album) {
+          let image = res.data.track.album.image[2]["#text"];
+          setAlbumCover(image);
+        } else if (albumCover === "") {
+          setAlbumCover(
+            "https://res.cloudinary.com/noimgmt/image/upload/v1615592263/noireqapp/njitt7mzvpuidhjila9m.jpg"
+          );
+        }
+        setGeneral(true);
+      } else {
+        if (res.data.message !== "Track not found" && res.data.track.album) {
+          let image = res.data.track.album.image[2]["#text"];
+          setAlbumCover(image);
+        } else if (albumCover === "") {
+          setAlbumCover(
+            "https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg"
+          );
+        }
+        setPlayNow(true);
+      }
     });
   }
 
@@ -189,28 +223,120 @@ function RequestPage() {
     const response = await StripeAPI.checkout(product);
 
     const result = await stripe.redirectToCheckout({
-      sessionId: response.data.id
+      sessionId: response.data.id,
     });
 
     if (result.error) {
-      console.err(result.error.message)
-    } 
+      console.err(result.error.message);
+    }
+  };
+
+  // Date config for event details
+  const date = new Date(event.eventDate);
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ][date.getMonth()];
+  const dateDay = date.getDate() + 1;
+  let dateEnd = "";
+  if (dateDay === 1 || dateDay === 21 || dateDay === 31) {
+    dateEnd = "st";
+  } else if (dateDay === 2 || dateDay === 22) {
+    dateEnd = "nd";
+  } else if (dateDay === 3 || dateDay === 23) {
+    dateEnd = "rd";
+  } else {
+    dateEnd = "th";
   }
 
   return (
     <div className="request-page">
-      
       <Header title="welcome customer" />
       <Container classes="top-container">
-        <h1 className="request-title">SEND A REQUEST</h1>
-        
-                        
+        <Row>
+        <h1 className="request-title">SEND A REQUEST TO {djName}</h1> 
+        {/* event modal button */}
+        <button
+          type="button"
+          className="btn btn-dark mb-3 mt-1 btn-sm ml-3"
+          data-toggle="modal"
+          data-target="#modal-event-info"
+        >
+          Event Details
+        </button>
+        </Row>
+        {/* event modal top */}
+        <div
+          className="modal fade"
+          id="modal-event-info"
+          tabIndex="-1"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">{event.eventName}</h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <p className="modal-text">
+                  {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}{" "}
+                  &#183; {event.startTime} - {event.endTime}
+                </p>
+                <p className="modal-text">
+                  {event.eventType} &#183; &#183; {event.genre}
+                </p>
+                <p className="modal-text">
+                  Venue: <br />
+                  {event.venueName} <br />
+                  {event.venueAddress}
+                </p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-dark"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* event modal bottom */}
+        {/* page info */}
         <form>
           <Row>
             <Col>
-            <img src={EventPic} alt={"appleBadge"} className="eventPic"></img>
+              <img
+                src={event.eventImage}
+                alt={"Event Image"}
+                className="eventPic"
+              ></img>
               {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
-            <p className="h6 ml-2">Doesn't look familiar?  Click <a href="/request">here</a> to find your DJ!</p>
+              <p className="h6 ml-2">
+                Doesn't look familiar? Click <a href="/request">here</a> to find
+                your DJ!
+              </p>
             </Col>
             <Col>
               <InputText
@@ -244,70 +370,99 @@ function RequestPage() {
           </Row>
           <br />
           <Row>
-            <Col size="md-4 sm-12">
-            <InputCheckbox
-              onChange={handleInputChange}
-              type="radio"
-              name="requestType"
-              value="2"
-              id="generalRequest" 
-              label="General"
-              className="form-check-input"
-              tooltipTitle="A request will be sent to the DJ.  The DJ will review these after the Play Now requests."
+            <Col size="md-3 sm-12">
+              <InputCheckbox
+                onChange={handleInputChange}
+                type="radio"
+                name="requestType"
+                value="2"
+                id="generalRequest"
+                label="General"
+                className="form-check-input"
+                tooltipTitle="A request will be sent to the DJ.  The DJ will review these after the Play Now requests."
               />
             </Col>
-            <Col size="md-8 sm-12">
-              <p className="ml-3">Minimum tip: $2</p>
+            <Col size="md-9 sm-12">
+              <p className="ml-3">Minimum tip: ${event.generalRequestTipMin}</p>
             </Col>
           </Row>
           <Row>
-            <Col size="md-4 sm-12">
-            <InputCheckbox
-              onChange={handleInputChange}
-              type="radio"
-              name="requestType"
-              value="100"
-              id="playNow" 
-              label="Play Now"
-              className="form-check-input"
-              tooltipTitle="The DJ will see these requests immediately."
+            <Col size="md-3 sm-12">
+              <InputCheckbox
+                onChange={handleInputChange}
+                type="radio"
+                name="requestType"
+                value="100"
+                id="playNow"
+                label="Play Now"
+                className="form-check-input"
+                tooltipTitle="The DJ will see these requests immediately."
               />
             </Col>
-            <Col size="md-8 sm-12">
-              <p className="ml-3">Minimum tip: $100</p>
+            <Col size="md-9 sm-12">
+              <p className="ml-3">Minimum tip: ${event.playNowTipMin}</p>
             </Col>
           </Row>
           <Row>
             <Col>
-          <InputText
-            onChange={handleInputChange}
-            type="number"
-            id="tip"
-            name="tip"
-            placeholder="Tip Amount in $"
-            className="form-control"
-          />
-          </Col>
+              <InputText
+                onChange={handleInputChange}
+                type="number"
+                id="tip"
+                name="tip"
+                placeholder="Tip Amount in $"
+                className="form-control"
+              />
+            </Col>
           </Row>
-            <FormBtn className="btn btn-dark btn-lg mb-3" onClick={handleFormSubmit}>
-              Pay Now!
-            </FormBtn>
+          <FormBtn
+            className="btn btn-dark btn-lg mb-3"
+            onClick={handleFormSubmit}
+          >
+            Pay Now!
+          </FormBtn>
         </form>
-        <div className="hidden">
-        </div>
+        <div className="hidden"></div>
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
-          <img src={googleBadge} alt={"googleBadge"} style={{width: ""}} className="mt-2"></img>
+          <img
+            src={googleBadge}
+            alt={"googleBadge"}
+            style={{ width: "" }}
+            className="mt-2"
+          ></img>
         </div>
       </Container>
-      <button id={"warning-form-button"} style={{display: "none"}} type="button" className="btn btn-dark mt-3" data-toggle="modal" data-target={`#modal-warning-form`}>
+      <button
+        id={"warning-form-button"}
+        style={{ display: "none" }}
+        type="button"
+        className="btn btn-dark mt-3"
+        data-toggle="modal"
+        data-target={`#modal-warning-form`}
+      >
         Details
       </button>
-      <button id={"warning-radio-button-button"} style={{display: "none"}} type="button" className="btn btn-dark mt-3" data-toggle="modal" data-target={`#modal-warning-radio-button`}>
+      <button
+        id={"warning-radio-button-button"}
+        style={{ display: "none" }}
+        type="button"
+        className="btn btn-dark mt-3"
+        data-toggle="modal"
+        data-target={`#modal-warning-radio-button`}
+      >
         Details
       </button>
-      <RequestModalWarning id={"modal-warning-form"} name={"Form error"} message={"Please fill out the entire form."}/>
-      <RequestModalWarning id={"modal-warning-radio-button"} name={"Request type error"} message={"Please select your request type: 'General' or 'Play Now'"}/>
+      <RequestModalWarning
+        id={"modal-warning-form"}
+        name={"Form error"}
+        message={"Please fill out the entire form."}
+      />
+      <RequestModalWarning
+        id={"modal-warning-radio-button"}
+        name={"Request type error"}
+        message={"Please select your request type: 'General' or 'Play Now'"}
+      />
     </div>
   );
 }
