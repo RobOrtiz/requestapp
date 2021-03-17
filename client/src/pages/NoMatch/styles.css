@@ -1,0 +1,24 @@
+.nomatch-page {
+    min-height: 100vh;
+    background: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url("https://images.unsplash.com/photo-1559564426-013d071f49a9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80") no-repeat center center fixed;
+    background-size: cover;
+    padding: 2rem;
+}
+
+.nomatch-page h1 {
+    margin-left: 0;
+}
+
+.nomatch-page p {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.nomatch-link {
+    color: rgb(179, 150, 14);
+}
+
+.nomatch-link:hover {
+    color: rgb(240, 218, 123) !important;
+    text-shadow: none;
+}
