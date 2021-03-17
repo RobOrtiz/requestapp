@@ -26,10 +26,30 @@ function DJHome() {
     // Setting our events' initial state
     const [events, setEvents] = useState([]);
 
+    const [runOnce, setRunOnce] = useState(0);
+
+    const [eventIsActive, setEventIsActive] = useState(false);
+
     // Load all events and store them with setEvents
     useEffect(() => {
         loadEvents()
     }, [])
+
+    // This should only run once after page is loaded and events are set
+    useEffect(() => {
+        if (runOnce === 0) {
+            setRunOnce(1);
+        } else if (runOnce === 1) {
+            for (let i = 0; i < events.length; i++){
+                if (events[i].eventStatus === "activated"){
+                    setEventIsActive(true);
+                    document.getElementById(`activate-${events[i]._id.slice(0,6)}`).checked = true;
+                    document.getElementById(`end-${events[i]._id.slice(0,6)}`).classList.remove("end-hidden")
+                }
+            }
+            setRunOnce(2);
+        }
+    }, [events])
     
     // Loads all events for the Dj and sets them to events
     // Get the Dj with the user.sub id and populate the event documents to the Dj
@@ -37,14 +57,11 @@ function DJHome() {
         API.getDj(user.sub)
             .then(res => {
                 setEvents(res.data[0].events)
-                console.log(res.data[0].events)
             }
             )
             .catch(err => console.log(err));
     };
 
-    
-    
 
     const [formObject, setFormObject] = useState({
     });
@@ -91,7 +108,32 @@ function DJHome() {
     //     })
     //     .catch(err => console.log(err))
     // }
-    
+
+    function handleSwitch(event) {
+        if (eventIsActive && document.getElementById(event.target.id).checked === true) {
+            document.getElementById(event.target.id).checked = false;
+        } else {
+
+            let endId = `end-${event.target.id.slice(9,16)}`;
+            if(document.getElementById(event.target.id).checked) {
+                document.getElementById(endId).classList.remove("end-hidden");
+                setEventIsActive(true);
+                // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
+                loadEvents()
+            } else {
+                document.getElementById(endId).classList.add("end-hidden");
+                setEventIsActive(false);
+                // API TO UPDATE EVENT TO SET EVENT AS DEACTIVATED
+                loadEvents()
+            }
+
+        }
+    }
+
+    function handleEnd() {
+        console.log("Ended");
+        // API TO UPDATE DATABASE TO REMOVE EVENT
+    }
 
     function handleFormChange() {
         if (addEvent.add === false) {
@@ -147,8 +189,8 @@ function DJHome() {
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
                         {events.map(djEvent => (
-                            <Col key={djEvent.eventDate}>
-                                <DjEvent {...djEvent} />
+                            <Col key={djEvent._id}>
+                                <DjEvent {...djEvent} handleSwitch={handleSwitch} handleEnd={handleEnd}/>
                             </Col>
                         ))}
                     </Row>

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormBtn, Switch } from "../Form";
 import './style.css'
 
 function DjEvent(props) {
-    const [endButton, setEndButton] = useState();
 
     const date = new Date(props.eventDate);
     const month = ["January", "February", "March", "April", "May", "June",
@@ -21,28 +20,11 @@ function DjEvent(props) {
         dateEnd = "th"
     }
 
-    // For safetly, not passing in full ID into elements
+    // For length-issue, not passing in full ID into elements
     let newId = ""
     if(props._id){
         newId = props._id.slice(0,6)
     }
-
-
-    function handleSwitch() {
-        if(document.getElementById(`activate-${newId}`).checked) {
-            setEndButton(true);
-        } else {
-            setEndButton(false);
-        }
-        console.log("Changed");
-        // PUT REQUEST TO UPDATE DATABASE
-    }
-
-    function handleEnd() {
-        console.log("Ended");
-        // PUT REQUEST TO UPDATE DATABASE
-    }
-
 
 
     return (
@@ -93,10 +75,10 @@ function DjEvent(props) {
                     </div>
                     <Switch 
                         id={`activate-${newId}`}
-                        switchTitle="Activate"
-                        change={handleSwitch}
+                        switchTitle={props.eventStatus === "activated" ? "Active" : "Inactive"}
+                        change={props.handleSwitch}
                     />
-                    {endButton && <FormBtn className="btn btn-dark mt-3" onClick={handleEnd}>End Event</FormBtn>}
+                    <FormBtn className="btn btn-dark mt-3 end-hidden" onClick={props.handleEnd} id={`end-${newId}`}>End Event</FormBtn>
                 </ul>
             </div>
         </div>
