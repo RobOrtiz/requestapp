@@ -29,11 +29,11 @@ module.exports = {
   // Used by GET on djs.js router.route("/")
   findAll: function (req, res) {
     db.Dj.find(req.query)
-      .populate({ 
-        path: 'events', 
-        options: { 
-          sort: { 'eventDate': 1 } 
-        } 
+      .populate({
+        path: 'events',
+        options: {
+          sort: { 'eventDate': 1 }
+        }
       })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
@@ -124,6 +124,42 @@ module.exports = {
           { new: true }
         )
       )
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+
+  // Count occurences of different songStatus in requestList
+  // Used by GET on djs.js router.route("/requests/:id")
+  countSongStatuses: function (req, res) {
+    db.Event.aggregate([
+
+      // Limit matching documents (can take advantage of index)
+      // Find the activated event via the eventId
+      {
+        $match: {
+          _id: req.params.id
+        }
+      },
+
+      // This is the to unwind the requestList and then the songStatus to get the occurrences of each
+      // However it was returning the correct counts but they were all called "queue".
+      // I put a question on stackoverflow.
+      // In the mean time I commented out this code and have a workout to count the occurrences in the request page.
+      // Unpack the requestList and songStatuses
+      // { $unwind: "$requestList" },
+      // { $unwind: "$requestList.songStatus" },
+
+      // Group by the answer values
+      // This works differently than designed with the $unwinds commented out above.
+      // Inside it provides an array for each songStatus in the requestList.
+      // On the request page I should count them with an if statement in a for loop.
+      // Not sure why this is working like it should. 
+      {
+        $group: {
+          _id: "$requestList.songStatus",
+          count: { $sum: 1 }
+        }
+      }])
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
