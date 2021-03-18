@@ -200,9 +200,9 @@ function RequestPage() {
           return false;
         }
       }
-  }
+    }
     // To album cover function
-    // getAlbumCover(formObject.title, formObject.artist);
+    getAlbumCover(formObject.title, formObject.artist);
   }
 
   // Saves album cover, then changes general or playNow state

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Container, Row } from "../components/Grid";
 // import { Input, FormBtn } from "../components/Form";
 import SongReq from "../components/SongReq";
+import QueueModal from "../components/QueueModal";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -30,6 +31,7 @@ function DJRequests() {
 
     // Set state of requestList to the requestList array of song request objects attached to the activated event.
     const [requestList, setRequestList] = useState([]);
+    const [queueList, setQueueList] = useState([]);
 
     // Set state setSongId to hold song request ObjectId that needs to be updated. 
     // This will be sent to the PUT API call to update requestList.
@@ -88,7 +90,7 @@ function DJRequests() {
                 setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
-
+                setQueueList(res.data.events[0].requestList.filter(request => request.songStatus === "queue"))
                 // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
                 eventIdForSongCount = res.data.events[0]._id;
                 // Reset songId back to empty after each load to cause state change for when a user clicks the same song req twice in a row.
@@ -199,6 +201,16 @@ function DJRequests() {
         alert("Remove me from the queue!");
     }
 
+    function handleOnDragEnd(result) {
+        if (!result.destination) return;
+
+        const items = Array.from(queueList);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+
+        setQueueList(items);
+    }
+
     return (
         <div>
             <Header title="REQUESTS" />
@@ -206,12 +218,16 @@ function DJRequests() {
             <Container classes="top-container">
                 <Row>
                     <h1>Queue <span className="badge badge-dark"> {queueCount}</span></h1>
+                    <a href="#queueModal" className="ml-3" data-toggle="modal" data-target="#queueModal">SEE ALL QUEUE SONGS</a>
                 </Row>
+                {queueList && <QueueModal 
+                    songs={queueList}
+                    handleOnDragEnd={handleOnDragEnd}
+                />}
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
-                        {requestList
-                            .filter(request => request.songStatus === "queue")
-                            .map(songs => (
+                        {queueList
+                            .map((songs, index) => (
                                 <SongReq
                                     key={songs._id}
                                     {...songs}
