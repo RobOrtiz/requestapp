@@ -233,7 +233,7 @@ function DJHome() {
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
                         {events.map(djEvent => (
-                            <Col key={djEvent._id}>
+                            <Col classes="d-flex" key={djEvent._id}>
                                 <DjEvent 
                                     {...djEvent} 
                                     handleSwitch={handleSwitch}

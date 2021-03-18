@@ -234,33 +234,31 @@ function RequestPage() {
   };
 
   // Date config for event details
-  const date = new Date(event.eventDate);
-  const month = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ][date.getMonth()];
-  const dateDay = date.getDate() + 1;
-  let dateEnd = "";
-  if (dateDay === 1 || dateDay === 21 || dateDay === 31) {
-    dateEnd = "st";
-  } else if (dateDay === 2 || dateDay === 22) {
-    dateEnd = "nd";
-  } else if (dateDay === 3 || dateDay === 23) {
-    dateEnd = "rd";
-  } else {
-    dateEnd = "th";
-  }
+  let month, dateDay, year, dateEnd;
+  if (event.eventDate) {
+    const monthNumber = event.eventDate.slice(5,7)
+    month = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"][monthNumber - 1];
 
+    if (event.eventDate.slice(8,9) === "0") {
+        dateDay = parseInt(event.eventDate.slice(9,10))
+    } else {
+        dateDay = parseInt(event.eventDate.slice(8,10))
+    }
+
+    year = event.eventDate.slice(0,4);
+
+    if (dateDay === 1 || dateDay === 21 || dateDay === 31) {
+        dateEnd = "st";
+    } else if (dateDay === 2 || dateDay === 22) {
+        dateEnd = "nd"
+    } else if (dateDay === 3 || dateDay === 23) {
+        dateEnd = "rd"
+    } else {
+        dateEnd = "th"
+    }
+  }
+  
   return (
     <div className="request-page">
       <Header title="welcome customer" />
@@ -300,7 +298,7 @@ function RequestPage() {
               </div>
               <div className="modal-body">
                 <p className="modal-text">
-                  {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}{" "}
+                  {`${month} ${dateDay}${dateEnd}, ${year}`}{" "}
                   &#183; {event.startTime} - {event.endTime}
                 </p>
                 <p className="modal-text">

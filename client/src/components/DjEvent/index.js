@@ -3,13 +3,20 @@ import { FormBtn, Switch } from "../Form";
 import './style.css'
 
 function DjEvent(props) {
-
-    const date = new Date(props.eventDate);
+    const monthNumber = props.eventDate.slice(5,7)
     const month = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"][date.getMonth()];
-    const dateDay = date.getDate() + 1;
-    let dateEnd = "";
+    "July", "August", "September", "October", "November", "December"][monthNumber - 1];
 
+    let dateDay;
+    if (props.eventDate.slice(8,9) === "0") {
+        dateDay = parseInt(props.eventDate.slice(9,10))
+    } else {
+        dateDay = parseInt(props.eventDate.slice(8,10))
+    }
+
+    const year = props.eventDate.slice(0,4);
+
+    let dateEnd = "";
     if (dateDay === 1 || dateDay === 21 || dateDay === 31) {
         dateEnd = "st";
     } else if (dateDay === 2 || dateDay === 22) {
@@ -38,7 +45,7 @@ function DjEvent(props) {
                         <h3><strong className="event-title">{props.eventName}</strong></h3>
                     </li>
                     <li className="font-italic">
-                        {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}
+                        {`${month} ${dateDay}${dateEnd}, ${year}`}
                     </li>
                     <li className="font-italic">
                         {props.startTime} - {props.endTime}
@@ -54,7 +61,7 @@ function DjEvent(props) {
                             <div className="modal-content">
                             <div className="modal-body">
                                 <h5 className="text-uppercase mb-3">{props.eventName}</h5>
-                                <p className="modal-text"><b>Date:</b> {`${month} ${dateDay}${dateEnd}, ${date.getFullYear()}`}</p>
+                                <p className="modal-text"><b>Date:</b> {`${month} ${dateDay}${dateEnd}, ${year}`}</p>
                                 <p className="modal-text"><b>Time:</b> {props.startTime} - {props.endTime}</p>
                                 <p className="modal-text"><b>Type:</b> {props.eventType} &#183; {props.genre}</p>
                                 <p className="modal-text">
