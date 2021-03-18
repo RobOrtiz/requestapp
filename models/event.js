@@ -87,6 +87,7 @@ const eventSchema = new Schema({
             playNow: { type: Boolean },
             songStatus: { type: String },
             customerName: { type: String },
+            queueOrderNumber: {type: Number, default: 0}
         },
         { timestamps: true }
     ],

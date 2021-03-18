@@ -81,7 +81,8 @@ module.exports = {
       { requestList: { $elemMatch: { "_id": req.body.songId } } },
       {
         $set: {
-          "requestList.$.songStatus": req.body.newSongStatus
+          "requestList.$.songStatus": req.body.newSongStatus,
+          "requestList.$.queueOrderNumber": req.body.addQueueNumber,
         }
       }
     )
@@ -162,6 +163,19 @@ module.exports = {
       }])
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
+  },
+
+  updateQueueNumber: function (req, res) {
+    db.Event.findOneAndUpdate(
+      { requestList: { $elemMatch: { "_id": req.params.id} } },
+      {
+        $set: {
+          "requestList.$.queueOrderNumber": req.body.newQueueNumber,
+        }
+      }
+    )
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => console.log(err));
   },
 
   // This was set up to be used with seeded data when we first started the project.

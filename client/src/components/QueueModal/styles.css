@@ -1,0 +1,22 @@
+#queueModal {
+    max-height: 80vh;
+}
+
+#queueModal .modal-dialog {
+    min-width: 35vw;
+}
+
+
+.queue-modal-image {
+    max-width: 35px;
+    opacity: 1;
+    filter: brightness(.3)
+}
+
+.queue-modal-card {
+    margin: 5px;
+}
+
+.queue-modal-card h5 {
+    color: black;
+}

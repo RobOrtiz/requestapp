@@ -200,7 +200,7 @@ function RequestPage() {
           return false;
         }
       }
-  }
+    }
     // To album cover function
     getAlbumCover(formObject.title, formObject.artist);
   }
