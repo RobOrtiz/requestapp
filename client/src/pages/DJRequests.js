@@ -51,6 +51,21 @@ function DJRequests() {
         loadProfile(user.sub);
     }, [user.sub])
 
+    useEffect(() => {
+        let orderedList = queueList.sort((a,b) => (a.queueOrderNumber - b.queueOrderNumber));
+        for (let i = 0; i < orderedList.length; i++){
+            if(orderedList[i].queueOrderNumber !== i + 1){
+                orderedList[i].queueOrderNumber = i + 1;
+                let queueNum = {
+                    newQueueNumber: orderedList[i].queueOrderNumber
+                }
+                API.updateSongQueueNumber(orderedList[i]._id, queueNum)
+                .catch(err => console.log(err));
+            }
+        }
+        setQueueList(orderedList)
+    }, [queueList])
+
     // Function firstUpdate1 is to prevent the loadActivatedEventRequests() function from running twice on initial load.
     // It is designed to run after initial load whenever the songId changes - based on the buttons the used clicks on song req component.
     const firstUpdate1 = useRef(true);
@@ -90,7 +105,7 @@ function DJRequests() {
                 setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
-                setQueueList(res.data.events[0].requestList.filter(request => request.songStatus === "queue"))
+                setQueueList(res.data.events[0].requestList.filter(request => request.songStatus === "queue").sort((a,b) => (a.queueOrderNumber - b.queueOrderNumber)))
                 // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
                 eventIdForSongCount = res.data.events[0]._id;
                 // Reset songId back to empty after each load to cause state change for when a user clicks the same song req twice in a row.
@@ -179,7 +194,8 @@ function DJRequests() {
         // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type. 
         const songData = {
             "songId": event.target.id,
-            "newSongStatus": requestSongStatusChangeTo
+            "newSongStatus": requestSongStatusChangeTo,
+            "addQueueNumber": 100
         };
 
         console.log("*****obj", songData);
@@ -208,6 +224,17 @@ function DJRequests() {
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
 
+        for (let i = 0; i < items.length; i++){
+            if(items[i].queueOrderNumber !== i + 1){
+                items[i].queueOrderNumber = i + 1;
+                let queueNum = {
+                    newQueueNumber: items[i].queueOrderNumber
+                }
+                API.updateSongQueueNumber(items[i]._id, queueNum)
+                .catch(err => console.log(err));
+            }
+        }
+
         setQueueList(items);
     }
 
@@ -218,7 +245,7 @@ function DJRequests() {
             <Container classes="top-container">
                 <Row>
                     <h1>Queue <span className="badge badge-dark"> {queueCount}</span></h1>
-                    <a href="#queueModal" className="ml-3" data-toggle="modal" data-target="#queueModal">SEE ALL QUEUE SONGS</a>
+                    <a href="#queueModal" className="ml-3" data-toggle="modal" data-target="#queueModal" style={{color: "white"}}>SEE ALL QUEUE SONGS</a>
                 </Row>
                 {queueList && <QueueModal 
                     songs={queueList}

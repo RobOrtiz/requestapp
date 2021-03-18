@@ -8,7 +8,6 @@
 
 
 .queue-modal-image {
-    min-width: 35px;
     max-width: 35px;
     opacity: 1;
     filter: brightness(.3)
