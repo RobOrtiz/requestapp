@@ -150,33 +150,48 @@ function RequestPage() {
   }
 
   // When user clicks on "Pay Now"
-  function handleFormSubmit(event) {
-    event.preventDefault();
-    // console.log(general)
-    // // Checks tip amount meets minimum
-    // if (!formObject.tip) {
-    //   alert("no tip")
-    // }
-    // if (formObject.gen < event.generalRequestTipMin)
+  function handleFormSubmit(e) {
+    e.preventDefault();
 
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
     function checkIfFormUnfilled(obj, buttonType) {
+      
       // Check buttons
       var inputs = document.getElementsByTagName("input");
-      let buttons = [];
+      // buttonsBoolean is for selection validation
+      // buttonSelected is for tip value validation
+      let buttonsBoolean = [];
+      let buttonSelected = [];
       for (var i = 0; i < inputs.length; i++) {
         if (inputs[i].type.toLowerCase() == buttonType) {
-          buttons.push(inputs[i].checked);
+          buttonsBoolean.push(inputs[i].checked);
+          if (inputs[i].checked === true) {
+            buttonSelected.push(inputs[i]);
+          }
         }
       }
+
       // if none are clicked, show modal
-      if (!buttons.includes(true)) {
+      if (!buttonsBoolean.includes(true)) {
         document.getElementById("warning-radio-button-button").click();
         return false;
       }
-
+      
+      // checks tip value against minimum of selected button
+      if (buttonSelected[0].id === "generalRequest") {
+        if (formObject.tip < event.generalRequestTipMin) {
+          document.getElementById("warning-minimum-tip-button").click();
+          return false;
+        }
+      } else {
+        if (formObject.tip < event.playNowTipMin) {
+          document.getElementById("warning-minimum-tip-button").click();
+          return false;
+        }
+      }
+      
       // Check form fields
       for (var key in obj) {
         // if one is blank, show modal
@@ -187,7 +202,7 @@ function RequestPage() {
       }
   }
     // To album cover function
-    getAlbumCover(formObject.title, formObject.artist);
+    // getAlbumCover(formObject.title, formObject.artist);
   }
 
   // Saves album cover, then changes general or playNow state
@@ -453,6 +468,16 @@ function RequestPage() {
       >
         Details
       </button>
+      <button
+        id={"warning-minimum-tip-button"}
+        style={{ display: "none" }}
+        type="button"
+        className="btn btn-dark mt-3"
+        data-toggle="modal"
+        data-target={`#modal-warning-tip-minimum`}
+      >
+        Details
+      </button>
       <RequestModalWarning
         id={"modal-warning-form"}
         name={"Form error"}
@@ -462,6 +487,11 @@ function RequestPage() {
         id={"modal-warning-radio-button"}
         name={"Request type error"}
         message={"Please select your request type: 'General' or 'Play Now'"}
+      />
+      <RequestModalWarning
+        id={"modal-warning-tip-minimum"}
+        name={"Tip minimum"}
+        message={"Tip must be minimum value specified"}
       />
     </div>
   );
