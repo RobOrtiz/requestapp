@@ -31,6 +31,6 @@ router.route("/requests")
 
 router.route("/requests/:id")
   .get(djController.countSongStatuses)
-
+  .put(djController.updateQueueNumber)
 
 module.exports = router;

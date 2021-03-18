@@ -34,6 +34,10 @@ export default {
     return axios.get("/api/djs/requests/" + id)
   },
 
+  updateSongQueueNumber: function (id, queueNum) {
+    return axios.put("/api/djs/requests/" + id, queueNum)
+  },
+
   // Cloudinary API to upload image to their server and return a URL linking to the image for reference in Dj Profile and Dj Event.
   uploadImage: function (imageData) {
     return axios.post("https://api.cloudinary.com/v1_1/noimgmt/image/upload", imageData)
