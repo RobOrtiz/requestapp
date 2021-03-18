@@ -40,18 +40,18 @@ function DJHome() {
         if (runOnce === 0) {
             setRunOnce(1);
         } else if (runOnce === 1) {
-            for (let i = 0; i < events.length; i++){
-                if (events[i].eventStatus === "activated"){
+            for (let i = 0; i < events.length; i++) {
+                if (events[i].eventStatus === "activated") {
                     setEventIsActive(true);
-                    document.getElementById(`activate-${events[i]._id.slice(0,6)}`).checked = true;
-                    document.getElementById(`end-${events[i]._id.slice(0,6)}`).classList.remove("end-hidden");
-                    document.getElementById(`details-${events[i]._id.slice(0,6)}`).classList.add("details-hidden");
+                    document.getElementById(`activate-${events[i]._id.slice(0, 6)}`).checked = true;
+                    document.getElementById(`end-${events[i]._id.slice(0, 6)}`).classList.remove("end-hidden");
+                    document.getElementById(`details-${events[i]._id.slice(0, 6)}`).classList.add("details-hidden");
                 }
             }
             setRunOnce(2);
         }
     }, [events])
-    
+
     // Loads all events for the Dj and sets them to events
     // Get the Dj with the user.sub id and populate the event documents to the Dj
     function loadEvents() {
@@ -82,19 +82,19 @@ function DJHome() {
     const [image, setImage] = useState("https://via.placeholder.com/150");
 
     const { user } = useAuth0();
-    const [ userId, setUserId ] = useState("");
+    const [userId, setUserId] = useState("");
 
     useEffect(() => {
         checkIfProfileExists(user.sub);
         loadProfile(user.sub)
-      }, [])
-      
-      // API get request for user informatoin
+    }, [])
+
+    // API get request for user informatoin
     function loadProfile(id) {
         API.getDj(id)
-        // .then(res => setUserId(res.data[0]._id))
-        .then(res => setUserId(res.data[0]._id))
-        .catch(err => console.log(err))
+            // .then(res => setUserId(res.data[0]._id))
+            .then(res => setUserId(res.data[0]._id))
+            .catch(err => console.log(err))
     }
 
     // // Check if user has a profile associated with their Auth0
@@ -124,47 +124,47 @@ function DJHome() {
             document.getElementById(event.target.id).checked = false;
         } else {
 
-            let endId = `end-${event.target.id.slice(9,16)}`;
-            let detailsId = `details-${event.target.id.slice(9,16)}`;
+            let endId = `end-${event.target.id.slice(9, 16)}`;
+            let detailsId = `details-${event.target.id.slice(9, 16)}`;
 
-            if(document.getElementById(event.target.id).checked) {
+            if (document.getElementById(event.target.id).checked) {
                 document.getElementById(endId).classList.remove("end-hidden");
                 document.getElementById(detailsId).classList.add("details-hidden");
                 setEventIsActive(true);
 
                 const eventStatus = {
-                    "eventSubIdToChange":currentEventSubId,
-                    "changeStatusTo":'activated'
+                    "eventSubIdToChange": currentEventSubId,
+                    "changeStatusTo": 'activated'
                 };
 
                 // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
                 API.updateEventStatus(eventStatus)
-                .then(res => {
-                    console.log("This is the response after PUT to change to activated:");
-                    console.log(res);
-                    loadEvents();   
-                })
-                .catch(err => console.log(err))
+                    .then(res => {
+                        console.log("This is the response after PUT to change to activated:");
+                        console.log(res);
+                        loadEvents();
+                    })
+                    .catch(err => console.log(err))
 
-                
+
             } else {
                 document.getElementById(endId).classList.add("end-hidden");
                 document.getElementById(detailsId).classList.remove("details-hidden");
                 setEventIsActive(false);
 
                 const eventStatus = {
-                    "eventSubIdToChange":currentEventSubId,
-                    "changeStatusTo":'deactivated'
+                    "eventSubIdToChange": currentEventSubId,
+                    "changeStatusTo": 'deactivated'
                 };
 
                 // API TO UPDATE EVENT TO SET EVENT AS DEACTIVATED
                 API.updateEventStatus(eventStatus)
-                .then(res => {
-                    console.log("This is the response after PUT to change to deactivated:");
-                    console.log(res);
-                    loadEvents();
-                })
-                .catch(err => console.log(err))
+                    .then(res => {
+                        console.log("This is the response after PUT to change to deactivated:");
+                        console.log(res);
+                        loadEvents();
+                    })
+                    .catch(err => console.log(err))
             }
 
         }
@@ -197,9 +197,19 @@ function DJHome() {
         // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
         // See details above in require uuid.
         const randomEventId = uuid();
+
+        // Declare eventImageUpload. If user didn't select an event image, use the default event image. 
+        // It will either be the image that is set when it is uploaded or the default event image.
+        if (image === "https://via.placeholder.com/150") {
+            var eventImageUpload = "https://res.cloudinary.com/noimgmt/image/upload/v1616029532/sil7xrgk6wg6wktkbrdn.png";
+        } else {
+            var eventImageUpload = image;
+        };
+
+
         API.createEvent({
             _id: randomEventId,
-            subIdForEventStatusChange: randomEventId.slice(0,6),
+            subIdForEventStatusChange: randomEventId.slice(0, 6),
             genre: formObject.genre,
             eventDate: formObject.eventDate,
             startTime: formObject.eventTimeStart,
@@ -210,19 +220,13 @@ function DJHome() {
             venueAddress: formObject.eventLocation,
             generalRequestTipMin: formObject.generalRequestTipMin,
             playNowTipMin: formObject.playNowTipMin,
-            eventImage: image,
+            eventImage: eventImageUpload,
             djId: userId
         })
             .then((res) => window.location.replace("/dj/dashboard"))
             // .then((res) => console.log(res))
             .catch(err => console.log(err));
     }
-
-    // function checkExistingProfile() {
-    //     if ()
-    // }
-
-    // API get request to get upcoming events
 
     return (
         <div>
@@ -234,8 +238,8 @@ function DJHome() {
                     <Row classes="flex-nowrap">
                         {events.map(djEvent => (
                             <Col classes="d-flex" key={djEvent._id}>
-                                <DjEvent 
-                                    {...djEvent} 
+                                <DjEvent
+                                    {...djEvent}
                                     handleSwitch={handleSwitch}
                                     handleEnd={handleEnd}
                                 />
