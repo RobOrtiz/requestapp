@@ -27,7 +27,10 @@ router.route("/eventstatus")
   .put(djController.updateEventStatus)
 
 router.route("/requests")
-  .put(djController.findSongById);
+  .put(djController.findSongById)
+
+router.route("/requests/:id")
+  .get(djController.countSongStatuses)
 
 
 module.exports = router;

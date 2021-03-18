@@ -13,6 +13,14 @@ import API from "../utils/API";
 function DJRequests() {
     const { user } = useAuth0();
 
+    // Global variable to send newly acquired activated eventId (via the getActivatedEvent API) to the 
+    // getSongStatusCount API function (it follows the getActivatedEvent API in the loadActivatedEventRequests function).
+    // Have to do it this way because of the way seting a state works in the loadActivatedEventRequests function.
+    // We set the activatedEventId in the loadActivatedEventRequests function via the getActivatedEvent API but it isn't 
+    // immediately available for the getSongStatusCount API function.
+    // Working around until a better way is figured out.
+    var eventIdForSongCount;
+
     // Set state djActivatedDjId to the logged in Dj's ObjectId
     const [activatedDjId, setActivatedDjId] = useState("");
 
@@ -27,7 +35,10 @@ function DJRequests() {
     // This will be sent to the PUT API call to update requestList.
     const [songId, setSongId] = useState("");
 
-
+    // Set states for the numbers of song requests on the request page for the queue, playNowQueue, and the generalRequestQueue.
+    const [queueCount, setQueueCount] = useState("0");
+    const [playNowQueueCount, setPlayNowQueueCount] = useState("0");
+    const [generalRequestCount, setGeneralRequestQueueCount] = useState("0");
 
     // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
     // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
@@ -56,11 +67,7 @@ function DJRequests() {
     const loadProfile = id => {
         API.getDj(id)
             .then(res => {
-                console.log("I'm in the loadProfile function. This is the Dj's ObjectId via res.data[0]._id:");
-                console.log(res.data[0]._id);
                 setActivatedDjId(res.data[0]._id)
-                console.log("******************************************************");
-                console.log(activatedDjId);
                 loadActivatedEventRequests(res.data[0]._id)
             })
             .catch(err => console.log(err))
@@ -73,8 +80,8 @@ function DJRequests() {
     // Once the intial load is done it will call the loadRequests function.
     // This will be accessed on the initial load and any time there after when the requestList changes.
     // Once the intial load is done it will call the loadRequests function.
-    function loadActivatedEventRequests(djId) {
-        API.getActivatedEvent(djId)
+    async function loadActivatedEventRequests(djId) {
+        await API.getActivatedEvent(djId)
             .then(res => {
 
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
@@ -82,6 +89,8 @@ function DJRequests() {
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
 
+                // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
+                eventIdForSongCount = res.data.events[0]._id;
                 // Reset songId back to empty after each load to cause state change for when a user clicks the same song req twice in a row.
                 // As in they click ACCCEPT to add to queue and then they click PLAYED right after.
                 // Because the songId doesn't change - it doesn't "react"/"refresh" to remove the PLAYED song off of the request page.
@@ -89,7 +98,41 @@ function DJRequests() {
                 setSongId("");
 
             })
-            // .then(() => { loadRequests() })
+            .catch(err => console.log(err));
+
+        // API to retrieve occurrences (count) of the songs in the queue, playNowQueue, and the generalRequestQueue.
+        // Send it the actived eventId via the global variable eventIdForSongCount that is assigned above via the 
+        // getActivatedEvent API. I wanted to just send it the activatedEvent state, but it was available yet - as it was just set.
+        await API.getSongStatusCount(eventIdForSongCount)
+            .then(res => {
+
+                // The way the aggreagate method for mongodb wasn't working correctly. 
+                // Declare counters here for the occurrences of queue, playNowQueue, and generalRequestQueue 
+                // That are in the returned array from the API. It should have returned the count of each for us, but
+                // there is a glitch. This is the workout, take the array and count them ourselves.
+                var queueCounter = 0;
+                var playNowQueueCounter = 0;
+                var generalRequestQueueCounter = 0;
+
+                // Go through the array of songStatuses and increased appropriate counter.
+                for (var i = 0; i < res.data[0]._id.length; i++) {
+                    if (res.data[0]._id[i] === "queue") {
+                        queueCounter = queueCounter + 1;
+                    }
+                    else if (res.data[0]._id[i] === "playNowQueue") {
+                        playNowQueueCounter = playNowQueueCounter + 1;
+                    }
+                    else if (res.data[0]._id[i] === "generalRequestQueue") {
+                        generalRequestQueueCounter = generalRequestQueueCounter + 1;
+                    }
+                }
+                
+                // Set the states for the queue, playNowQueue, and generalRequestQueue counters.
+                // They are displayed on the request page for the different queues.
+                setQueueCount(queueCounter)
+                setPlayNowQueueCount(playNowQueueCounter)
+                setGeneralRequestQueueCount(generalRequestQueueCounter)
+            })
             .catch(err => console.log(err));
     }
 
@@ -101,10 +144,10 @@ function DJRequests() {
 
         event.preventDefault();
 
-          // setSongId to the ObjectId of the requested song that was clicked on - to move it to the queue.
-            // By setting it here, it will refresh the request page based on the state changing - using the
-            // firstUpdate1 function above with the useRef and useLayoutEffect hooks.
-            setSongId(event.target.id);
+        // setSongId to the ObjectId of the requested song that was clicked on - to move it to the queue.
+        // By setting it here, it will refresh the request page based on the state changing - using the
+        // firstUpdate1 function above with the useRef and useLayoutEffect hooks.
+        setSongId(event.target.id);
 
         // Declare requestButtonType to the textContent of the ACCEPT button on the song req component. 
         const requestButtonType = event.target.textContent;
@@ -142,13 +185,13 @@ function DJRequests() {
         console.log("*****", songId);
 
         // PUT API route to update songStatus based on the songData
-       await API.updateRequest(songData)
+        await API.updateRequest(songData)
             .then(res => {
-                console.log("catfood:",res);
+                console.log("catfood:", res);
             })
             .catch(err => console.log(err))
-            
-  
+
+
     }
 
     function handleDeclineRequest(event) {
@@ -162,7 +205,7 @@ function DJRequests() {
             {/* Queue */}
             <Container classes="top-container">
                 <Row>
-                    <h1>Queue</h1>
+                    <h1>Queue <span className="badge badge-dark"> {queueCount}</span></h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
@@ -184,7 +227,7 @@ function DJRequests() {
             {/* Play Now */}
             <Container classes="mt-5 mb-5">
                 <Row>
-                    <h1>Play Now</h1>
+                    <h1>Play Now <span className="badge badge-dark"> {playNowQueueCount}</span></h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap" >
@@ -206,7 +249,7 @@ function DJRequests() {
             {/* General Requests */}
             <Container classes="bottom-container">
                 <Row>
-                    <h1>General Requests</h1>
+                    <h1>General Requests <span className="badge badge-dark"> {generalRequestCount}</span></h1>
                 </Row>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
