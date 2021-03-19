@@ -87,38 +87,20 @@ const eventSchema = new Schema({
             playNow: { type: Boolean },
             songStatus: { type: String },
             customerName: { type: String },
-            queueOrderNumber: {type: Number, default: 0}
+            queueOrderNumber: { type: Number, default: 0 },
+            requestedTime: {
+                type: Date,
+                default: new Date()
+            },
+            timeUpdatedAt: {
+                type: Date,
+                default: new Date()
+            },
+
         },
         { timestamps: true }
     ],
-
-    //Originally created 3 separate lists. Switched to one requestList with a songStatus
-    //determining where the song is at in the request flow: requested, accepted or declined, in the queue (can be removed), played...    //We can place the songs in the appropriate section based on their songStatus. 
-    //As the requested song gets moved around we update the songStatus field.
-    //Keeping the playQueue and songActivity lists commented out until we decided which way to manage songs.
-    // playQueue: [
-    //     {
-    //         albumCover: {type:String},
-    //         title: {type:String},
-    //         artist: {type:String},
-    //         tip: {type:Number},
-    //         requestType: {type:String},
-    //     }
-    // ],
-
-    // songActivity: [
-    //     {
-    //         albumCover: {type:String},
-    //         title: {type:String},
-    //         artist: {type:String},
-    //         tip: {type:Number},
-    //         requestType: {type:String},
-    //         songStatus: {type:String}
-    //     }
-    // ],
-
-
-
+    
 });
 
 const Event = mongoose.model("Event", eventSchema);
