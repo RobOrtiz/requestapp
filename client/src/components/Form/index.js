@@ -12,7 +12,7 @@ export function Input(props) {
 export function InputText(props) {
     return (
         <div className="form-group">
-            <label forhtml={props.id}>{props.label}</label>
+            <label htmlFor={props.id}>{props.label}</label>
             <input {...props}/>
         </div>
     )
@@ -22,17 +22,16 @@ export function InputCheckbox(props) {
     return (
         <div className="form-check">
             <input type={props.type} name={props.name} value={props.value} id={props.id} className={props.className}/>
-            <label forhtml={props.id} className="form-check-label text-left" data-toggle="tooltip" title={props.tooltipTitle}>{props.label} <i className="fas fa-info-circle"></i></label>
+            <label htmlFor={props.id} className="form-check-label text-left" data-toggle="tooltip" title={props.tooltipTitle}>{props.label} <i className="fas fa-info-circle"></i></label>
         </div>
     )
 }
 
-// Note: React gives a warning for using "for" but bootstrap requires it to stay "for" instead of "forhtml" in order to work
 export function Switch(props) {
     return (
       <div className="custom-control custom-switch mt-3">
         <input type="checkbox" className="custom-control-input" id={props.id} onChange={props.change} />
-        <label className="custom-control-label" for={props.id}>{props.switchTitle}</label>
+        <label className="custom-control-label" htmlFor={props.id}>{props.switchTitle}</label>
       </div> 
     )
 }
@@ -40,7 +39,7 @@ export function Switch(props) {
 export function Dropdown(props) {
     return (
     <div className="form-group">
-        <label forhtml={props.id}>{props.label}</label>
+        <label htmlFor={props.id}>{props.label}</label>
         <select className="form-control" id={props.id}>
             {props.children}
         </select>
