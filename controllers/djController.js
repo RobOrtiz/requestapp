@@ -25,12 +25,17 @@ module.exports = {
   //     .catch((err) => res.status(422).json(err));
   // },
 
-  // This is used to find all Events for a Dj - sorts in ascending order
+  // This is used to find activated and deactivated Events for a Dj - sorts in ascending order
+  // It does not retrieve the events that have ended.
   // Used by GET on djs.js router.route("/")
   findAll: function (req, res) {
     db.Dj.find(req.query)
       .populate({
         path: 'events',
+        match: { $or: [ 
+          { eventStatus: "activated"},
+          { eventStatus: "deactivated"}
+        ]},
         options: {
           sort: { 'eventDate': 1 }
         }

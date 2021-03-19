@@ -63,7 +63,6 @@ function DJHome() {
             .catch(err => console.log(err));
     };
 
-
     const [formObject, setFormObject] = useState({
     });
 
@@ -89,36 +88,19 @@ function DJHome() {
         loadProfile(user.sub)
     }, [])
 
-    // API get request for user informatoin
+    // API GET request for user informatoin
     function loadProfile(id) {
         API.getDj(id)
-            // .then(res => setUserId(res.data[0]._id))
             .then(res => setUserId(res.data[0]._id))
             .catch(err => console.log(err))
     }
 
-    // // Check if user has a profile associated with their Auth0
-    // //   If not, send to signup page
-    // function connectProfile(id) {
-    //     API.getDj(id)
-    //     .then(function(res){
-    //         if (res.data.length >= 1) {
-    //         } else {
-    //             window.location.replace("/dj/signup")
-    //         }
-    //     })
-    //     .catch(err => console.log(err))
-    // }
-
     function handleSwitch(event) {
 
-        console.log("We are inside the handleSwitch function and this is event.target");
-        console.log(event.target.id);
 
         var currentEventSubId = event.target.id;
         currentEventSubId = currentEventSubId.substring(currentEventSubId.indexOf("-") + 1);
-        console.log("This is the new string to use to find in the DB:");
-        console.log(currentEventSubId);
+
 
         if (eventIsActive && document.getElementById(event.target.id).checked === true) {
             document.getElementById(event.target.id).checked = false;
@@ -140,7 +122,6 @@ function DJHome() {
                 // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
                 API.updateEventStatus(eventStatus)
                     .then(res => {
-                        console.log("This is the response after PUT to change to activated:");
                         console.log(res);
                         loadEvents();
                     })
@@ -170,9 +151,25 @@ function DJHome() {
         }
     }
 
-    function handleEnd() {
-        console.log("Ended");
-        // API TO UPDATE DATABASE TO REMOVE EVENT
+    // When an end is over the Dj will "end" it and when the button is clicked the eventStatus is changed to "end"
+    // Thus removing it from the event list. 
+    // It eventually will be added to the event history list. 
+    function handleEnd(event) {
+
+        var currentEventSubId = event.target.id;
+        currentEventSubId = currentEventSubId.substring(currentEventSubId.indexOf("-") + 1);
+
+        const eventStatus = {
+            "eventSubIdToChange": currentEventSubId,
+            "changeStatusTo": 'end'
+        };
+
+        // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
+        API.updateEventStatus(eventStatus)
+            .then(res => {
+                loadEvents();
+            })
+            .catch(err => console.log(err))
     }
 
     function handleFormChange() {
@@ -224,7 +221,6 @@ function DJHome() {
             djId: userId
         })
             .then((res) => window.location.replace("/dj/dashboard"))
-            // .then((res) => console.log(res))
             .catch(err => console.log(err));
     }
 
@@ -236,15 +232,17 @@ function DJHome() {
                 <h1>My Events</h1>
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
-                        {events.map(djEvent => (
-                            <Col classes="d-flex" key={djEvent._id}>
-                                <DjEvent
-                                    {...djEvent}
-                                    handleSwitch={handleSwitch}
-                                    handleEnd={handleEnd}
-                                />
-                            </Col>
-                        ))}
+                        {events
+                            .filter(request => request.eventStatus != "end")
+                            .map(djEvent => (
+                                <Col classes="d-flex" key={djEvent._id}>
+                                    <DjEvent
+                                        {...djEvent}
+                                        handleSwitch={handleSwitch}
+                                        handleEnd={handleEnd}
+                                    />
+                                </Col>
+                            ))}
                     </Row>
                 </ScrollContainer>
             </Container>
@@ -362,14 +360,24 @@ function DJHome() {
                     </div>
                 )}
             </Container>
-            {/* Will need to add if statement for if there are any requests */}
-            {/* <Container classes="bottom-container">
-                <h1>RECENT REQUESTS</h1>
-                <Row>
-                    For each new requests, add to the row
-                    <Col></Col>
+
+            {/* This is the event history container if we want to add it.  */}
+            {/* <h1>Event History</h1>
+            <ScrollContainer className="scroll-container">
+                <Row classes="flex-nowrap">
+                    {events
+                        .filter(request => request.eventStatus === "end")
+                        .map(djEvent => (
+                            <Col classes="d-flex" key={djEvent._id}>
+                                <DjEvent
+                                    {...djEvent}
+                                    handleSwitch={handleSwitch}
+                                    handleEnd={handleEnd}
+                                />
+                            </Col>
+                        ))}
                 </Row>
-            </Container> */}
+            </ScrollContainer> */}
 
             <Footer current="home" />
         </div>
