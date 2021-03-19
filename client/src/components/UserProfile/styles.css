@@ -1,5 +1,6 @@
 .profile-image {
     max-height: 200px;
+    border-radius: 7px;
 }
 
 #qr-code-modal {

@@ -121,12 +121,12 @@ function DJActivity() {
                     <Col size="4"><h3 className="text-muted">Play Now: <span className="badge badge-light"> {playNowQueueCount}</span></h3></Col>
                     <Col size="4"><h3 className="text-muted">General: <span className="badge badge-light"> {generalRequestCount}</span></h3></Col>
                 </Row>
-                <Row classes="pt-0 mt-0 activity-header-bottom">
-                    <Col size="3"><h5 className="text-warning">SONG</h5></Col>
-                    <Col size="2"><h5 className="text-warning">STATUS</h5></Col>
+                <Row classes="pt-0 mt-0 activity-header-bottom ">
+                    <Col size="4"><h5 className="text-warning">SONG</h5></Col>
+                    <Col size="3"><h5 className="text-warning">STATUS</h5></Col>
                     <Col size="2"><h5 className="text-warning">TIPPED</h5></Col>
-                    <Col size="2"><h5 className="text-warning">GUEST</h5><p className="text-warning">(REQUEST TYPE)</p></Col>
-                    <Col size="3"><h5 className="text-warning">SUBMITTED / UPDATED</h5></Col>
+                    <Col size="3"><h5 className="text-warning">GUEST</h5><p className="text-warning">(REQUEST TYPE)</p></Col>
+                    {/* <Col size="3"><h5 className="text-warning">SUBMITTED / UPDATED</h5></Col> */}
                 </Row>
                 {/* .map to activity list */}
                 {/* props: key, id, title, artist, tip, guestName, timeStamp*/}
