@@ -64,16 +64,17 @@ function RequestPage() {
     API.getActivatedEvent(getDJId())
       .then((res) => {
         // If page can't find dj's active event, redirect
-        if (res.data.events[0].eventStatus !== "activated") {
+        if (!res.data.events[0]) {
           noEventWarning();
-        }
+        } else {
         setEvent(res.data.events[0]);
         setDjName(res.data.djName);
+        }
       })
       .catch((err) => console.log(err));
   }
   function noEventWarning() {
-    alert("Whoops, looks like this dj doesn't have an active event. Check to make sure you're on the right dj's event")
+    alert("Whoops, looks like this dj doesn't have an active event. Check to make sure you're on the right dj's event, or notify your dj to activate the event.")
     window.location.replace("/request")
   }
 
@@ -277,6 +278,7 @@ function RequestPage() {
   return (
     <div className="request-page">
       <Header title="welcome customer" />
+      {event.eventName && (
       <Container classes="top-container">
         <Row>
         <h1 className="request-title">SEND A REQUEST TO {djName}</h1> 
@@ -466,6 +468,7 @@ function RequestPage() {
           ></img>
         </div>
       </Container>
+      )}
       <button
         id={"warning-form-button"}
         style={{ display: "none" }}
