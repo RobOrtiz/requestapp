@@ -27,7 +27,7 @@ function QueueModal(props) {
                                         {(provided) => (
                                             <li className="card flex-row queue-modal-card" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                             <img src={song.albumCover} alt={song.title} className="card-img queue-modal-image"/>
-                                            <h5 className="font-italic ml-3">{song.title} &#183; {song.artist}</h5>
+                                            <h5 className="font-italic ml-3 mr-2">{song.title} &#183; {song.artist}</h5>
                                             <span className="ml-auto mr-3">Tipped: ${song.tip}</span>
                                         </li>
                                         )}
