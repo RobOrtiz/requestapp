@@ -32,10 +32,10 @@ module.exports = {
     db.Dj.find(req.query)
       .populate({
         path: 'events',
-        match: { $or: [ 
-          { eventStatus: "activated"},
-          { eventStatus: "deactivated"}
-        ]},
+        // match: { $or: [ 
+        //   { eventStatus: "activated"},
+        //   { eventStatus: "deactivated"}
+        // ]},
         options: {
           sort: { 'eventDate': 1 }
         }
