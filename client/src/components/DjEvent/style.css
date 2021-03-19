@@ -45,6 +45,11 @@
   .end-hidden, .details-hidden {
     display: none !important;
   }
+
+  .event-stats-modal {
+    margin-top: 2rem;
+    max-height: 90vh;
+  }
   
   @media (max-width: 600px){
 

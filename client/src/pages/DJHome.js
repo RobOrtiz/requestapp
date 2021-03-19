@@ -247,7 +247,7 @@ function DJHome() {
                     </Row>
                 </ScrollContainer>
             </Container>
-            <Container classes="mt-4 bottom-container">
+            <Container classes="mt-4">
                 {!addEvent.add ? (
                     <form>
                         <FormBtn className="btn btn-dark btn-lg btn-block" onClick={handleFormChange}>
@@ -363,22 +363,24 @@ function DJHome() {
             </Container>
 
             {/* This is the event history container if we want to add it.  */}
-            {/* <h1>Event History</h1>
-            <ScrollContainer className="scroll-container">
-                <Row classes="flex-nowrap">
-                    {events
-                        .filter(request => request.eventStatus === "end")
-                        .map(djEvent => (
-                            <Col classes="d-flex" key={djEvent._id}>
-                                <DjEvent
-                                    {...djEvent}
-                                    handleSwitch={handleSwitch}
-                                    handleEnd={handleEnd}
-                                />
-                            </Col>
-                        ))}
-                </Row>
-            </ScrollContainer> */}
+            <Container classes="mt-4 bottom-container">
+                <h1>Event History</h1>
+                <ScrollContainer className="scroll-container">
+                    <Row classes="flex-nowrap">
+                        {events
+                            .filter(request => request.eventStatus === "end")
+                            .map(djEvent => (
+                                <Col classes="d-flex" key={djEvent._id}>
+                                    <DjEvent
+                                        {...djEvent}
+                                        handleSwitch={handleSwitch}
+                                        handleEnd={handleEnd}
+                                    />
+                                </Col>
+                            ))}
+                    </Row>
+                </ScrollContainer>
+            </Container>
 
             <Footer current="home" />
         </div>
