@@ -74,7 +74,7 @@ function DJSignUp() {
         <Col size="12">
             <div>
               <h1 className="mb-3">CREATE YOUR NOI PROFILE</h1>
-              <form style={{ width: "400px" }}>
+              <form style={{ width: "300px" }}>
                 <InputText
                   onChange={handleInputChange}
                   type="text"
