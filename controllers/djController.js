@@ -83,6 +83,7 @@ module.exports = {
         $set: {
           "requestList.$.songStatus": req.body.newSongStatus,
           "requestList.$.queueOrderNumber": req.body.addQueueNumber,
+          "requestList.$.timeUpdatedAt" : new Date(),
         }
       }
     )
