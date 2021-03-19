@@ -385,6 +385,26 @@ function RequestPage() {
           </Row>
           <br />
           <Row>
+            <Col size="12">
+            <p id="request-type-label">Request Type<i data-toggle="modal" data-target={`#modal-request-type`} className="fas fa-info-circle ml-2"></i></p>
+            <div className="modal fade" id={`modal-request-type`} tabIndex="-1" role="dialog" aria-hidden="true">
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-body">
+                    <p className="request-type-modal-content">
+                      <u>General Request</u> * : A request will be sent to the DJ.  The DJ will review these after the Play Now requests. This request may be played at any point throughout the event.
+                      <br/><br/>
+                      <u>Play Now Request</u> * : The DJ will see these requests immediately, and may play this within 2-3 songs.
+                      <br/><br/>
+                      <span className="h6">* Please note that your song is not guaranteed to be played.  If your song is not played, the DJ will refund your charge.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </Col>
+          </Row>
+          <Row>
             <Col size="md-4 sm-12">
               <InputCheckbox
                 onChange={handleInputChange}
@@ -394,7 +414,6 @@ function RequestPage() {
                 id="generalRequest"
                 label="General"
                 className="form-check-input"
-                tooltipTitle="A request will be sent to the DJ.  The DJ will review these after the Play Now requests."
               />
             </Col>
             <Col size="md-8 sm-12">
@@ -411,7 +430,6 @@ function RequestPage() {
                 id="playNow"
                 label="Play Now"
                 className="form-check-input"
-                tooltipTitle="The DJ will see these requests immediately."
               />
             </Col>
             <Col size="md-8 sm-12">

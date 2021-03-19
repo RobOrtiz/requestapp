@@ -48,3 +48,11 @@
     margin: 1rem;
     border: 2px solid white;
 }
+
+#request-type-label i:hover {
+    cursor: pointer;
+}
+
+.request-type-modal-content {
+    font-size: 1.3rem;
+}

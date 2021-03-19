@@ -22,7 +22,10 @@ export function InputCheckbox(props) {
     return (
         <div className="form-check">
             <input type={props.type} name={props.name} value={props.value} id={props.id} className={props.className}/>
-            <label htmlFor={props.id} className="form-check-label text-left" data-toggle="tooltip" title={props.tooltipTitle}>{props.label} <i className="fas fa-info-circle"></i></label>
+            <label htmlFor={props.id} className="form-check-label text-left">{props.label}</label>
+            {props.tooltip === "true" && 
+            <i data-toggle="modal" data-target={`#modal-${props.tooltipId}`} className="fas fa-info-circle ml-2"></i>
+            }
         </div>
     )
 }

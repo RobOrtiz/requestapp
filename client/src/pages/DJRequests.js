@@ -245,7 +245,7 @@ function DJRequests() {
             <Container classes="top-container">
                 <Row>
                     <h1>Queue <span className="badge badge-dark"> {queueCount}</span></h1>
-                    <a href="#queueModal" className="ml-3" data-toggle="modal" data-target="#queueModal" style={{color: "white"}}>SEE ALL QUEUE SONGS</a>
+                    <a href="#queueModal" className="ml-auto mr-3 mt-1" data-toggle="modal" data-target="#queueModal" style={{color: "gold"}}>SEE ALL QUEUE SONGS</a>
                 </Row>
                 {queueList && <QueueModal 
                     songs={queueList}
