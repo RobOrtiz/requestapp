@@ -21,3 +21,38 @@
     min-width: 253px;
     max-width: 253px;
 }
+
+@media (max-width: 600px){
+
+    .album-cover {
+        min-height: 150px;
+        min-width: 150px;
+        max-height: 150px;
+        max-width: 150px;
+    }
+
+    .song-card {
+        min-width: 153px;
+        max-width: 153px;
+    }
+
+    .song-card .card-body {
+        padding: 0.75rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .song-card .card-body .card-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .song-card .card-body button {
+        display: block;
+        width: 100%;
+    }
+
+    .song-card .card-body button:nth-of-type(1) {
+        margin-top: auto;
+        margin-bottom: 0.25rem;
+    }
+
+}
