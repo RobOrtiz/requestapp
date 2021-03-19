@@ -29,6 +29,7 @@
     "express-validator": "^6.10.0",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.18",
     "morgan": "^1.10.0",

@@ -1,5 +1,8 @@
 import React from 'react';
 import { Row, Col } from '../Grid';
+const moment = require('moment')
+
+
 
 function ActivityRow(props) {
 
@@ -36,11 +39,9 @@ function ActivityRow(props) {
             break;
     }
 
-    // Convert dates into readable time format
-    var convertRequestedTime = new Date(props.requestedTime);
-    convertRequestedTime.getUTCHours();
-    console.log("This is the hour:");
-    console.log(convertRequestedTime);
+    // Convert dates into readable time format using Moment.Js package
+    var updatedTimeDateConvertedToTime = moment(props.timeUpdatedAt).format('LT');
+    var requestSubmittedDateConvertedToTime = moment(props.requestedTime).format('LT');
 
     return (
         <Row classes="h-100 pt-2 activity-bottom">
@@ -51,15 +52,15 @@ function ActivityRow(props) {
             <Col size="2" classes="my-auto">
                 <p>{textSongStatus}</p>
             </Col>
-            <Col size="1" classes="my-auto">
+            <Col size="2" classes="my-auto">
                 <h5>${props.tip}</h5>
             </Col>
             <Col size="2" classes="my-auto">
                 <h5>{props.customerName}</h5>
                 <p>{requestType}</p>
             </Col>
-            <Col size="4" classes="my-auto">
-                <p>Request Submitted at: {props.requestedTime} <br /> Request Updated At: {props.timeUpdatedAt}</p>
+            <Col size="3" classes="my-auto">
+                <p>Submitted at: {requestSubmittedDateConvertedToTime} <br />Updated At: {updatedTimeDateConvertedToTime}</p>
             </Col>
         </Row>
     )

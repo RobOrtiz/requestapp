@@ -7,7 +7,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated";
 import API from "../utils/API";
 
-
 function DJActivity() {
 
     const { user } = useAuth0();
@@ -117,12 +116,17 @@ function DJActivity() {
         <div>
             <Header title="ACTIVITY" />
             <Container classes="top-container bottom-container text-center">
+                <Row classes="p-4 mt-0 activity-header-bottom">
+                    <Col size="4"><h3 className="text-muted">Queue: <span className="badge badge-light"> {queueCount}</span></h3></Col>
+                    <Col size="4"><h3 className="text-muted">Play Now: <span className="badge badge-light"> {playNowQueueCount}</span></h3></Col>
+                    <Col size="4"><h3 className="text-muted">General: <span className="badge badge-light"> {generalRequestCount}</span></h3></Col>
+                </Row>
                 <Row classes="pt-0 mt-0 activity-header-bottom">
                     <Col size="3"><h5 className="text-warning">SONG</h5></Col>
                     <Col size="2"><h5 className="text-warning">STATUS</h5></Col>
-                    <Col size="1"><h5 className="text-warning">TIPPED</h5></Col>
+                    <Col size="2"><h5 className="text-warning">TIPPED</h5></Col>
                     <Col size="2"><h5 className="text-warning">GUEST</h5><p className="text-warning">(REQUEST TYPE)</p></Col>
-                    <Col size="4"><h5 className="text-warning">DATE / TIME</h5></Col>
+                    <Col size="3"><h5 className="text-warning">SUBMITTED / UPDATED</h5></Col>
                 </Row>
                 {/* .map to activity list */}
                 {/* props: key, id, title, artist, tip, guestName, timeStamp*/}
