@@ -167,6 +167,7 @@ function DJHome() {
         // API TO UPDATE EVENT TO SET EVENT AS ACTIVATED
         API.updateEventStatus(eventStatus)
             .then(res => {
+                setEventIsActive(false);
                 loadEvents();
             })
             .catch(err => console.log(err))
