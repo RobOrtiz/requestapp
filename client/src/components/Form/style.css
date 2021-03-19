@@ -4,3 +4,11 @@
     color: white;
     margin-bottom: 1rem;
 }
+
+.form-check i {
+    color: white;
+}
+
+.form-check i:hover {
+    cursor: pointer;
+}
