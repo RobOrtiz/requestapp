@@ -8,10 +8,10 @@ function ActivityRow(props) {
 
     // Determine song type - playNow or generalRequest
     if (props.playNow === true) {
-        var requestType = "Play Now Song Request"
+        var requestType = "Play Now Request"
     }
     else {
-        var requestType = "General Song Request"
+        var requestType = "General Request"
     }
 
     // Determine text to display for song status and tip status
