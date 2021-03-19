@@ -10,7 +10,7 @@
 .queue-modal-image {
     max-width: 35px;
     opacity: 1;
-    filter: brightness(.3)
+    filter: brightness(.8)
 }
 
 .queue-modal-card {
