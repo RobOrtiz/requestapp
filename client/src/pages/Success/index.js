@@ -26,20 +26,20 @@ function Success() {
             
             <Row>
                 <Col>
-                    <h1 className="text-center mt-5 confirmation-text display-4">THANK YOU FOR USING <span className="logo-text">NOI</span>!</h1>
+                    <h1 className="text-center mt-5 confirmation-text thank-you-text display-4">THANK YOU FOR USING <span className="logo-text">NOI</span>!</h1>
                     <h2 className="text-center mt-5 confirmation-text">YOUR REQUEST HAS BEEN SENT!</h2>
                 </Col>
             </Row>
         </Container>
         <Container>
-            <Row>
+            {/* <Row>
                 <Col>
-                    <h2 className="text-center mt-3 confirmation-text">You will be notified via email when your song is being played.</h2>
+                    <h5 className="text-center mt-3 confirmation-text">You will be notified via email when your song is being played.</h5>
                 </Col>
-            </Row>
+            </Row> */}
             <Row>
                 <Col>
-                    <h3 className="text-center mt-5 confirmation-text">Want to make another request?  Just click <a href={`/request/${djUrl}`}className="confirmation-link">here!</a></h3>
+                    <h2 className="text-center mt-2">Want to make another request?  Just click <a href={`/request/${djUrl}`}className="confirmation-link">here!</a></h2>
                     <h3 className="text-center mt-3 confirmation-text">(Do not use the back button.  This may cause an issue with your request)</h3>
                 </Col>
             </Row>
