@@ -14,6 +14,10 @@
     border-bottom: 3px solid rgb(94, 94, 94);
 }
 
+.activity-song-top {
+    border-top: 8px solid rgb(179, 150, 14);
+}
+
 .activity-bottom {
     border-bottom: 5px solid rgb(124, 124, 124);
 }
