@@ -5,6 +5,7 @@ import { Row, Col } from "../Grid";
 
 
 function QRModal(props) {
+    let baseUrl = window.location.origin;
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -24,7 +25,7 @@ function QRModal(props) {
                                 <h1 className="qr-modal-name mt-5 text-center">{props.djName}</h1>
                             </Col>
                                 <h3 className="mt-3">LINK:</h3>
-                                <h3 className="qr-modal-link p-3"><a href={`https://noi-request-app.herokuapp.com/request/${props.djCode}`}>{`https://noi-request-app.herokuapp.com/request/${props.djCode}`}</a></h3>
+                                <h3 className="qr-modal-link p-3"><a href={`${baseUrl}/request/${props.djCode}`}>{`${baseUrl}/request/${props.djCode}`}</a></h3>
                         </Row>
                         <Row classes="d-flex align-items-center justify-content-center qr-code">
                             <QR djCode={props.djCode} />                            
