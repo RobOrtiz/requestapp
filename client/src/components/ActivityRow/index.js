@@ -54,7 +54,7 @@ function ActivityRow(props) {
 
     return (
         <Row classes="h-100 pt-2 activity-bottom">
-            <Col size="4" classes="my-auto">
+            <Col size="3" classes="my-auto">
                 <h4 className="font-weight-bold">{props.title}</h4>
                 <p>{props.artist}</p>
             </Col>
@@ -63,7 +63,7 @@ function ActivityRow(props) {
                 <p>{updatedTimeDateConvertedToTime}</p>
                 <p>Submitted at: {requestSubmittedDateConvertedToTime}</p>
             </Col>
-            <Col size="2" classes="my-auto">
+            <Col size="3" classes="my-auto">
                 <h5>${props.tip}</h5>
                 <p>{tipStatus}</p>
             </Col>
