@@ -6,8 +6,24 @@ import API from "./API";
 const Helpers = {
 
     // Helper function to change state of selectedFile to the file that the user chooses to upload.
-    selectImage: async (event, setSelectedFile) => {
-        setSelectedFile(event.target.files[0]);
+    selectImage: async (event, setSelectedFile, setInvalidImage) => {
+        // setSelectedFile(event.target.files[0]);
+        const imageFile = event.target.files[0];
+
+        if (!imageFile) {
+            setInvalidImage('Please select image.');
+            return false;
+          }
+ 
+        if (!imageFile.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+          setInvalidImage('Please select valid image.');
+          setSelectedFile("");
+          return false;
+        }
+        else {
+            setInvalidImage('');
+            setSelectedFile(event.target.files[0]);
+        }
     },
 
     // Helper function to upload the selectedFile to Cloudinary via their API once the user clicks on the upload image button.

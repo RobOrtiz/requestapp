@@ -123,6 +123,9 @@ function DJRequests() {
         await API.getSongStatusCount(eventIdForSongCount)
             .then(res => {
 
+                console.log("This is the getSongStatusCount: ");
+                console.log(res);
+
                 // The way the aggreagate method for mongodb wasn't working correctly. 
                 // Declare counters here for the occurrences of queue, playNowQueue, and generalRequestQueue 
                 // That are in the returned array from the API. It should have returned the count of each for us, but
@@ -132,14 +135,14 @@ function DJRequests() {
                 var generalRequestQueueCounter = 0;
 
                 // Go through the array of songStatuses and increased appropriate counter.
-                for (var i = 0; i < res.data[0]._id.length; i++) {
-                    if (res.data[0]._id[i] === "queue") {
+                for (var i = 0; i < res.data.length; i++) {
+                    if (res.data[i]._id.songType === "queue") {
                         queueCounter = queueCounter + 1;
                     }
-                    else if (res.data[0]._id[i] === "playNowQueue") {
+                    else if (res.data[i]._id.songType === "playNowQueue") {
                         playNowQueueCounter = playNowQueueCounter + 1;
                     }
-                    else if (res.data[0]._id[i] === "generalRequestQueue") {
+                    else if (res.data[i]._id.songType === "generalRequestQueue") {
                         generalRequestQueueCounter = generalRequestQueueCounter + 1;
                     }
                 }

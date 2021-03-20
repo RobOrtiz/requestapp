@@ -157,9 +157,9 @@ function RequestPage() {
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
-    let formFilledOutRight = true;
+
     function checkIfFormUnfilled(obj, buttonType) {
-      
+      let formFilledOutRight = true;
       // Check buttons
       var inputs = document.getElementsByTagName("input");
       // buttonsBoolean is for selection validation
