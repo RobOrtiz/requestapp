@@ -25,3 +25,12 @@
     color: rgb(240, 218, 123);
     text-shadow: none;
 }
+
+
+@media (max-width: 600px){
+
+    .thank-you-text {
+        font-size: 2.5rem !important;
+    }
+
+}
