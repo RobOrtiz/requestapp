@@ -101,6 +101,9 @@ function DJRequests() {
         await API.getActivatedEvent(djId)
             .then(res => {
 
+                console.log("Here we go again.");
+                console.log(res.data.events[0].requestList)
+
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
                 //setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
@@ -113,48 +116,31 @@ function DJRequests() {
                 // Because the songId doesn't change - it doesn't "react"/"refresh" to remove the PLAYED song off of the request page.
                 // This fixes that!
                 setSongId("");
-
-            })
-            .catch(err => console.log(err));
-
-        // API to retrieve occurrences (count) of the songs in the queue, playNowQueue, and the generalRequestQueue.
-        // Send it the actived eventId via the global variable eventIdForSongCount that is assigned above via the 
-        // getActivatedEvent API. I wanted to just send it the activatedEvent state, but it was available yet - as it was just set.
-        await API.getSongStatusCount(eventIdForSongCount)
-            .then(res => {
-
-                console.log("This is the getSongStatusCount: ");
-                console.log(res);
-
-                // The way the aggreagate method for mongodb wasn't working correctly. 
-                // Declare counters here for the occurrences of queue, playNowQueue, and generalRequestQueue 
-                // That are in the returned array from the API. It should have returned the count of each for us, but
-                // there is a glitch. This is the workout, take the array and count them ourselves.
+                
                 var queueCounter = 0;
                 var playNowQueueCounter = 0;
                 var generalRequestQueueCounter = 0;
 
                 // Go through the array of songStatuses and increased appropriate counter.
-                for (var i = 0; i < res.data.length; i++) {
-                    if (res.data[i]._id.songType === "queue") {
+                for (var i = 0; i < res.data.events[0].requestList.length; i++) {
+                    if (res.data.events[0].requestList[i].songStatus === "queue") {
                         queueCounter = queueCounter + 1;
                     }
-                    else if (res.data[i]._id.songType === "playNowQueue") {
+                    else if (res.data.events[0].requestList[i].songStatus === "playNowQueue") {
                         playNowQueueCounter = playNowQueueCounter + 1;
                     }
-                    else if (res.data[i]._id.songType === "generalRequestQueue") {
+                    else if (res.data.events[0].requestList[i].songStatus === "generalRequestQueue") {
                         generalRequestQueueCounter = generalRequestQueueCounter + 1;
                     }
                 }
-                
-                // Set the states for the queue, playNowQueue, and generalRequestQueue counters.
-                // They are displayed on the request page for the different queues.
+
                 setQueueCount(queueCounter)
                 setPlayNowQueueCount(playNowQueueCounter)
                 setGeneralRequestQueueCount(generalRequestQueueCounter)
+
             })
             .catch(err => console.log(err));
-    }
+        }
 
 
 

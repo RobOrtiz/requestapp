@@ -81,19 +81,11 @@ function DJActivity() {
                 // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
                 eventIdForSongCount = res.data.events[0]._id;
 
-            })
-            .catch(err => console.log(err));
+                console.log("Here we go again.");
+                console.log(res.data.events[0].requestList[0].songStatus)
+                console.log(res.data.events[0].requestList[0].tip)
 
-        // API to retrieve occurrences (count) of the songs in the queue, playNowQueue, and the generalRequestQueue.
-        // Send it the actived eventId via the global variable eventIdForSongCount that is assigned above via the 
-        // getActivatedEvent API. I wanted to just send it the activatedEvent state, but it was available yet - as it was just set.
-        await API.getSongStatusCount(eventIdForSongCount)
-            .then(res => {
 
-                // The way the aggreagate method for mongodb wasn't working correctly. 
-                // Declare counters here for the occurrences of queue, playNowQueue, and generalRequestQueue 
-                // That are in the returned array from the API. It should have returned the count of each for us, but
-                // there is a glitch. This is the workout, take the array and count them ourselves.
 
                 var queueCounter = 0;
                 var playNowQueueCounter = 0;
@@ -101,42 +93,41 @@ function DJActivity() {
                 var tipsEarned = 0;
                 var declinedTips = 0;
                 var pendingTips = 0;
-                var removedTips = 0;
                 var requestsPlayed = 0;
                 var declinedRequests = 0;
                 var totalRequests = 0;
                 var removedRequests = 0;
 
                 // Go through the array of songStatuses and increased appropriate counter.
-                for (var i = 0; i < res.data.length; i++) {
-                    switch (res.data[i]._id.songType) {
+                for (var i = 0; i < res.data.events[0].requestList.length; i++) {
+                    switch (res.data.events[0].requestList[i].songStatus) {
                         case "queue":
                             queueCounter = queueCounter + 1;
-                            pendingTips = pendingTips + res.data[i]._id.tipAmount;
+                            pendingTips = pendingTips + res.data.events[0].requestList[i].tip;
                             totalRequests = totalRequests + 1;
                             break;
                         case "playNowQueue":
                             playNowQueueCounter = playNowQueueCounter + 1;
-                            pendingTips = pendingTips + res.data[i]._id.tipAmount;
+                            pendingTips = pendingTips + res.data.events[0].requestList[i].tip;
                             totalRequests = totalRequests + 1;
                             break;
                         case "generalRequestQueue":
                             generalRequestQueueCounter = generalRequestQueueCounter + 1;
-                            pendingTips = pendingTips + res.data[i]._id.tipAmount;
+                            pendingTips = pendingTips + res.data.events[0].requestList[i].tip;
                             totalRequests = totalRequests + 1;
                             break;
                         case "played":
-                            tipsEarned = tipsEarned + res.data[i]._id.tipAmount;
+                            tipsEarned = tipsEarned + res.data.events[0].requestList[i].tip;
                             requestsPlayed = requestsPlayed + 1;
                             totalRequests = totalRequests + 1;
                             break;
                         case "removed":
-                            declinedTips = declinedTips + res.data[i]._id.tipAmount;
+                            declinedTips = declinedTips + res.data.events[0].requestList[i].tip;
                             removedRequests = removedRequests + 1;
                             totalRequests = totalRequests + 1;
                             break;
                         case "declined":
-                            declinedTips = declinedTips + res.data[i]._id.tipAmount;
+                            declinedTips = declinedTips + res.data.events[0].requestList[i].tip;
                             declinedRequests = declinedRequests + 1;
                             totalRequests = totalRequests + 1;
                             break;
@@ -144,8 +135,7 @@ function DJActivity() {
                             console.log("It didn't work. Fix it!")
                             break;
                     }
-                    // Set the states for the queue, playNowQueue, and generalRequestQueue counters.
-                    // They are displayed on the request page for the different queues.
+
                     setQueueCount(queueCounter)
                     setPlayNowQueueCount(playNowQueueCounter)
                     setGeneralRequestQueueCount(generalRequestQueueCounter)
@@ -158,6 +148,7 @@ function DJActivity() {
                     setTotalRequests(totalRequests)
                     setRemovedRequests(removedRequests)
                 }
+
             })
             .catch(err => console.log(err));
     }
