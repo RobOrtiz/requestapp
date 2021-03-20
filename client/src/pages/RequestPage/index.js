@@ -153,13 +153,14 @@ function RequestPage() {
   // When user clicks on "Pay Now"
   function handleFormSubmit(e) {
     e.preventDefault();
+    
 
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
-    let formFilledOutRight = true;
+    
     function checkIfFormUnfilled(obj, buttonType) {
-      
+      let formFilledOutRight = true;
       // Check buttons
       var inputs = document.getElementsByTagName("input");
       // buttonsBoolean is for selection validation
@@ -202,7 +203,6 @@ function RequestPage() {
           formFilledOutRight = false;
         }
       }
-
       // To album cover function
       if (formFilledOutRight) {
         getAlbumCover(formObject.title, formObject.artist);
@@ -212,6 +212,7 @@ function RequestPage() {
 
   // Saves album cover, then changes general or playNow state
   function getAlbumCover(title, artist) {
+    
     lastFMAPI.findAlbumCover(title, artist).then((res) => {
       if (document.getElementById("generalRequest").checked === true) {
         if (res.data.message !== "Track not found" && res.data.track.album) {
@@ -234,6 +235,7 @@ function RequestPage() {
             "https://res.cloudinary.com/noimgmt/image/upload/v1615592288/noireqapp/eklx5ftujcwbrddrovyi.jpg"
           );
         }
+        
         setPlayNow(true);
       }
     });
