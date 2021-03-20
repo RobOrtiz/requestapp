@@ -21,8 +21,8 @@ router.post("/checkout", async (req, res) => {
       }
     ],
     mode: 'payment',
-    cancel_url: `https://noi-mobile-app.herokuapp.com/request/${req.body.product._id}`,
-    success_url: `https://noi-mobile-app.herokuapp.com/request/confirmation/${req.body.product._id}?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `https://noi-request-app.herokuapp.com/request/${req.body.product._id}`,
+    success_url: `https://noi-request-app.herokuapp.com/request/confirmation/${req.body.product._id}?session_id={CHECKOUT_SESSION_ID}`,
     metadata: {
       "albumCover": req.body.product.albumCover,
       "tip": req.body.product.tip,
