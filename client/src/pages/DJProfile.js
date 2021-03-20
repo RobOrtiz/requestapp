@@ -9,6 +9,7 @@ import API from "../utils/API";
 import OptionsMenuButton from "../components/OptionsMenuButton";
 import OptionsMenuModal from "../components/OptionsMenuModal";
 
+
 function DJProfile() {
     const { user } = useAuth0();
     // User profile info
