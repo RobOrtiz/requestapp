@@ -17,13 +17,22 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-
-  // We are not using this controller/route
-  // findByIdDj: function (req, res) {
-  //   db.Dj.findById({ userSub: req.params.userSub })
-  //     .then((dbModel) => res.json(dbModel))
-  //     .catch((err) => res.status(422).json(err));
-  // },
+  updateDj: function (req, res) {
+    db.Dj.findOneAndUpdate(
+      { _id: req.body._id },
+      {
+        fullName: req.body.fullName,
+        djName: req.body.djName,
+        hometown: req.body.hometown,
+        djStyle: req.body.djStyle,
+        email: req.body.email,
+        instagram: req.body.instagram
+      }
+    )
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => console.log(err));
+  },
+  
 
   // This is used to find activated and deactivated Events for a Dj - sorts in ascending order
   // It does not retrieve the events that have ended.

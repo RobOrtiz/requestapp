@@ -15,6 +15,9 @@ export default {
   getDj: function (data) {
     return axios.get("/api/djs/?userSub=" + data)
   },
+  updateDj: function (data) {
+    return axios.put("/api/djs",  data)
+  },
   getAllDjs: function () {
     return axios.get("/api/djs/all")
   },

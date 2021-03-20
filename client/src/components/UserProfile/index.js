@@ -47,10 +47,10 @@ function UserProfile(props) {
                         </Row>
                         <Row classes="mt-4">
                             <Col size="md-6">
-                                <h4>USERNAME</h4>
+                                <h4>EMAIL</h4>
                             </Col>
                             <Col size="md-6" classes="user-info">
-                                <h4>{props.username}</h4>
+                                <h4>{props.email}</h4>
                             </Col>
                         </Row>
                         <Row classes="mt-4">
