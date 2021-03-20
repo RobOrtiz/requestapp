@@ -200,10 +200,11 @@ function DJHome() {
 
         // Declare eventImageUpload. If user didn't select an event image, use the default event image. 
         // It will either be the image that is set when it is uploaded or the default event image.
+        let eventImageUpload = "";
         if (image === "https://via.placeholder.com/150") {
-            var eventImageUpload = "https://res.cloudinary.com/noimgmt/image/upload/v1616029532/sil7xrgk6wg6wktkbrdn.png";
+            eventImageUpload = "https://res.cloudinary.com/noimgmt/image/upload/v1616029532/sil7xrgk6wg6wktkbrdn.png";
         } else {
-            var eventImageUpload = image;
+            eventImageUpload = image;
         };
 
 
@@ -236,7 +237,7 @@ function DJHome() {
                 <ScrollContainer className="scroll-container">
                     <Row classes="flex-nowrap">
                         {events
-                            .filter(request => request.eventStatus != "end")
+                            .filter(request => request.eventStatus !== "end")
                             .map(djEvent => (
                                 <Col classes="d-flex" key={djEvent._id}>
                                     <DjEvent
@@ -249,7 +250,7 @@ function DJHome() {
                     </Row>
                 </ScrollContainer>
             </Container>
-            <Container classes="mt-4 bottom-container">
+            <Container classes="mt-4">
                 {!addEvent.add ? (
                     <form>
                         <FormBtn className="btn btn-dark btn-lg btn-block" onClick={handleFormChange}>
@@ -366,22 +367,24 @@ function DJHome() {
             </Container>
 
             {/* This is the event history container if we want to add it.  */}
-            {/* <h1>Event History</h1>
-            <ScrollContainer className="scroll-container">
-                <Row classes="flex-nowrap">
-                    {events
-                        .filter(request => request.eventStatus === "end")
-                        .map(djEvent => (
-                            <Col classes="d-flex" key={djEvent._id}>
-                                <DjEvent
-                                    {...djEvent}
-                                    handleSwitch={handleSwitch}
-                                    handleEnd={handleEnd}
-                                />
-                            </Col>
-                        ))}
-                </Row>
-            </ScrollContainer> */}
+            <Container classes="mt-4 bottom-container">
+                <h1>Event History</h1>
+                <ScrollContainer className="scroll-container">
+                    <Row classes="flex-nowrap">
+                        {events
+                            .filter(request => request.eventStatus === "end")
+                            .map(djEvent => (
+                                <Col classes="d-flex" key={djEvent._id}>
+                                    <DjEvent
+                                        {...djEvent}
+                                        handleSwitch={handleSwitch}
+                                        handleEnd={handleEnd}
+                                    />
+                                </Col>
+                            ))}
+                    </Row>
+                </ScrollContainer>
+            </Container>
 
             <Footer current="home" />
         </div>

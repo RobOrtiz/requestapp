@@ -20,11 +20,10 @@ function DJActivity() {
     var eventIdForSongCount;
 
     // Set state djActivatedDjId to the logged in Dj's ObjectId
-    const [activatedDjId, setActivatedDjId] = useState("");
 
     // Set state activatedEventId to the activated event._id
     // This will be sent to the PUT API call to update requestList for song that was moved.
-    const [activatedEventId, setActivatedEventId] = useState("");
+    //const [activatedEventId, setActivatedEventId] = useState("");
 
     // Set state of activity to the requestList array of song request objects attached to the activated event.
     const [activity, setActivity] = useState([]);
@@ -58,7 +57,6 @@ function DJActivity() {
     const loadProfile = id => {
         API.getDj(id)
             .then(res => {
-                setActivatedDjId(res.data[0]._id)
                 loadActivatedEventRequests(res.data[0]._id)
             })
             .catch(err => console.log(err))
@@ -76,7 +74,7 @@ function DJActivity() {
             .then(res => {
 
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
-                setActivatedEventId(res.data.events[0]._id);
+                // setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setActivity(res.data.events[0].requestList);
 

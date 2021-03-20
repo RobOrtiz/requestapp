@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col } from "../Grid";
+import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './styles.css'
 
@@ -7,7 +6,7 @@ import './styles.css'
 function QueueModal(props) {
 
     return(
-        <div className="modal fade" id="queueModal" tabindex="-1">
+        <div className="modal fade" id="queueModal" tabIndex="-1">
             <div className="modal-dialog">
                 <div className="modal-content">
                 <div className="modal-header">

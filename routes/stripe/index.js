@@ -6,6 +6,9 @@ const stripeKey = process.env.STRIPE_SK;
 const stripe = require('stripe')(stripeKey);
 
 router.post("/checkout", async (req, res) => {
+  let urlBase = req.headers.referer
+  console.log(`${urlBase.slice(0,urlBase.indexOf('/request'))}`);
+  console.log("HEADERS FROM THE REQ: " + req.headers);
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [
@@ -21,8 +24,8 @@ router.post("/checkout", async (req, res) => {
       }
     ],
     mode: 'payment',
-    cancel_url: `http://localhost:3000/request/${req.body.product._id}`,
-    success_url: `http://localhost:3000/request/confirmation/${req.body.product._id}?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${urlBase.slice(0,urlBase.indexOf('/request'))}/request/${req.body.product._id}`,
+    success_url: `${urlBase.slice(0,urlBase.indexOf('/request'))}/request/confirmation/${req.body.product._id}?session_id={CHECKOUT_SESSION_ID}`,
     metadata: {
       "albumCover": req.body.product.albumCover,
       "tip": req.body.product.tip,

@@ -10,6 +10,7 @@
   
   .event-card > .event-img-container {
     overflow: hidden;
+    height: 20rem;
     text-align: center;
     border-radius: 3%;
     background: rgb(202, 202, 195);
@@ -17,6 +18,9 @@
   
   .event-card > .event-img-container > img {
     min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
   
   .event-card > .event-content > ul {
@@ -45,6 +49,11 @@
   .end-hidden, .details-hidden {
     display: none !important;
   }
+
+  .event-stats-modal {
+    margin-top: 2rem;
+    max-height: 90vh;
+  }
   
   @media (max-width: 600px){
 
@@ -52,5 +61,8 @@
       width: 13rem;
     }
 
+    .event-card > .event-img-container {
+      height: 13rem;
+    }
 
   }

@@ -1,10 +1,11 @@
 import React from "react";
 import QRCode from "qrcode.react";
 
-function QR(djCode) {
+function QR(props) {
+  let baseUrl = window.location.origin;
   return (
     <div>
-       <QRCode value={"http://localhost:3000/request/" + djCode}/>
+       <QRCode value={`${baseUrl}/request/${props.djCode}`}/>
        
     </div>
   )

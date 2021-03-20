@@ -64,16 +64,17 @@ function RequestPage() {
     API.getActivatedEvent(getDJId())
       .then((res) => {
         // If page can't find dj's active event, redirect
-        if (res.data.events[0].eventStatus !== "activated") {
+        if (!res.data.events[0]) {
           noEventWarning();
-        }
+        } else {
         setEvent(res.data.events[0]);
         setDjName(res.data.djName);
+        }
       })
       .catch((err) => console.log(err));
   }
   function noEventWarning() {
-    alert("Whoops, looks like this dj doesn't have an active event. Check to make sure you're on the right dj's event")
+    alert("Whoops, looks like this dj doesn't have an active event. Check to make sure you're on the right dj's event, or notify your dj to activate the event.")
     window.location.replace("/request")
   }
 
@@ -156,8 +157,9 @@ function RequestPage() {
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
+
     function checkIfFormUnfilled(obj, buttonType) {
-      
+      let formFilledOutRight = true;
       // Check buttons
       var inputs = document.getElementsByTagName("input");
       // buttonsBoolean is for selection validation
@@ -165,7 +167,7 @@ function RequestPage() {
       let buttonsBoolean = [];
       let buttonSelected = [];
       for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].type.toLowerCase() == buttonType) {
+        if (inputs[i].type.toLowerCase() === buttonType) {
           buttonsBoolean.push(inputs[i].checked);
           if (inputs[i].checked === true) {
             buttonSelected.push(inputs[i]);
@@ -176,19 +178,19 @@ function RequestPage() {
       // if none are clicked, show modal
       if (!buttonsBoolean.includes(true)) {
         document.getElementById("warning-radio-button-button").click();
-        return false;
+        formFilledOutRight = false;
       }
       
       // checks tip value against minimum of selected button
       if (buttonSelected[0].id === "generalRequest") {
         if (formObject.tip < event.generalRequestTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
-          return false;
+          formFilledOutRight = false;
         }
       } else {
         if (formObject.tip < event.playNowTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
-          return false;
+          formFilledOutRight = false;
         }
       }
       
@@ -197,12 +199,15 @@ function RequestPage() {
         // if one is blank, show modal
         if (obj[key] === null || obj[key] === "") {
           document.getElementById("warning-form-button").click();
-          return false;
+          formFilledOutRight = false;
         }
       }
+
+      // To album cover function
+      if (formFilledOutRight) {
+        getAlbumCover(formObject.title, formObject.artist);
+      }
     }
-    // To album cover function
-    getAlbumCover(formObject.title, formObject.artist);
   }
 
   // Saves album cover, then changes general or playNow state
@@ -277,6 +282,7 @@ function RequestPage() {
   return (
     <div className="request-page">
       <Header title="welcome customer" />
+      {event.eventName && (
       <Container classes="top-container">
         <Row>
         <h1 className="request-title">SEND A REQUEST TO {djName}</h1> 
@@ -344,9 +350,9 @@ function RequestPage() {
             <Col>
               <img
                 src={event.eventImage}
-                alt={"Event Image"}
+                alt={"Event"}
                 className="eventPic"
-              ></img>
+              />
               {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
               <p className="h6 ml-2">
                 Doesn't look familiar? Click <a href="/request">here</a> to find
@@ -466,6 +472,7 @@ function RequestPage() {
           ></img>
         </div>
       </Container>
+      )}
       <button
         id={"warning-form-button"}
         style={{ display: "none" }}
