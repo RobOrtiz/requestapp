@@ -16,7 +16,7 @@ const Helpers = {
           }
  
         if (!imageFile.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-          setInvalidImage('Please select valid image.');
+          setInvalidImage('Please select valid image type: jpg,jpeg,png,gif.');
           setSelectedFile("");
           return false;
         }
