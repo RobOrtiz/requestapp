@@ -21,6 +21,7 @@ const Helpers = {
           return false;
         }
         else {
+            setInvalidImage('');
             setSelectedFile(event.target.files[0]);
         }
     },
