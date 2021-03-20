@@ -4,7 +4,7 @@ import QRCode from "qrcode.react";
 function QR(djCode) {
   return (
     <div>
-       <QRCode value={"http://localhost:3000/request/" + djCode}/>
+       <QRCode value={"https://noi-mobile-app.herokuapp.com/request/" + djCode}/>
        
     </div>
   )
