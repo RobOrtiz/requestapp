@@ -6,8 +6,8 @@ const stripeKey = process.env.STRIPE_SK;
 const stripe = require('stripe')(stripeKey);
 
 router.post("/checkout", async (req, res) => {
-  let urlBase = req.headers['x-forwarded-host']
-  let urlProto = req.headers['x-forwarded-proto'];
+  let urlBase = req.get('x-forwarded-host')
+  let urlProto = req.get('x-forwarded-proto');
   console.log(`${urlProto}://${urlBase}`)
 
   const session = await stripe.checkout.sessions.create({
