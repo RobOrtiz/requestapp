@@ -11,7 +11,7 @@ function QRModal(props) {
       });
 
     return(
-        <div className="modal fade" id="qr-code-modal" tabindex="-1">
+        <div className="modal fade" id="qr-code-modal" tabIndex="-1">
             <div className="modal-dialog">
                 <div className="modal-content">
                 <div className="modal-body" ref={componentRef}>

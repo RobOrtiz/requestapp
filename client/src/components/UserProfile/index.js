@@ -58,7 +58,7 @@ function UserProfile(props) {
                                 <h4>PERSONAL QR CODE</h4>
                             </Col>
                             <Col size="md-6" classes="user-info">
-                                <button type="button" class="btn btn-sm btn-dark mt-2" data-toggle="modal" data-target="#qr-code-modal">
+                                <button type="button" className="btn btn-sm btn-dark mt-2" data-toggle="modal" data-target="#qr-code-modal">
                                     VIEW QR CODE
                                 </button>
                             </Col>
