@@ -1,0 +1,14 @@
+{
+  "short_name": "Noi",
+  "name": "Noi DJ Request App",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

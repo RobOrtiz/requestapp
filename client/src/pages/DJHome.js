@@ -30,6 +30,8 @@ function DJHome() {
 
     const [eventIsActive, setEventIsActive] = useState(false);
 
+    const [invalidImage, setInvalidImage] = useState();
+
     // Load all events and store them with setEvents
     useEffect(() => {
         loadEvents()
@@ -349,8 +351,9 @@ function DJHome() {
                                 className="form-control"
                             />
                             <UploadImage
-                                selectImage={(event) => Helpers.selectImage(event, setSelectedFile)}
+                                selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile, setInvalidImage)}
                                 uploadImage={(event) => Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
+                                invalidImage={invalidImage}
                                 loading={loading}
                                 image={image}
                                 altTag="event logo"

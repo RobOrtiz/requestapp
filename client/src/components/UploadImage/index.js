@@ -9,6 +9,8 @@ function UpLoadProfileImage(props) {
             <p>Select {props.imageDescription} image to upload:</p>
             <input className ="selectImageField" type="file" name="file" placeholder="Upload an Image"
                 onChange={props.selectImage} />
+            {props.invalidImage && <h4 className="error text-danger">{props.invalidImage}</h4>}
+
             <div>
                 <button className="uploadImageBtns" onClick={props.uploadImage}>Upload Image</button>
             </div>

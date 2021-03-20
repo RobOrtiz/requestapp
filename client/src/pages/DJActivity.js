@@ -33,6 +33,16 @@ function DJActivity() {
     const [playNowQueueCount, setPlayNowQueueCount] = useState("0");
     const [generalRequestCount, setGeneralRequestQueueCount] = useState("0");
 
+    // Set various stats to store in DB to access via the activity page as well as the events history stats modal
+    const [tipsEarned, setTipsEarned] = useState("0");
+    const [declinedTips, setDeclinedTips] = useState("0");
+    const [pendingTips, setPendingTips] = useState("0");
+    const [removedTips, setRemovedTips] = useState("0");
+    const [requestsPlayed, setRequestsPlayed] = useState("0");
+    const [declinedSongs, setDeclinedRequests] = useState("0");
+    const [totalRequests, setTotalRequests] = useState("0");
+    const [removedRequests, setRemovedRequests] = useState("0");
+
 
     useEffect(() => {
         checkIfProfileExists(user.sub);
@@ -84,28 +94,70 @@ function DJActivity() {
                 // Declare counters here for the occurrences of queue, playNowQueue, and generalRequestQueue 
                 // That are in the returned array from the API. It should have returned the count of each for us, but
                 // there is a glitch. This is the workout, take the array and count them ourselves.
+
                 var queueCounter = 0;
                 var playNowQueueCounter = 0;
                 var generalRequestQueueCounter = 0;
+                var tipsEarned = 0;
+                var declinedTips = 0;
+                var pendingTips = 0;
+                var removedTips = 0;
+                var requestsPlayed = 0;
+                var declinedRequests = 0;
+                var totalRequests = 0;
+                var removedRequests = 0;
 
                 // Go through the array of songStatuses and increased appropriate counter.
-                for (var i = 0; i < res.data[0]._id.length; i++) {
-                    if (res.data[0]._id[i] === "queue") {
-                        queueCounter = queueCounter + 1;
+                for (var i = 0; i < res.data.length; i++) {
+                    switch (res.data[i]._id.songType) {
+                        case "queue":
+                            queueCounter = queueCounter + 1;
+                            pendingTips = pendingTips + res.data[i]._id.tipAmount;
+                            totalRequests = totalRequests + 1;
+                            break;
+                        case "playNowQueue":
+                            playNowQueueCounter = playNowQueueCounter + 1;
+                            pendingTips = pendingTips + res.data[i]._id.tipAmount;
+                            totalRequests = totalRequests + 1;
+                            break;
+                        case "generalRequestQueue":
+                            generalRequestQueueCounter = generalRequestQueueCounter + 1;
+                            pendingTips = pendingTips + res.data[i]._id.tipAmount;
+                            totalRequests = totalRequests + 1;
+                            break;
+                        case "played":
+                            tipsEarned = tipsEarned + res.data[i]._id.tipAmount;
+                            requestsPlayed = requestsPlayed + 1;
+                            totalRequests = totalRequests + 1;
+                            break;
+                        case "removed":
+                            declinedTips = declinedTips + res.data[i]._id.tipAmount;
+                            removedRequests = removedRequests + 1;
+                            totalRequests = totalRequests + 1;
+                            break;
+                        case "declined":
+                            declinedTips = declinedTips + res.data[i]._id.tipAmount;
+                            declinedRequests = declinedRequests + 1;
+                            totalRequests = totalRequests + 1;
+                            break;
+                        default:
+                            console.log("It didn't work. Fix it!")
+                            break;
                     }
-                    else if (res.data[0]._id[i] === "playNowQueue") {
-                        playNowQueueCounter = playNowQueueCounter + 1;
-                    }
-                    else if (res.data[0]._id[i] === "generalRequestQueue") {
-                        generalRequestQueueCounter = generalRequestQueueCounter + 1;
-                    }
+                    // Set the states for the queue, playNowQueue, and generalRequestQueue counters.
+                    // They are displayed on the request page for the different queues.
+                    setQueueCount(queueCounter)
+                    setPlayNowQueueCount(playNowQueueCounter)
+                    setGeneralRequestQueueCount(generalRequestQueueCounter)
+                    setTipsEarned(tipsEarned)
+                    setDeclinedTips(declinedTips)
+                    setPendingTips(pendingTips)
+                    setRemovedTips(removedTips)
+                    setRequestsPlayed(requestsPlayed)
+                    setDeclinedRequests(declinedRequests)
+                    setTotalRequests(totalRequests)
+                    setRemovedRequests(removedRequests)
                 }
-
-                // Set the states for the queue, playNowQueue, and generalRequestQueue counters.
-                // They are displayed on the request page for the different queues.
-                setQueueCount(queueCounter)
-                setPlayNowQueueCount(playNowQueueCounter)
-                setGeneralRequestQueueCount(generalRequestQueueCounter)
             })
             .catch(err => console.log(err));
     }
@@ -119,10 +171,16 @@ function DJActivity() {
                     <Col size="4"><h3 className="text-muted">Play Now: <span className="badge badge-light"> {playNowQueueCount}</span></h3></Col>
                     <Col size="4"><h3 className="text-muted">General: <span className="badge badge-light"> {generalRequestCount}</span></h3></Col>
                 </Row>
-                <Row classes="pt-0 mt-0 activity-header-bottom ">
-                    <Col size="4"><h5 className="text-warning">SONG</h5></Col>
+                <Row classes="p-4 mt-0 activity-header-bottom">
+                    <Col size="3"><h3 className="text-muted">Tips Earned: <span className="badge badge-success"> ${tipsEarned}</span></h3></Col>
+                    <Col size="3"><h3 className="text-muted">Pending Tips: <span className="badge badge-info"> ${pendingTips}</span></h3></Col>
+                    <Col size="3"><h3 className="text-muted">Declined Tips: <span className="badge badge-danger"> ${declinedTips}</span></h3></Col>
+                    <Col size="3"><h3 className="text-muted">Total Requests Today: <span className="badge badge-warning"> {totalRequests}</span></h3></Col>
+                </Row>
+                <Row classes="pt-4 mt-0 activity-song-top activity-header-bottom ">
+                    <Col size="3"><h5 className="text-warning">SONG</h5></Col>
                     <Col size="3"><h5 className="text-warning">STATUS</h5></Col>
-                    <Col size="2"><h5 className="text-warning">TIPPED</h5></Col>
+                    <Col size="3"><h5 className="text-warning">TIPPED</h5></Col>
                     <Col size="3"><h5 className="text-warning">GUEST</h5><p className="text-warning">(REQUEST TYPE)</p></Col>
                     {/* <Col size="3"><h5 className="text-warning">SUBMITTED / UPDATED</h5></Col> */}
                 </Row>
