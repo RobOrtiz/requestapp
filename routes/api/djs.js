@@ -5,6 +5,7 @@ const djController = require("../../controllers/djController.js");
 router.route("/")
   .post(djController.createDj)
   .get(djController.findAll)
+  .put(djController.updateDj)
   // We are not using this route - we use the findAll one to find all events for the Dj
   // .get(djController.findByIdDj);
 

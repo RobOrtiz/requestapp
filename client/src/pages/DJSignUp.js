@@ -17,7 +17,6 @@ function DJSignUp() {
     hometown: "",
     djStyle: "",
     email: "",
-    password: "",
     instagram: ""
   });
 
@@ -48,8 +47,7 @@ function DJSignUp() {
             djName: formObject.djName,
             hometown: formObject.hometown,
             djStyle: formObject.djStyle,
-            username: formObject.email,
-            password: formObject.password,
+            email: formObject.email,
             instagram: formObject.instagram,
             profileImage: image,
             userSub: user.sub
