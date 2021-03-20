@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FormBtn, Switch } from "../Form";
 import './style.css'
 
@@ -132,7 +132,7 @@ function DjEvent(props) {
                                 <tbody>
                                     {props.requestList.map(song => {
                                         return (
-                                        <tr>
+                                        <tr key={song._id}>
                                             <td>{song.title} &#183; {song.artist}</td>
                                             <td>{song.generalRequest ? "General" : "Play Now"}</td>
                                             <td>${song.tip}</td>

@@ -27,7 +27,7 @@ function DJRequests() {
 
     // Set state activatedEventId to the activated event._id
     // This will be sent to the PUT API call to update requestList for song that was moved.
-    const [activatedEventId, setActivatedEventId] = useState([]);
+    //const [activatedEventId, setActivatedEventId] = useState([]);
 
     // Set state of requestList to the requestList array of song request objects attached to the activated event.
     const [requestList, setRequestList] = useState([]);
@@ -102,7 +102,7 @@ function DJRequests() {
             .then(res => {
 
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
-                setActivatedEventId(res.data.events[0]._id);
+                //setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setRequestList(res.data.events[0].requestList);
                 setQueueList(res.data.events[0].requestList.filter(request => request.songStatus === "queue").sort((a,b) => (a.queueOrderNumber - b.queueOrderNumber)))
@@ -171,18 +171,19 @@ function DJRequests() {
 
         // Determine which button on the song req component was clicked so we can update the songStatus accordingly.
         // This switch select the new songStatus based on the button clicked. 
+        let requestSongStatusChangeTo = "";
         switch (requestButtonType) {
             case "ACCEPT":
-                var requestSongStatusChangeTo = "queue";
+                requestSongStatusChangeTo = "queue";
                 break;
             case "DECLINE":
-                var requestSongStatusChangeTo = "declined";
+                requestSongStatusChangeTo = "declined";
                 break;
             case "PLAYED":
-                var requestSongStatusChangeTo = "played";
+                requestSongStatusChangeTo = "played";
                 break;
             case "REMOVED":
-                var requestSongStatusChangeTo = "removed";
+                requestSongStatusChangeTo = "removed";
                 break;
             default:
                 console.log("It didn't work. Fix it!")
@@ -212,10 +213,10 @@ function DJRequests() {
 
     }
 
-    function handleDeclineRequest(event) {
-        event.preventDefault();
-        alert("Remove me from the queue!");
-    }
+    // function handleDeclineRequest(event) {
+    //     event.preventDefault();
+    //     alert("Remove me from the queue!");
+    // }
 
     function handleOnDragEnd(result) {
         if (!result.destination) return;

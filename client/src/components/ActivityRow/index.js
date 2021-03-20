@@ -7,38 +7,41 @@ const moment = require('moment')
 function ActivityRow(props) {
 
     // Determine song type - playNow or generalRequest
+    let requestType = ""
     if (props.playNow === true) {
-        var requestType = "Play Now Request"
+        requestType = "Play Now Request"
     }
     else {
-        var requestType = "General Request"
+        requestType = "General Request"
     }
 
     // Determine text to display for song status and tip status
+    let textSongStatus = "";
+    let tipStatus = "";
     switch (props.songStatus) {
         case "queue":
-            var textSongStatus = "Added to Queue at:";
-              var tipStatus = "Pending..."
+            textSongStatus = "Added to Queue at:";
+            tipStatus = "Pending..."
             break;
         case "declined":
-            var textSongStatus = "Declined at:";
-            var tipStatus = "--0--"
+            textSongStatus = "Declined at:";
+            tipStatus = "--0--"
             break;
         case "played":
-            var textSongStatus = "Played at:";
-            var tipStatus = "Earned"
+            textSongStatus = "Played at:";
+            tipStatus = "Earned"
             break;
         case "removed":
-            var textSongStatus = "Removed at:";
-            var tipStatus = "--0--"
+            textSongStatus = "Removed at:";
+            tipStatus = "--0--"
             break;
         case "playNowQueue":
-            var textSongStatus = "Play Now Queue at:";
-            var tipStatus = "Pending..."
+            textSongStatus = "Play Now Queue at:";
+            tipStatus = "Pending..."
             break;
         case "generalRequestQueue":
-            var textSongStatus = "General Request Queue at:";
-            var tipStatus = "Pending..."
+            textSongStatus = "General Request Queue at:";
+            tipStatus = "Pending..."
             break;
         default:
             console.log("It didn't work. Fix it!")
