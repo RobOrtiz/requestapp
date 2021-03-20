@@ -27,6 +27,8 @@ function DJSignUp() {
   // The selectedFile state is defined when the user chooses a file via the select a file to upload input via. 
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
+  const [invalidImage, setInvalidImage] = useState();
+
 
   // Set image to default 150px x 150px placeholder URL. 
   const [image, setImage] = useState("https://via.placeholder.com/150");
@@ -130,8 +132,9 @@ function DJSignUp() {
                   className="form-control"
                 />
                 <UploadImage
-                    selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile)}
+                    selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile, setInvalidImage)}
                     uploadImage = {(event)=>Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
+                    invalidImage={invalidImage}
                     loading={loading}
                     image={image}
                     altTag="dj head shot"

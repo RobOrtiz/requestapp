@@ -153,8 +153,8 @@ module.exports = {
       // I put a question on stackoverflow.
       // In the mean time I commented out this code and have a workout to count the occurrences in the request page.
       // Unpack the requestList and songStatuses
-      // { $unwind: "$requestList" },
-      // { $unwind: "$requestList.songStatus" },
+      { $unwind: "$requestList" },
+      { $unwind: "$requestList.songStatus" },
 
       // Group by the answer values
       // This works differently than designed with the $unwinds commented out above.
@@ -163,8 +163,13 @@ module.exports = {
       // Not sure why this is working like it should. 
       {
         $group: {
-          _id: "$requestList.songStatus",
-          count: { $sum: 1 }
+          _id: {
+            songType: "$requestList.songStatus",
+            tipAmount: "$requestList.tip"
+          },
+          count: { 
+            $sum: 1 
+          }
         }
       }])
       .then((dbModel) => res.json(dbModel))
