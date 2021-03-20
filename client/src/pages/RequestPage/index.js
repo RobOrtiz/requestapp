@@ -157,6 +157,7 @@ function RequestPage() {
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
+    let formFilledOutRight = true;
     function checkIfFormUnfilled(obj, buttonType) {
       
       // Check buttons
@@ -166,7 +167,7 @@ function RequestPage() {
       let buttonsBoolean = [];
       let buttonSelected = [];
       for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].type.toLowerCase() == buttonType) {
+        if (inputs[i].type.toLowerCase() === buttonType) {
           buttonsBoolean.push(inputs[i].checked);
           if (inputs[i].checked === true) {
             buttonSelected.push(inputs[i]);
@@ -177,19 +178,19 @@ function RequestPage() {
       // if none are clicked, show modal
       if (!buttonsBoolean.includes(true)) {
         document.getElementById("warning-radio-button-button").click();
-        return false;
+        formFilledOutRight = false;
       }
       
       // checks tip value against minimum of selected button
       if (buttonSelected[0].id === "generalRequest") {
         if (formObject.tip < event.generalRequestTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
-          return false;
+          formFilledOutRight = false;
         }
       } else {
         if (formObject.tip < event.playNowTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
-          return false;
+          formFilledOutRight = false;
         }
       }
       
@@ -198,12 +199,15 @@ function RequestPage() {
         // if one is blank, show modal
         if (obj[key] === null || obj[key] === "") {
           document.getElementById("warning-form-button").click();
-          return false;
+          formFilledOutRight = false;
         }
       }
+
+      // To album cover function
+      if (formFilledOutRight) {
+        getAlbumCover(formObject.title, formObject.artist);
+      }
     }
-    // To album cover function
-    getAlbumCover(formObject.title, formObject.artist);
   }
 
   // Saves album cover, then changes general or playNow state
@@ -346,9 +350,9 @@ function RequestPage() {
             <Col>
               <img
                 src={event.eventImage}
-                alt={"Event Image"}
+                alt={"Event"}
                 className="eventPic"
-              ></img>
+              />
               {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
               <p className="h6 ml-2">
                 Doesn't look familiar? Click <a href="/request">here</a> to find
