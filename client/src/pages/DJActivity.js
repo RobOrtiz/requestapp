@@ -131,7 +131,7 @@ function DJActivity() {
                             totalRequests = totalRequests + 1;
                             break;
                         case "removed":
-                            removedTips = removedTips + res.data[i]._id.tipAmount;
+                            declinedTips = declinedTips + res.data[i]._id.tipAmount;
                             removedRequests = removedRequests + 1;
                             totalRequests = totalRequests + 1;
                             break;
