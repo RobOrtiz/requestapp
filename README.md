@@ -25,6 +25,8 @@ Your app should now be running on http://localhost:3000. The Express server shou
 
 ### Deployment (Heroku)
 
+https://noi-mobile-app.herokuapp.com/
+
 ### Technologies
 
 - React
