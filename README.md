@@ -42,6 +42,7 @@ https://noi-mobile-app.herokuapp.com/
 
 [Common Development and Distribution License 1.0](https://opensource.org/licenses/CDDL-1.0)
 
-### Screenshot
+### Demo GIF
+ ![Noi Mobile DJ App Demo](demo/Demo.GIF)
 
 
