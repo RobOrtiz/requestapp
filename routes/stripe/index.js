@@ -84,8 +84,9 @@ router.post("/checkout", async (req, res) => {
 });
 
 router.post("/captured", async (req, res) => {
+  console.log("capturing")
 
-  let paymentIntentId = req.body;
+  let paymentIntentId = req.body.paymentIntentId;
 
   const intent = await stripe.paymentIntents.capture(paymentIntentId)
 

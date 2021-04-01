@@ -196,7 +196,21 @@ function DJRequests() {
             })
 
         } else if (requestButtonType === "PLAYED") {
-            console.log("song was clicked to be played")
+            API.updateCharge({
+                songId: songIdTarget,
+                paymentStatus: "charged"
+            })
+            .then(res => {
+                updateDatabase(songIdTarget, requestSongStatusChangeTo);
+                if (res.data) {
+                    StripeAPI.capture({
+                        paymentIntentId: res.data.paymentIntentId
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
         } else {
           updateDatabase(songIdTarget, requestSongStatusChangeTo);
         }
@@ -214,9 +228,9 @@ function DJRequests() {
 
             // PUT API route to update songStatus based on the songData
             API.updateRequest(songData)
-                .then(res => {
-                    console.log("Queues Updated");
-                })
+                // .then(res => {
+                //     console.log("Queues Updated");
+                // })
                 .catch(err => console.log(err))
 
         }

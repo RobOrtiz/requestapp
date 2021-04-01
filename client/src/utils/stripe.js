@@ -6,10 +6,8 @@ export default {
             product
         })
     },
-    capture: function(chargeData) {
-        return axios.post("/stripe/captured", {
-            chargeData
-        })
+    capture: function(paymentIntentId) {
+        return axios.post("/stripe/captured", paymentIntentId)
     },
     cancel: function(songId) {
         return axios.post("/stripe/cancelled", songId)
