@@ -65,26 +65,29 @@ module.exports = {
       .then(res => insertRequest(res.events[0]._id))
       .catch((err) => console.log(err));
 
-    function insertRequest(eventId) {
-      db.Event.findOneAndUpdate(
-        { _id: eventId },
-        {
-          $push: {
-            requestList: {
-              albumCover: req.body.albumCover,
-              customerName: req.body.fullName,
-              title: req.body.title,
-              artist: req.body.artist,
-              generalRequest: req.body.generalRequest,
-              playNow: req.body.playNow,
-              tip: req.body.tip,
-              songStatus: req.body.songStatus,
+    async function insertRequest(eventId) {
+      const update = await db.Event.findOneAndUpdate(
+          { _id: eventId },
+          {
+            $push: {
+              requestList: {
+                albumCover: req.body.albumCover,
+                customerName: req.body.fullName,
+                title: req.body.title,
+                artist: req.body.artist,
+                generalRequest: req.body.generalRequest,
+                playNow: req.body.playNow,
+                tip: req.body.tip,
+                songStatus: req.body.songStatus,
+              },
             },
           },
-        }
-      )
-        .then((dbModel) => res.json(dbModel))
-        .catch((err) => console.log(err));
+          {
+            returnOriginal: false
+          }
+        )
+          .then((dbModel) => res.json(dbModel))
+          .catch((err) => console.log(err));
     }
   },
 
@@ -206,19 +209,18 @@ module.exports = {
   },
 
   updateCharge: function (req, res) {
-    // db.Dj.findOneAndUpdate(
-    //   { _id: req.body._id },
-    //   {
-    //     fullName: req.body.fullName,
-    //     djName: req.body.djName,
-    //     hometown: req.body.hometown,
-    //     djStyle: req.body.djStyle,
-    //     email: req.body.email,
-    //     instagram: req.body.instagram
-    //   }
-    // )
-    //   .then((dbModel) => res.json(dbModel))
-    //   .catch((err) => console.log(err));
+    
+    console.log("updating charge in database")
+
+    db.Charge.findOneAndUpdate(
+      {"songId": req.body.songId},
+      {
+        paymentStatus: req.body.paymentStatus
+      }
+    )
+    .then((data) => res.json(data))
+    .catch((err) => console.log(err));
+
   },
 
   // This was set up to be used with seeded data when we first started the project.

@@ -348,10 +348,9 @@ function RequestPage() {
         _id: product._id
       })
       .then(res => {
-        console.log("song request made; creating charge now")
         API.createCharge({
           djId: product._id,
-          songId: res.data._id,
+          songId: res.data.requestList[res.data.requestList.length -1]._id,
           paymentIntentId: result.paymentIntent.id,
           paymentStatus: "authorized",
         })
@@ -360,18 +359,6 @@ function RequestPage() {
       })
       .catch(err => console.log(err))
 
-
-      // API to add DJ id, Song id, and PI id to stripe db
-      // pass in paymentIntentId, SongId, and djId
-      // API.createCharge({
-      //   djId: product._id,
-      //   songId: (res.data._id),
-      //   paymentIntentId: (result.paymentIntent.id?),
-      //   paymentStatus: "authorized",
-      //  })
-      // .then(res => window.location.replace(`/request/success/${product._id}`))
-      // .catch(err => console.log(err))
-      // };
 
     }
 

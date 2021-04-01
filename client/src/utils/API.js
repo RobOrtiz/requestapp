@@ -46,8 +46,8 @@ export default {
     return axios.post("/api/djs/charge", chargeData)
   },
 
-  updateCharge: function (chargeData) {
-    return axios.put("/api/djs/charge/", chargeData)
+  updateCharge: function (songId) {
+    return axios.put("/api/djs/charge/", songId)
   },
 
   // Cloudinary API to upload image to their server and return a URL linking to the image for reference in Dj Profile and Dj Event.

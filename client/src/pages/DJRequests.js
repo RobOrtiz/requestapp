@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated";
 import ScrollContainer from 'react-indiana-drag-scroll';
 import API from "../utils/API";
+import StripeAPI from "../utils/stripe";
 
 
 function DJRequests() {
@@ -101,9 +102,6 @@ function DJRequests() {
         await API.getActivatedEvent(djId)
             .then(res => {
 
-                console.log("Here we go again.");
-                console.log(res.data.events[0].requestList)
-
                 // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
                 //setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
@@ -179,27 +177,50 @@ function DJRequests() {
                 break;
         }
 
-        // Delcare the songData to pass to the PUT API route. 
-        // songId is the ObjectId of the requested song that was clicked - to move to the queue.
-        // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type. 
-        const songData = {
-            "songId": event.target.id,
-            "newSongStatus": requestSongStatusChangeTo,
-            "addQueueNumber": 100
-        };
-
-        console.log("*****obj", songData);
-
-        console.log("*****", songId);
-
-        // PUT API route to update songStatus based on the songData
-        await API.updateRequest(songData)
-            .then(res => {
-                console.log("catfood:", res);
+        let songIdTarget = event.target.id
+        if (requestButtonType === "DECLINE" || requestButtonType === "REMOVED") {
+            API.updateCharge({
+                songId: songIdTarget,
+                paymentStatus: "not charged"
             })
-            .catch(err => console.log(err))
+            .then(res => {
+                updateDatabase(songIdTarget, requestSongStatusChangeTo);
+                if (res.data) {
+                    StripeAPI.cancel({
+                        paymentIntentId: res.data.paymentIntentId
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
 
+        } else if (requestButtonType === "PLAYED") {
+            console.log("song was clicked to be played")
+        } else {
+          updateDatabase(songIdTarget, requestSongStatusChangeTo);
+        }
 
+        
+        function updateDatabase(updateSongId, updateSongStatus) {
+            // Delcare the songData to pass to the PUT API route. 
+            // songId is the ObjectId of the requested song that was clicked - to move to the queue.
+            // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type. 
+            const songData = {
+                "songId": updateSongId,
+                "newSongStatus": updateSongStatus,
+                "addQueueNumber": 100
+            };
+
+            // PUT API route to update songStatus based on the songData
+            API.updateRequest(songData)
+                .then(res => {
+                    console.log("Queues Updated");
+                })
+                .catch(err => console.log(err))
+
+        }
+        
     }
 
     // function handleDeclineRequest(event) {

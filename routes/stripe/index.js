@@ -83,6 +83,30 @@ router.post("/checkout", async (req, res) => {
   
 });
 
+router.post("/captured", async (req, res) => {
+
+  let paymentIntentId = req.body;
+
+  const intent = await stripe.paymentIntents.capture(paymentIntentId)
+
+  // const intent = await stripe.paymentIntents.capture(paymentIntentId, {
+  //   application_fee_amount: 500,
+  // })
+
+  return res.json(intent);
+
+});
+
+router.post("/cancelled", async (req, res) => {
+
+  let paymentIntentId = req.body.paymentIntentId;
+
+  const intentCancel = await stripe.paymentIntents.cancel(paymentIntentId);
+
+  return res.json(intentCancel);
+
+});
+
 router.post("/success", async (req, res) => {
 
   const session = await stripe.checkout.sessions.retrieve(req.body.sessionId);

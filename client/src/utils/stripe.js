@@ -6,6 +6,14 @@ export default {
             product
         })
     },
+    capture: function(chargeData) {
+        return axios.post("/stripe/captured", {
+            chargeData
+        })
+    },
+    cancel: function(songId) {
+        return axios.post("/stripe/cancelled", songId)
+    },
     successData: function(sessionId) {
         return axios.post("/stripe/success", {
             sessionId
