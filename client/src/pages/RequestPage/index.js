@@ -157,12 +157,19 @@ function RequestPage() {
 
     if (parseInt(document.getElementById('tip').value) > 0){
       setTip(true);
+    } else if (parseInt(document.getElementById('tip').value) === 0) {
+      setTip(false);
     }
   }
 
   // When user clicks on "Pay Now"
   function handleFormSubmit(e) {
     e.preventDefault();
+
+    let targetButton = document.querySelector(".no-tip-button");
+    targetButton.innerHTML = "Loading..."
+    targetButton.disabled = true;
+    targetButton.classList.remove("gold-animated-btn");
 
     // This checks if the request form has blank values
     // for text fields and buttons
@@ -591,7 +598,7 @@ function RequestPage() {
             </Elements>
           ) : (
             <FormBtn
-            className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn"
+            className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn no-tip-button"
             onClick={handleFormSubmit}
             >
               Send Request!
@@ -668,6 +675,10 @@ function Checkout(props) {
     event.preventDefault();
 
     // Add loading class
+    let targetButton = document.querySelector(".tip-button");
+    targetButton.innerHTML = "Loading..."
+    targetButton.disabled = true;
+    targetButton.classList.remove("gold-animated-btn");
 
     const card = await elements.getElement(CardElement)
 
@@ -715,7 +726,7 @@ function Checkout(props) {
       <h6 className="text-white">*Your card will only be authorized at this time.  It will only be charged once the song is played.</h6>
         <CardElement options={CARD_ELEMENT_OPTIONS} />
       <FormBtn
-      className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn"
+      className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn tip-button"
       onClick={handleSubmit}
       >
         Authorize Payment and Send Request!
