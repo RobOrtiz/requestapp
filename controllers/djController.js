@@ -198,6 +198,29 @@ module.exports = {
       .catch((err) => console.log(err));
   },
 
+  // This is to keep track of the charges/payment intents for each song request
+  createCharge: function (req, res) {
+    db.Charge.create(req.body)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+
+  updateCharge: function (req, res) {
+    // db.Dj.findOneAndUpdate(
+    //   { _id: req.body._id },
+    //   {
+    //     fullName: req.body.fullName,
+    //     djName: req.body.djName,
+    //     hometown: req.body.hometown,
+    //     djStyle: req.body.djStyle,
+    //     email: req.body.email,
+    //     instagram: req.body.instagram
+    //   }
+    // )
+    //   .then((dbModel) => res.json(dbModel))
+    //   .catch((err) => console.log(err));
+  },
+
   // This was set up to be used with seeded data when we first started the project.
   // It deleted the old data and added the new data.
   deleteMany: function (req, res) {

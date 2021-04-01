@@ -7,10 +7,12 @@ import googleBadge from "../../images/googleplaybadge.png";
 import appleBadge from "../../images/badge-download-on-the-app-store.svg";
 import StripeAPI from "../../utils/stripe";
 import { loadStripe } from "@stripe/stripe-js";
+import { useStripe, useElements, Elements, CardElement} from '@stripe/react-stripe-js';
 // import EventPic from '../../images/st pattys day.jpg'
 import "./styles.css";
 import RequestModalWarning from "../../components/RequestModalWarning";
 import API from "../../utils/API";
+import stripe from "../../utils/stripe";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_PK);
 
@@ -21,6 +23,7 @@ function RequestPage() {
     title: "",
     artist: "",
     tip: "",
+    email: "",
   });
 
   // For radio buttons
@@ -48,6 +51,9 @@ function RequestPage() {
     songStatus: "",
     _id: "",
   });
+  const [tip, setTip] = useState(false);
+  const [isPaymentLoading, setPaymentLoading] = useState(false);
+  const [stripeCard, setStripeCard] = useState({});
 
   // Setting our event's initial state
   const [event, setEvent] = useState({});
@@ -148,6 +154,10 @@ function RequestPage() {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
+
+    if (parseInt(document.getElementById('tip').value) > 0){
+      setTip(true);
+    }
   }
 
   // When user clicks on "Pay Now"
@@ -239,18 +249,143 @@ function RequestPage() {
     });
   }
 
+
+  function handleFormSubmit2(card, email) {
+
+    // This checks if the request form has blank values
+    // for text fields and buttons
+    checkIfFormUnfilled(formObject, "radio");
+
+    function checkIfFormUnfilled(obj, buttonType) {
+      let formFilledOutRight = true;
+      // Check buttons
+      var inputs = document.getElementsByTagName("input");
+      // buttonsBoolean is for selection validation
+      // buttonSelected is for tip value validation
+      let buttonsBoolean = [];
+      let buttonSelected = [];
+      for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].type.toLowerCase() === buttonType) {
+          buttonsBoolean.push(inputs[i].checked);
+          if (inputs[i].checked === true) {
+            buttonSelected.push(inputs[i]);
+          }
+        }
+      }
+
+      // if none are clicked, show modal
+      if (!buttonsBoolean.includes(true)) {
+        document.getElementById("warning-radio-button-button").click();
+        formFilledOutRight = false;
+      }
+      
+      // checks tip value against minimum of selected button
+      if (buttonSelected[0].id === "generalRequest") {
+        if (formObject.tip < event.generalRequestTipMin) {
+          document.getElementById("warning-minimum-tip-button").click();
+          formFilledOutRight = false;
+        }
+      } else {
+        if (formObject.tip < event.playNowTipMin) {
+          document.getElementById("warning-minimum-tip-button").click();
+          formFilledOutRight = false;
+        }
+      }
+      
+      // Check form fields
+      for (var key in obj) {
+        // if one is blank, show modal
+        if (obj[key] === null || obj[key] === "") {
+          document.getElementById("warning-form-button").click();
+          formFilledOutRight = false;
+        }
+      }
+
+      // To album cover function
+      if (formFilledOutRight) {
+        setStripeCard(card)
+        getAlbumCover(formObject.title, formObject.artist);
+      }
+    }
+  }
+
   const handleStripe = async () => {
     const stripe = await stripePromise;
 
+    // This creates the payment intent
     const response = await StripeAPI.checkout(product);
 
-    const result = await stripe.redirectToCheckout({
-      sessionId: response.data.id,
+    // This adds the card payment to the payment intent
+    const result = await stripe.confirmCardPayment(response.data.client_secret, {
+      payment_method: {
+        card: stripeCard,
+        billing_details: {
+          name: product.fullName,
+          email: formObject.email
+        }
+      }
     });
 
-    if (result.error) {
-      console.err(result.error.message);
+
+    if (result.paymentIntent.status === 'requires_capture') {
+      console.log("Payment intent created")
+
+      // Show a success message to your customer
+      // There's a risk of the customer closing the window before callback
+      // execution. Set up a webhook or plugin to listen for the
+      // payment_intent.succeeded event that handles any business critical
+      // post-payment actions.
+      
+      API.createRequest({
+        albumCover: product.albumCover,
+        tip: product.tip,
+        fullName: product.fullName,
+        title: product.title,
+        artist: product.artist,
+        generalRequest: product.generalRequest,
+        playNow: product.playNow,
+        songStatus: product.songStatus,
+        _id: product._id
+      })
+      .then(res => {
+        console.log("song request made; creating charge now")
+        API.createCharge({
+          djId: product._id,
+          songId: res.data._id,
+          paymentIntentId: result.paymentIntent.id,
+          paymentStatus: "authorized",
+        })
+        .then(res => window.location.replace(`/request/success/${product._id}`))
+        .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
+
+
+      // API to add DJ id, Song id, and PI id to stripe db
+      // pass in paymentIntentId, SongId, and djId
+      // API.createCharge({
+      //   djId: product._id,
+      //   songId: (res.data._id),
+      //   paymentIntentId: (result.paymentIntent.id?),
+      //   paymentStatus: "authorized",
+      //  })
+      // .then(res => window.location.replace(`/request/success/${product._id}`))
+      // .catch(err => console.log(err))
+      // };
+
     }
+
+
+
+    // OLD
+
+    // const result = await stripe.redirectToCheckout({
+    //   sessionId: response.data.id,
+    // });
+
+    // if (result.error) {
+    //   console.err(result.error.message);
+    // }
   };
 
   // Date config for event details
@@ -372,6 +507,15 @@ function RequestPage() {
               <InputText
                 onChange={handleInputChange}
                 type="text"
+                id="email"
+                name="email"
+                placeholder="Your email here"
+                label="Your email:"
+                className="form-control"
+              />
+              <InputText
+                onChange={handleInputChange}
+                type="text"
                 id="title"
                 name="title"
                 placeholder="Song title"
@@ -454,12 +598,19 @@ function RequestPage() {
               />
             </Col>
           </Row>
-          <FormBtn
+          {tip ? (
+            <Elements stripe={stripePromise}>
+              <Checkout formObject={formObject} handleFormSubmit2={handleFormSubmit2}/>
+            </Elements>
+          ) : (
+            <FormBtn
             className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn"
             onClick={handleFormSubmit}
-          >
-            Pay Now!
-          </FormBtn>
+            >
+              Send Request!
+            </FormBtn>
+          )}
+
         </form>
         <div className="hidden"></div>
         <div className="text-center">
@@ -520,6 +671,71 @@ function RequestPage() {
       />
     </div>
   );
+}
+
+function Checkout(props) {
+  //const stripe = await stripePromise;
+  const elements = useElements();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Add loading class
+
+    const card = await elements.getElement(CardElement)
+
+    props.handleFormSubmit2(card);
+    // const response = await StripeAPI.checkout(props.formObject);
+    // console.log(response);
+    // console.log(response.data.client_secret)
+
+    // // const result = await stripe.confirmCardPayment(response.data.client_secret, {
+    // //   payment_method: {
+    // //     card: card,
+    // //     billing_details: {
+          
+    // //     }
+    // //   }
+    // // })
+  }
+
+  // Stripe
+  const CARD_ELEMENT_OPTIONS = {
+    classes: {
+      base: "StripeElement form-control",
+    },
+    style: {
+      base: {
+        backgroundColor: "#fff",
+        color: "#000",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#000",
+        },
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a",
+      },
+    },
+  };
+  
+  return (
+    <div>
+      <h4>Enter Card Information</h4>
+      <h6 className="text-white">*Your card will only be authorized at this time.  It will only be charged once the song is played.</h6>
+        <CardElement options={CARD_ELEMENT_OPTIONS} />
+      <FormBtn
+      className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn"
+      onClick={handleSubmit}
+      >
+        Authorize Payment and Send Request!
+      </FormBtn>
+
+    </div>
+  )
 }
 
 export default RequestPage;
