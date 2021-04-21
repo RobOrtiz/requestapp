@@ -7,89 +7,95 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated";
-import ScrollContainer from 'react-indiana-drag-scroll';
+import ScrollContainer from "react-indiana-drag-scroll";
 import API from "../utils/API";
+import { Spinner } from "react-bootstrap";
 import StripeAPI from "../utils/stripe";
 
-
 function DJRequests() {
-    const { user } = useAuth0();
+  const { user } = useAuth0();
 
-    // Global variable to send newly acquired activated eventId (via the getActivatedEvent API) to the 
-    // getSongStatusCount API function (it follows the getActivatedEvent API in the loadActivatedEventRequests function).
-    // Have to do it this way because of the way seting a state works in the loadActivatedEventRequests function.
-    // We set the activatedEventId in the loadActivatedEventRequests function via the getActivatedEvent API but it isn't 
-    // immediately available for the getSongStatusCount API function.
-    // Working around until a better way is figured out.
-    var eventIdForSongCount;
+  // loading bar state
+  const [done, setDone] = useState(undefined);
 
-    // Set state djActivatedDjId to the logged in Dj's ObjectId
-    const [activatedDjId, setActivatedDjId] = useState("");
+  // Global variable to send newly acquired activated eventId (via the getActivatedEvent API) to the
+  // getSongStatusCount API function (it follows the getActivatedEvent API in the loadActivatedEventRequests function).
+  // Have to do it this way because of the way seting a state works in the loadActivatedEventRequests function.
+  // We set the activatedEventId in the loadActivatedEventRequests function via the getActivatedEvent API but it isn't
+  // immediately available for the getSongStatusCount API function.
+  // Working around until a better way is figured out.
+  var eventIdForSongCount;
 
-    // Set state activatedEventId to the activated event._id
-    // This will be sent to the PUT API call to update requestList for song that was moved.
-    //const [activatedEventId, setActivatedEventId] = useState([]);
+  // Set state djActivatedDjId to the logged in Dj's ObjectId
+  const [activatedDjId, setActivatedDjId] = useState("");
 
-    // Set state of requestList to the requestList array of song request objects attached to the activated event.
-    const [requestList, setRequestList] = useState([]);
-    const [queueList, setQueueList] = useState([]);
+  // Set state activatedEventId to the activated event._id
+  // This will be sent to the PUT API call to update requestList for song that was moved.
+  //const [activatedEventId, setActivatedEventId] = useState([]);
 
-    // Set state setSongId to hold song request ObjectId that needs to be updated. 
-    // This will be sent to the PUT API call to update requestList.
-    const [songId, setSongId] = useState("");
+  // Set state of requestList to the requestList array of song request objects attached to the activated event.
+  const [requestList, setRequestList] = useState([]);
+  const [queueList, setQueueList] = useState([]);
 
-    // Set states for the numbers of song requests on the request page for the queue, playNowQueue, and the generalRequestQueue.
-    const [queueCount, setQueueCount] = useState("0");
-    const [playNowQueueCount, setPlayNowQueueCount] = useState("0");
-    const [generalRequestCount, setGeneralRequestQueueCount] = useState("0");
+  // Set state setSongId to hold song request ObjectId that needs to be updated.
+  // This will be sent to the PUT API call to update requestList.
+  const [songId, setSongId] = useState("");
 
-    // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
-    // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
-    // Otherwise find their ObjectId for their Dj account and stay on the Dj dashboard page.
-    useEffect(() => {
-        checkIfProfileExists(user.sub);
-        // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
-        loadProfile(user.sub);
-    }, [user.sub])
+  // Set states for the numbers of song requests on the request page for the queue, playNowQueue, and the generalRequestQueue.
+  const [queueCount, setQueueCount] = useState("0");
+  const [playNowQueueCount, setPlayNowQueueCount] = useState("0");
+  const [generalRequestCount, setGeneralRequestQueueCount] = useState("0");
 
-    useEffect(() => {
-        let orderedList = queueList.sort((a,b) => (a.queueOrderNumber - b.queueOrderNumber));
-        for (let i = 0; i < orderedList.length; i++){
-            if(orderedList[i].queueOrderNumber !== i + 1){
-                orderedList[i].queueOrderNumber = i + 1;
-                let queueNum = {
-                    newQueueNumber: orderedList[i].queueOrderNumber
-                }
-                API.updateSongQueueNumber(orderedList[i]._id, queueNum)
-                .catch(err => console.log(err));
-            }
-        }
-        setQueueList(orderedList)
-    }, [queueList])
+  // useEffect to check if logged in Dj via AuthO already has an Dj profile for Noi.
+  // If they don't redirect them (via checkIfProfileExists) to the setup profile page.
+  // Otherwise find their ObjectId for their Dj account and stay on the Dj dashboard page.
+  useEffect(() => {
+    checkIfProfileExists(user.sub);
+    // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
+    loadProfile(user.sub);
+  }, [user.sub]);
 
-    // Function firstUpdate1 is to prevent the loadActivatedEventRequests() function from running twice on initial load.
-    // It is designed to run after initial load whenever the songId changes - based on the buttons the used clicks on song req component.
-    const firstUpdate1 = useRef(true);
-    useLayoutEffect(() => {
-        if (firstUpdate1.current) {
-            firstUpdate1.current = false;
-        } else {
-            loadActivatedEventRequests(activatedDjId)
-        }
-    }, [songId])
-
-    // Get the Dj profile
-    // Send their djId to loadActivatedEvent to get the activated event._id
-    // Technically this only has to be done on load, as the event._id is attached to the Dj already/
-    // function loadProfile(id) {
-    const loadProfile = id => {
-        API.getDj(id)
-            .then(res => {
-                setActivatedDjId(res.data[0]._id)
-                loadActivatedEventRequests(res.data[0]._id)
-            })
-            .catch(err => console.log(err))
+  useEffect(() => {
+    let orderedList = queueList.sort(
+      (a, b) => a.queueOrderNumber - b.queueOrderNumber
+    );
+    for (let i = 0; i < orderedList.length; i++) {
+      if (orderedList[i].queueOrderNumber !== i + 1) {
+        orderedList[i].queueOrderNumber = i + 1;
+        let queueNum = {
+          newQueueNumber: orderedList[i].queueOrderNumber,
+        };
+        API.updateSongQueueNumber(orderedList[i]._id, queueNum).catch((err) =>
+          console.log(err)
+        );
+      }
     }
+    setQueueList(orderedList);
+  }, [queueList]);
+
+  // Function firstUpdate1 is to prevent the loadActivatedEventRequests() function from running twice on initial load.
+  // It is designed to run after initial load whenever the songId changes - based on the buttons the used clicks on song req component.
+  const firstUpdate1 = useRef(true);
+  useLayoutEffect(() => {
+    if (firstUpdate1.current) {
+      firstUpdate1.current = false;
+    } else {
+      loadActivatedEventRequests(activatedDjId);
+    }
+  }, [songId]);
+
+  // Get the Dj profile
+  // Send their djId to loadActivatedEvent to get the activated event._id
+  // Technically this only has to be done on load, as the event._id is attached to the Dj already/
+  // function loadProfile(id) {
+  const loadProfile = (id) => {
+    API.getDj(id)
+      .then((res) => {
+        setActivatedDjId(res.data[0]._id);
+        loadActivatedEventRequests(res.data[0]._id);
+      })
+      .catch((err) => console.log(err));
+  };
 
     // Use the activatedDjId to access the associated events document in the Dj Document.
     // The API.getActivatedEvent call will use the activatedDjId to get the one and only activated
@@ -235,110 +241,167 @@ function DJRequests() {
 
         }
         
+
     }
 
-    // function handleDeclineRequest(event) {
-    //     event.preventDefault();
-    //     alert("Remove me from the queue!");
-    // }
+    // Delcare the songData to pass to the PUT API route.
+    // songId is the ObjectId of the requested song that was clicked - to move to the queue.
+    // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type.
+    const songData = {
+      songId: event.target.id,
+      newSongStatus: requestSongStatusChangeTo,
+      addQueueNumber: 100,
+    };
 
-    function handleOnDragEnd(result) {
-        if (!result.destination) return;
+    console.log("*****obj", songData);
 
-        const items = Array.from(queueList);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
+    console.log("*****", songId);
 
-        for (let i = 0; i < items.length; i++){
-            if(items[i].queueOrderNumber !== i + 1){
-                items[i].queueOrderNumber = i + 1;
-                let queueNum = {
-                    newQueueNumber: items[i].queueOrderNumber
-                }
-                API.updateSongQueueNumber(items[i]._id, queueNum)
-                .catch(err => console.log(err));
-            }
-        }
+    // PUT API route to update songStatus based on the songData
+    await API.updateRequest(songData)
+      .then((res) => {
+        console.log("catfood:", res);
+      })
+      .catch((err) => console.log(err));
+  }
 
-        setQueueList(items);
+  // function handleDeclineRequest(event) {
+  //     event.preventDefault();
+  //     alert("Remove me from the queue!");
+  // }
+
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = Array.from(queueList);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].queueOrderNumber !== i + 1) {
+        items[i].queueOrderNumber = i + 1;
+        let queueNum = {
+          newQueueNumber: items[i].queueOrderNumber,
+        };
+        API.updateSongQueueNumber(items[i]._id, queueNum).catch((err) =>
+          console.log(err)
+        );
+      }
     }
 
-    return (
-        <div>
-            <Header title="REQUESTS" />
-            {/* Queue */}
-            <Container classes="top-container">
-                <Row>
-                    <h1>Queue <span className="badge badge-dark"> {queueCount}</span></h1>
-                    <a href="#queueModal" className="ml-auto mr-3 mt-1" data-toggle="modal" data-target="#queueModal" style={{color: "gold"}}>SEE ALL QUEUE SONGS</a>
-                </Row>
-                {queueList && <QueueModal 
-                    songs={queueList}
-                    handleOnDragEnd={handleOnDragEnd}
-                />}
-                <ScrollContainer className="scroll-container">
-                    <Row classes="flex-nowrap">
-                        {queueList
-                            .map((songs, index) => (
-                                <SongReq
-                                    key={songs._id}
-                                    {...songs}
-                                    btn1="PLAYED"
-                                    button01onClick={handleQueueMovement}
-                                    btn2="REMOVED"
-                                    button02onClick={handleQueueMovement}
-                                />
-                            ))}
-                    </Row>
-                </ScrollContainer>
-            </Container>
-            {/* Play Now */}
-            <Container classes="mt-5 mb-5">
-                <Row>
-                    <h1>Play Now <span className="badge badge-dark"> {playNowQueueCount}</span></h1>
-                </Row>
-                <ScrollContainer className="scroll-container">
-                    <Row classes="flex-nowrap" >
-                        {requestList
-                            .filter(request => request.songStatus === "playNowQueue")
-                            .map(songs => (
-                                <SongReq
-                                    key={songs._id}
-                                    {...songs}
-                                    btn1="ACCEPT"
-                                    button01onClick={handleQueueMovement}
-                                    btn2="DECLINE"
-                                    button02onClick={handleQueueMovement}
-                                />
-                            ))}
-                    </Row>
-                </ScrollContainer>
-            </Container>
-            {/* General Requests */}
-            <Container classes="bottom-container">
-                <Row>
-                    <h1>General Requests <span className="badge badge-dark"> {generalRequestCount}</span></h1>
-                </Row>
-                <ScrollContainer className="scroll-container">
-                    <Row classes="flex-nowrap">
-                        {requestList
-                            .filter(request => request.songStatus === "generalRequestQueue")
-                            .map(songs => (
-                                <SongReq
-                                    key={songs._id}
-                                    {...songs}
-                                    btn1="ACCEPT"
-                                    button01onClick={handleQueueMovement}
-                                    btn2="DECLINE"
-                                    button02onClick={handleQueueMovement}
-                                />
-                            ))}
-                    </Row>
-                </ScrollContainer>
-            </Container>
-            <Footer current="request" />
-        </div>
-    )
+    setQueueList(items);
+  }
+
+  return (
+    <div>
+      <Header title="REQUESTS" />
+      {/* Queue */}
+      <Container classes="top-container">
+        <Row>
+          <h1>
+            Queue <span className="badge badge-dark"> {queueCount}</span>
+          </h1>
+          <a
+            href="#queueModal"
+            className="ml-auto mr-3 mt-1"
+            data-toggle="modal"
+            data-target="#queueModal"
+            style={{ color: "gold" }}
+          >
+            SEE ALL QUEUE SONGS
+          </a>
+        </Row>
+        {queueList && (
+          <QueueModal songs={queueList} handleOnDragEnd={handleOnDragEnd} />
+        )}
+        <ScrollContainer className="scroll-container">
+          {!done ? (
+            <Row classes="flex-nowrap">
+              <Spinner animation="border" variant="light" className="ml-3" />
+            </Row>
+          ) : (
+            <Row classes="flex-nowrap">
+              {queueList.map((songs, index) => (
+                <SongReq
+                  key={songs._id}
+                  {...songs}
+                  btn1="PLAYED"
+                  button01onClick={handleQueueMovement}
+                  btn2="REMOVED"
+                  button02onClick={handleQueueMovement}
+                />
+              ))}
+            </Row>
+          )}
+        </ScrollContainer>
+      </Container>
+      {/* Play Now */}
+      <Container classes="mt-5 mb-5">
+        <Row>
+          <h1>
+            Play Now{" "}
+            <span className="badge badge-dark"> {playNowQueueCount}</span>
+          </h1>
+        </Row>
+        <ScrollContainer className="scroll-container">
+          {!done ? (
+            <Row classes="flex-nowrap">
+              <Spinner animation="border" variant="light" className="ml-3" />
+            </Row>
+          ) : (
+            <Row classes="flex-nowrap">
+              {requestList
+                .filter((request) => request.songStatus === "playNowQueue")
+                .map((songs) => (
+                  <SongReq
+                    key={songs._id}
+                    {...songs}
+                    btn1="ACCEPT"
+                    button01onClick={handleQueueMovement}
+                    btn2="DECLINE"
+                    button02onClick={handleQueueMovement}
+                  />
+                ))}
+            </Row>
+          )}
+        </ScrollContainer>
+      </Container>
+      {/* General Requests */}
+      <Container classes="bottom-container">
+        <Row>
+          <h1>
+            General Requests
+            <span className="badge badge-dark"> {generalRequestCount}</span>
+          </h1>
+        </Row>
+        <ScrollContainer className="scroll-container">
+          {!done ? (
+            <Row classes="flex-nowrap">
+              <Spinner animation="border" variant="light" className="ml-3" />
+            </Row>
+          ) : (
+            <Row classes="flex-nowrap">
+              {requestList
+                .filter(
+                  (request) => request.songStatus === "generalRequestQueue"
+                )
+                .map((songs) => (
+                  <SongReq
+                    key={songs._id}
+                    {...songs}
+                    btn1="ACCEPT"
+                    button01onClick={handleQueueMovement}
+                    btn2="DECLINE"
+                    button02onClick={handleQueueMovement}
+                  />
+                ))}
+            </Row>
+          )}
+        </ScrollContainer>
+      </Container>
+      <Footer current="request" />
+    </div>
+  );
 }
 
 export default DJRequests;
