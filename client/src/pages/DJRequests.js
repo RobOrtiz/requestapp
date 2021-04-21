@@ -97,54 +97,54 @@ function DJRequests() {
       .catch((err) => console.log(err));
   };
 
-    // Use the activatedDjId to access the associated events document in the Dj Document.
-    // The API.getActivatedEvent call will use the activatedDjId to get the one and only activated
-    // event._id in the Dj's event list. Once the res is returned we can set the requestList to the 
-    // requestList (an array of songs with their statuses) in the event document.
-    // Once the intial load is done it will call the loadRequests function.
-    // This will be accessed on the initial load and any time there after when the requestList changes.
-    // Once the intial load is done it will call the loadRequests function.
-    async function loadActivatedEventRequests(djId) {
-        await API.getActivatedEvent(djId)
-            .then(res => {
+  // Use the activatedDjId to access the associated events document in the Dj Document.
+  // The API.getActivatedEvent call will use the activatedDjId to get the one and only activated
+  // event._id in the Dj's event list. Once the res is returned we can set the requestList to the 
+  // requestList (an array of songs with their statuses) in the event document.
+  // Once the intial load is done it will call the loadRequests function.
+  // This will be accessed on the initial load and any time there after when the requestList changes.
+  // Once the intial load is done it will call the loadRequests function.
+  async function loadActivatedEventRequests(djId) {
+      await API.getActivatedEvent(djId)
+          .then(res => {
 
-                // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
-                //setActivatedEventId(res.data.events[0]._id);
-                // A Dj can only have one activated event at a time.
-                setRequestList(res.data.events[0].requestList);
-                setQueueList(res.data.events[0].requestList.filter(request => request.songStatus === "queue").sort((a,b) => (a.queueOrderNumber - b.queueOrderNumber)))
-                // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
-                eventIdForSongCount = res.data.events[0]._id;
-                // Reset songId back to empty after each load to cause state change for when a user clicks the same song req twice in a row.
-                // As in they click ACCCEPT to add to queue and then they click PLAYED right after.
-                // Because the songId doesn't change - it doesn't "react"/"refresh" to remove the PLAYED song off of the request page.
-                // This fixes that!
-                setSongId("");
-                
-                var queueCounter = 0;
-                var playNowQueueCounter = 0;
-                var generalRequestQueueCounter = 0;
+              // Set setActivatedEventId to the Event._id for the one and only activated event in the Dj document.
+              //setActivatedEventId(res.data.events[0]._id);
+              // A Dj can only have one activated event at a time.
+              setRequestList(res.data.events[0].requestList);
+              setQueueList(res.data.events[0].requestList.filter(request => request.songStatus === "queue").sort((a,b) => (a.queueOrderNumber - b.queueOrderNumber)))
+              // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
+              eventIdForSongCount = res.data.events[0]._id;
+              // Reset songId back to empty after each load to cause state change for when a user clicks the same song req twice in a row.
+              // As in they click ACCCEPT to add to queue and then they click PLAYED right after.
+              // Because the songId doesn't change - it doesn't "react"/"refresh" to remove the PLAYED song off of the request page.
+              // This fixes that!
+              setSongId("");
+              
+              var queueCounter = 0;
+              var playNowQueueCounter = 0;
+              var generalRequestQueueCounter = 0;
 
-                // Go through the array of songStatuses and increased appropriate counter.
-                for (var i = 0; i < res.data.events[0].requestList.length; i++) {
-                    if (res.data.events[0].requestList[i].songStatus === "queue") {
-                        queueCounter = queueCounter + 1;
-                    }
-                    else if (res.data.events[0].requestList[i].songStatus === "playNowQueue") {
-                        playNowQueueCounter = playNowQueueCounter + 1;
-                    }
-                    else if (res.data.events[0].requestList[i].songStatus === "generalRequestQueue") {
-                        generalRequestQueueCounter = generalRequestQueueCounter + 1;
-                    }
-                }
+              // Go through the array of songStatuses and increased appropriate counter.
+              for (var i = 0; i < res.data.events[0].requestList.length; i++) {
+                  if (res.data.events[0].requestList[i].songStatus === "queue") {
+                      queueCounter = queueCounter + 1;
+                  }
+                  else if (res.data.events[0].requestList[i].songStatus === "playNowQueue") {
+                      playNowQueueCounter = playNowQueueCounter + 1;
+                  }
+                  else if (res.data.events[0].requestList[i].songStatus === "generalRequestQueue") {
+                      generalRequestQueueCounter = generalRequestQueueCounter + 1;
+                  }
+              }
 
-                setQueueCount(queueCounter)
-                setPlayNowQueueCount(playNowQueueCounter)
-                setGeneralRequestQueueCount(generalRequestQueueCounter)
+              setQueueCount(queueCounter)
+              setPlayNowQueueCount(playNowQueueCounter)
+              setGeneralRequestQueueCount(generalRequestQueueCounter)
 
-            })
-            .catch(err => console.log(err));
-        }
+          })
+          .catch(err => console.log(err));
+    }
 
 
 
@@ -222,27 +222,27 @@ function DJRequests() {
         }
 
         
-        function updateDatabase(updateSongId, updateSongStatus) {
-            // Delcare the songData to pass to the PUT API route. 
-            // songId is the ObjectId of the requested song that was clicked - to move to the queue.
-            // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type. 
-            const songData = {
-                "songId": updateSongId,
-                "newSongStatus": updateSongStatus,
-                "addQueueNumber": 100
-            };
+      function updateDatabase(updateSongId, updateSongStatus) {
+          // Delcare the songData to pass to the PUT API route. 
+          // songId is the ObjectId of the requested song that was clicked - to move to the queue.
+          // newSongStatus lets us know what to change the new songStatus to based on the requestButtonType switch type. 
+          const songData = {
+              "songId": updateSongId,
+              "newSongStatus": updateSongStatus,
+              "addQueueNumber": 100
+          };
 
-            // PUT API route to update songStatus based on the songData
-            API.updateRequest(songData)
-                // .then(res => {
-                //     console.log("Queues Updated");
-                // })
-                .catch(err => console.log(err))
+          // PUT API route to update songStatus based on the songData
+          API.updateRequest(songData)
+              // .then(res => {
+              //     console.log("Queues Updated");
+              // })
+              .catch(err => console.log(err))
 
-        }
+      }
         
 
-    }
+
 
     // Delcare the songData to pass to the PUT API route.
     // songId is the ObjectId of the requested song that was clicked - to move to the queue.
