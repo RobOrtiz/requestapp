@@ -9,7 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import checkIfProfileExists from "../utils/checkProfileCreated";
 import ScrollContainer from "react-indiana-drag-scroll";
 import API from "../utils/API";
-import { BarLoader } from "react-spinners";
+import { Spinner } from "react-bootstrap";
 
 function DJRequests() {
   const { user } = useAuth0();
@@ -264,7 +264,7 @@ function DJRequests() {
         <ScrollContainer className="scroll-container">
           {!done ? (
             <Row classes="flex-nowrap">
-              <BarLoader color="white" />
+              <Spinner animation="border" variant="light" className="ml-3" />
             </Row>
           ) : (
             <Row classes="flex-nowrap">
@@ -293,7 +293,7 @@ function DJRequests() {
         <ScrollContainer className="scroll-container">
           {!done ? (
             <Row classes="flex-nowrap">
-              <BarLoader color="white" />
+              <Spinner animation="border" variant="light" className="ml-3" />
             </Row>
           ) : (
             <Row classes="flex-nowrap">
@@ -324,7 +324,7 @@ function DJRequests() {
         <ScrollContainer className="scroll-container">
           {!done ? (
             <Row classes="flex-nowrap">
-              <BarLoader color="white" />
+              <Spinner animation="border" variant="light" className="ml-3" />
             </Row>
           ) : (
             <Row classes="flex-nowrap">
