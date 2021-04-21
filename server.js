@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const hpp = require("hpp")
 
 
 const stripeSK = process.env.STRIPE_SK;
@@ -22,6 +25,14 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Data sanitation against nosql query injection
+app.use(mongoSanitize())
+
+// Data sanitation against xss
+app.use(xss())
+
+// Prevent parameter pollution
+app.use(hpp())
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
