@@ -16,7 +16,7 @@ function DJRequests() {
   const { user } = useAuth0();
 
   // loading bar state
-  const [done, setDone] = useState(undefined);
+  const [done, setDone] = useState(false);
 
   // Global variable to send newly acquired activated eventId (via the getActivatedEvent API) to the
   // getSongStatusCount API function (it follows the getActivatedEvent API in the loadActivatedEventRequests function).
@@ -56,6 +56,9 @@ function DJRequests() {
   }, [user.sub]);
 
   useEffect(() => {
+    //For Spinner
+    setDone(true);
+
     let orderedList = queueList.sort(
       (a, b) => a.queueOrderNumber - b.queueOrderNumber
     );
