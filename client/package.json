@@ -17,6 +17,7 @@
     "react-modal": "^3.12.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^2.1.1",
+    "react-spinners": "^0.10.6",
     "react-stripe-checkout": "^2.6.3",
     "react-to-print": "^2.12.3"
   },
