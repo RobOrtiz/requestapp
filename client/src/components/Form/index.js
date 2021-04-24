@@ -12,7 +12,7 @@ export function Input(props) {
 export function InputText(props) {
     return (
         <div className="form-group">
-            <label htmlFor={props.id}>{props.label}</label>
+            <label htmlFor={props.id}>{props.label}</label> <label className={"text-danger"}>{props.message}</label>
             <input {...props}/>
         </div>
     )
