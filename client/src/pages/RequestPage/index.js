@@ -334,39 +334,44 @@ function RequestPage() {
     });
 
 
-    if (result.paymentIntent.status === 'requires_capture') {
-      console.log("Payment intent created")
-
-      // Show a success message to your customer
-      // There's a risk of the customer closing the window before callback
-      // execution. Set up a webhook or plugin to listen for the
-      // payment_intent.succeeded event that handles any business critical
-      // post-payment actions.
-      
-      API.createRequest({
-        albumCover: product.albumCover,
-        tip: product.tip,
-        fullName: product.fullName,
-        title: product.title,
-        artist: product.artist,
-        generalRequest: product.generalRequest,
-        playNow: product.playNow,
-        songStatus: product.songStatus,
-        _id: product._id
-      })
-      .then(res => {
-        API.createCharge({
-          djId: product._id,
-          songId: res.data.requestList[res.data.requestList.length -1]._id,
-          paymentIntentId: result.paymentIntent.id,
-          paymentStatus: "authorized",
+    if(result.error) {
+      alert("There was an issue processing your request.  No charge was made.  The page will now reload.  Please try again.");
+      window.location.reload();
+    } else {
+      if (result.paymentIntent.status === 'requires_capture') {
+        console.log("Payment intent created")
+  
+        // Show a success message to your customer
+        // There's a risk of the customer closing the window before callback
+        // execution. Set up a webhook or plugin to listen for the
+        // payment_intent.succeeded event that handles any business critical
+        // post-payment actions.
+        
+        API.createRequest({
+          albumCover: product.albumCover,
+          tip: product.tip,
+          fullName: product.fullName,
+          title: product.title,
+          artist: product.artist,
+          generalRequest: product.generalRequest,
+          playNow: product.playNow,
+          songStatus: product.songStatus,
+          _id: product._id
         })
-        .then(res => window.location.replace(`/request/success/${product._id}`))
-        .catch(err => console.log(err))
-      })
-      .catch(err => console.log(err))
-
-
+        .then(res => {
+          API.createCharge({
+            djId: product._id,
+            songId: res.data.requestList[res.data.requestList.length -1]._id,
+            paymentIntentId: result.paymentIntent.id,
+            paymentStatus: "authorized",
+          })
+          .then(res => window.location.replace(`/request/success/${product._id}`))
+          .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))  
+      } else {
+        alert("There was an issue processing your request.  Please try again")
+      }
     }
 
 
