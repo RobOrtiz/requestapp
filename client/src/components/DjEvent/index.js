@@ -76,6 +76,10 @@ function DjEvent(props) {
                     </li>
                     {props.eventStatus !== "end" ? (
                         <li>
+                             <button type="button" className="btn btn-dark mt-3" id={`details-${newId}`} data-toggle="modal" data-target={`#edit-modal-${newId}`}>
+                                Edit Details
+                            </button>
+                        
                             <button type="button" className="btn btn-dark mt-3" id={`details-${newId}`} data-toggle="modal" data-target={`#modal-${newId}`}>
                                 Details
                             </button>
@@ -108,6 +112,31 @@ function DjEvent(props) {
                             </div>
                         </div>
                     </div>
+
+                    {/*Edit Events Modal */}
+                    <div className="modal fade edit-events-modal" id={`edit-modal-${newId}`} tabIndex="-1" role="dialog" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                            <div className="modal-body">
+                                <h5 className="text-uppercase mb-3">EDIT:{props.eventName}</h5>
+                                <p className="modal-text"><b>Date:</b> {`${month} ${dateDay}${dateEnd}, ${year}`}</p>
+                                <p className="modal-text"><b>Time:</b> {props.startTime} - {props.endTime}</p>
+                                <p className="modal-text"><b>Type:</b> {props.eventType} &#183; {props.genre}</p>
+                                <p className="modal-text">
+                                    <b>Venue:</b> <br />
+                                    {props.venueName} <br />
+                                    {props.venueAddress}
+                                </p>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-dark" data-dismiss="modal">Close</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     {/* Event Stats Modal */}
                     <div className="modal fade event-stats-modal" id={`stats-modal-${newId}`} tabIndex="-1" role="dialog" aria-hidden="true">
                         <div className="modal-dialog modal-dialog-scrollable" role="document">
