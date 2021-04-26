@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "../components/Grid";
+import LoadingScreen from "../components/LoadingScreen";
 import ActivityRow from "../components/ActivityRow";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -10,6 +11,8 @@ import API from "../utils/API";
 function DJActivity() {
 
     const { user } = useAuth0();
+
+    const [ loaded, setLoaded ] = useState(false);
 
     // Global variable to send newly acquired activated eventId (via the getActivatedEvent API) to the 
     // getSongStatusCount API function (it follows the getActivatedEvent API in the loadActivatedEventRequests function).
@@ -77,6 +80,7 @@ function DJActivity() {
                 // setActivatedEventId(res.data.events[0]._id);
                 // A Dj can only have one activated event at a time.
                 setActivity(res.data.events[0].requestList);
+                setLoaded(true);
 
                 // eventIdForSongCount is assign the activated eventId so it can access it immediately below in getSongStatusCount API.
                 eventIdForSongCount = res.data.events[0]._id;
@@ -156,6 +160,7 @@ function DJActivity() {
     return (
         <div>
             <Header title="ACTIVITY" />
+            {!loaded && <LoadingScreen />}
             <Container classes="top-container bottom-container text-center">
                 <Row classes="p-4 mt-0 activity-header-bottom">
                     <Col size="4"><h3 className="text-muted">Queue: <span className="badge badge-light"> {queueCount}</span></h3></Col>

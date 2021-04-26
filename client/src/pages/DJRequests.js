@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Container, Row } from "../components/Grid";
 // import { Input, FormBtn } from "../components/Form";
+import LoadingScreen from "../components/LoadingScreen";
 import SongReq from "../components/SongReq";
 import QueueModal from "../components/QueueModal";
 import Header from "../components/Header";
@@ -12,11 +13,14 @@ import API from "../utils/API";
 import { Spinner } from "react-bootstrap";
 import StripeAPI from "../utils/stripe";
 
+
 function DJRequests() {
   const { user } = useAuth0();
 
   // loading bar state
   const [done, setDone] = useState(false);
+
+  const [ loaded, setLoaded ] = useState(false);
 
   // Global variable to send newly acquired activated eventId (via the getActivatedEvent API) to the
   // getSongStatusCount API function (it follows the getActivatedEvent API in the loadActivatedEventRequests function).
@@ -53,12 +57,12 @@ function DJRequests() {
     checkIfProfileExists(user.sub);
     // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
     loadProfile(user.sub);
+    setLoaded(true);
   }, [user.sub]);
 
   useEffect(() => {
     //For Spinner
     setDone(true);
-
     let orderedList = queueList.sort(
       (a, b) => a.queueOrderNumber - b.queueOrderNumber
     );
@@ -300,20 +304,24 @@ function DJRequests() {
       <Header title="REQUESTS" />
       {/* Queue */}
       <Container classes="top-container">
-        <Row>
-          <h1>
-            Queue <span className="badge badge-dark"> {queueCount}</span>
-          </h1>
-          <a
-            href="#queueModal"
-            className="ml-auto mr-3 mt-1"
-            data-toggle="modal"
-            data-target="#queueModal"
-            style={{ color: "gold" }}
-          >
-            SEE ALL QUEUE SONGS
-          </a>
-        </Row>
+          <Row>
+            <h1>
+              Queue <span className="badge badge-dark"> {queueCount}</span>
+            </h1>
+            {queueList.length > 0 && (
+            <a
+              href="#queueModal"
+              className="ml-auto mr-3 mt-1"
+              data-toggle="modal"
+              data-target="#queueModal"
+              style={{ color: "gold" }}
+            >
+              SEE ALL QUEUE SONGS
+            </a>
+              )
+            }
+          </Row>
+        {!loaded && <LoadingScreen />}
         {queueList && (
           <QueueModal songs={queueList} handleOnDragEnd={handleOnDragEnd} />
         )}
