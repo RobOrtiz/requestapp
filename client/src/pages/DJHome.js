@@ -88,7 +88,7 @@ function DJHome() {
 
     const { user } = useAuth0();
     const [userId, setUserId] = useState("");
-    const [updateDetails, setUpdateDetails] = useState({});
+   
 
     useEffect(() => {
         checkIfProfileExists(user.sub);
@@ -158,12 +158,7 @@ function DJHome() {
         }
     }
 
-      //allows the onChange function for updating details in the input text
-  
-      function handleDetailChange(e) {
-          const {name, value} = e.target;
-          setUpdateDetails({ ...updateDetails, [name]: value });
-      }
+
 
     // When an end is over the Dj will "end" it and when the button is clicked the eventStatus is changed to "end"
     // Thus removing it from the event list. 
@@ -256,7 +251,7 @@ function DJHome() {
                                    
                                     <DjEvent
                                         {...djEvent}                                        
-                                        handleDetailChange={handleDetailChange}
+                                        
                                         handleSwitch={handleSwitch}
                                         handleEnd={handleEnd}
                                     />

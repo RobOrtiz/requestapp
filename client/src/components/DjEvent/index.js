@@ -1,22 +1,34 @@
 import React,{ useState } from 'react';
-import { InputText, FormBtn, Switch } from "../Form";
+import { InputText, Input, FormBtn, Switch } from "../Form";
 import './style.css'
 
 function DjEvent(props) {
 
     //edit modal state 
     const [editButton, setEditButton] = useState(false);
+    const [updateDetails, setUpdateDetails] = useState({...props, eventDate:props.eventDate.split("T")[0]});
+
    
 
     //button that shows the edit re-render
     function editButtonClick(e){
+      console.log(props)
+      console.log(updateDetails)
         if(editButton === false){
         setEditButton(true);
     }else{setEditButton(false)}
     }
 
-  
+        //allows the onChange function for updating details in the input text
+       
+        function handleDetailChange(e) {
+            const {name, value} = e.target;
+            setUpdateDetails({ ...updateDetails, [name]: value });
+        }
 
+        function focusInput(e) {
+          e.target.focus();
+        }
 
     const monthNumber = props.eventDate.slice(5,7)
     const month = ["January", "February", "March", "April", "May", "June",
@@ -137,66 +149,83 @@ function DjEvent(props) {
                     </button>
                     {editButton ? (
                        <div>
-                         <p className="modal-text">
-                         <b>Date:</b>
-                         <InputText
-                          value={`${month} ${dateDay}${dateEnd}, ${year}`}
-                          onChange={props.handleDetailChange}
-                          name="eventDate"
-                         />
-                     
-                       </p>
-                       <p className="modal-text">
-                         <b> Start Time:</b>
-                         <InputText
-                         value={props.startTime}
-                         onChange={props.handleDetailChange}
-                         name="eventTimeStart"
-                         />
-                       </p>
-                       <p className="modal-text">
-                         <b> End Time:</b>
-                         <InputText
-                         value={props.endTime}
-                         onChange={props.handleDetailChange}
-                         name={props.endTime}
-                         />
-                       </p>
-                       <p className="modal-text">
-                         <b>Type:</b>
-                         <InputText 
-                         value= {props.eventType}
-                         onChange={props.handleDetailChange}
-                         name={props.eventType}
-                         />
-                        </p>
-                        <p className="modal-text">
-                         <b>Genre:</b>
-                         <InputText 
-                         value={props.genre}
-                         onChange={props.handleDetailChange}
-                         name={props.genre}
-                         />                         
+                          <p className="modal-text mb-0">
+                           <b>Date:</b>
                          </p>
-                       <p className="modal-text">
-                         <b>Venue Name:</b> <br />
                          <InputText
-                         value= {props.venueName}
-                         onChange={props.handleDetailChange}
-                         name={props.venueName}
-                         /> 
-                         <br/>
-                        </p> 
-                        <p className="modal-text">
-                         <b>Venue Address:</b> <br />
-                         <InputText
-                         value={props.venueAddress}
-                         onChange={props.handleDetailChange}
-                         name={props.venueAddress}
+                          type="date"
+                          value={updateDetails.eventDate}
+                          onChange={handleDetailChange}
+                          id="eventDate"
+                          name="eventDate"
+                          onClick={focusInput}
                          />
-                          <br/>                       
-                       </p>
-                       </div>                      
+                         <p className="modal-text mb-0">
+                           <b>Start Time:</b>
+                         </p>
+                         <InputText
+                          type="text"
+                          value={updateDetails.startTime}
+                          onChange={handleDetailChange}
+                          id="startTime"
+                          name="startTime"
+                          placeholder="6:00PM"
+                          onClick={focusInput}
+                         />
+                          <p className="modal-text mb-0">
+                           <b>End Time:</b>
+                         </p>
+                         <InputText
+                          type="text"
+                          value={updateDetails.endTime}
+                          onChange={handleDetailChange}
+                          placeholder="6:00PM"
+                          id="endTime"
+                          name="endTime"
+                          onClick={focusInput}
+                         />
+                          <p className="modal-text mb-0">
+                           <b>Type:</b>
+                         </p>
+                         <InputText
+                          type="text"
+                          value={updateDetails.eventType}
+                          onChange={handleDetailChange}
+                          id="eventType"
+                          name="eventType"
+                          onClick={focusInput}
+                         />
+                           <p className="modal-text mb-0">
+                           <b>Genre:</b>
+                         </p>
+                         <InputText
+                          type="text"
+                          value={updateDetails.genre}
+                          onChange={handleDetailChange}
+                          id="genre"
+                          name="genre"
+                          onClick={focusInput}
+                         />
+                          <p className="modal-text mb-0">
+                           <b>Venue Name:</b>
+                         </p>
+                         <InputText
+                          type="text"
+                          value={updateDetails.venueName}
+                          onChange={handleDetailChange}
+                          id="venueName"
+                          name="venueName"
+                          onClick={focusInput}
+                         />
+                          <InputText
+                          type="text"
+                          value={updateDetails.venueAddress}
+                          onChange={handleDetailChange}
+                          id="venueAddress"
+                          name="venueAddress"
+                          onClick={focusInput}
+                         />                         
+                        </div>                      
 
                     ):(
                                      
