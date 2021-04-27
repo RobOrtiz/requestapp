@@ -191,7 +191,12 @@ function DJHome() {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
+   
   }
+ 
+  useEffect(() => {
+    console.log(formObject)
+  }, [formObject]);
 
   // error massages
   const [error, setError] = useState({
@@ -217,7 +222,7 @@ function DJHome() {
 
     if (eventName.length > 30 || !eventValidator.test(eventName)) {
       isValid = false;
-      console.log(eventValidator.test(eventName))
+      // console.log(eventValidator.test(eventName))
       setError({errEventName:"Event name can only include letters and not be longer than 30 characters"});
     }
 
