@@ -90,7 +90,7 @@ function DJHome() {
     loadProfile(user.sub);
   }, []);
 
-  // API GET request for user informatoin
+  // API GET request for user information
   function loadProfile(id) {
     API.getDj(id)
       .then((res) => setUserId(res.data[0]._id))
@@ -193,6 +193,7 @@ function DJHome() {
     setFormObject({ ...formObject, [name]: value });
   }
 
+  // error massages
   const [error, setError] = useState({
     errEventLocation: "",
     errEventName: "",
@@ -201,6 +202,7 @@ function DJHome() {
     errVenueName: "",
   });
 
+  // validating inputs
   function validateInputs() {
     const {
       eventLocation,
@@ -211,24 +213,27 @@ function DJHome() {
     } = formObject;
 
     let isValid = true;
+    const eventValidator = /^\w+( \w+)*$/
 
-    if (eventName.length > 30 || eventName.includes("$")) {
+    if (eventName.length > 30 || !eventValidator.test(eventName)) {
       isValid = false;
+      console.log(eventValidator.test(eventName))
       setError({errEventName:"Event name can only include letters and not be longer than 30 characters"});
     }
-    if (eventType.length > 30 || eventType.includes("$")) {
+
+       if (eventType.length > 30 || !eventValidator.test(eventType)) {
       isValid = false;
       setError({errEventType:"Event name can only include letters and not be longer than 30 characters"});
     }
-    if (eventLocation.length > 30 || eventLocation.includes("$")) {
+    if (eventLocation.length > 30 || !eventValidator.test(eventLocation)) {
       isValid = false;
       setError({errEventLocation:"Event name can only include letters and not be longer than 30 characters"});
     }
-    if (genre.length > 30 || genre.includes("$")) {
+    if (genre.length > 30 || !eventValidator.test(genre)) {
       isValid = false;
       setError({errGenre:"Event name can only include letters and not be longer than 30 characters"});
     }
-    if (venueName.length > 30 || venueName.includes("$")) {
+    if (venueName.length > 30 || !eventValidator.test(venueName)) {
       isValid = false;
       setError({errVenueName:"Venue name can only include letters and not be longer than 30 characters"});
     }
@@ -320,6 +325,7 @@ function DJHome() {
                 placeholder="EVENT NAME"
                 label="What's the event name?"
                 className="form-control"
+                // added error message for each typed input
                 message={error.errEventName}
               />
               <InputText
