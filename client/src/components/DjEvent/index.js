@@ -5,13 +5,18 @@ import './style.css'
 function DjEvent(props) {
 
     //edit modal state 
-    const [editButton, setEditButton] = useState(false)
+    const [editButton, setEditButton] = useState(false);
+   
 
+    //button that shows the edit re-render
     function editButtonClick(e){
         if(editButton === false){
         setEditButton(true);
     }else{setEditButton(false)}
     }
+
+  
+
 
     const monthNumber = props.eventDate.slice(5,7)
     const month = ["January", "February", "March", "April", "May", "June",
@@ -133,40 +138,63 @@ function DjEvent(props) {
                     {editButton ? (
                        <div>
                          <p className="modal-text">
-                         <b>Date:</b><InputText
+                         <b>Date:</b>
+                         <InputText
                           value={`${month} ${dateDay}${dateEnd}, ${year}`}
-                          />
+                          onChange={props.handleDetailChange}
+                          name="eventDate"
+                         />
                      
                        </p>
                        <p className="modal-text">
                          <b> Start Time:</b>
                          <InputText
-                         value={props.startTime}/>
+                         value={props.startTime}
+                         onChange={props.handleDetailChange}
+                         name="eventTimeStart"
+                         />
                        </p>
                        <p className="modal-text">
                          <b> End Time:</b>
                          <InputText
-                         value={props.endTime}/>
+                         value={props.endTime}
+                         onChange={props.handleDetailChange}
+                         name={props.endTime}
+                         />
                        </p>
                        <p className="modal-text">
                          <b>Type:</b>
                          <InputText 
-                         value= {props.eventType}/>
+                         value= {props.eventType}
+                         onChange={props.handleDetailChange}
+                         name={props.eventType}
+                         />
                         </p>
                         <p className="modal-text">
                          <b>Genre:</b>
                          <InputText 
-                         value={props.genre}/>                         
+                         value={props.genre}
+                         onChange={props.handleDetailChange}
+                         name={props.genre}
+                         />                         
                          </p>
                        <p className="modal-text">
                          <b>Venue Name:</b> <br />
                          <InputText
-                         value= {props.venueName}/> <br/>
+                         value= {props.venueName}
+                         onChange={props.handleDetailChange}
+                         name={props.venueName}
+                         /> 
+                         <br/>
                         </p> 
                         <p className="modal-text">
                          <b>Venue Address:</b> <br />
                          <InputText
-                         value={props.venueAddress}/> <br/>                       
+                         value={props.venueAddress}
+                         onChange={props.handleDetailChange}
+                         name={props.venueAddress}
+                         />
+                          <br/>                       
                        </p>
                        </div>                      
 
