@@ -26,7 +26,8 @@ module.exports = {
         hometown: req.body.hometown,
         djStyle: req.body.djStyle,
         email: req.body.email,
-        instagram: req.body.instagram
+        instagram: req.body.instagram,
+        profileImage: req.body.profileImage
       }
     )
       .then((dbModel) => res.json(dbModel))
