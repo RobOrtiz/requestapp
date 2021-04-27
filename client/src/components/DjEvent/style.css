@@ -39,7 +39,7 @@
   }
 
   .modal-content {
-    background-color: rgb(77, 77, 77) !important;
+    background-color: rgb(0, 0, 0) !important;
   }
 
   .modal-text {
@@ -65,4 +65,9 @@
       height: 13rem;
     }
 
+  }
+
+  .modal-body button{
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(179, 162, 13)!important;
   }
