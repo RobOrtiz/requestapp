@@ -195,7 +195,16 @@ function DJHome() {
   }
  
   useEffect(() => {
-    console.log(formObject)
+   
+    if (formObject.eventName){ 
+     console.log("poo")
+     validateInputs();
+    }
+     else if (!formObject==={}){
+        validateInputs();
+        console.log(formObject)
+     }
+  
   }, [formObject]);
 
   // error massages
@@ -247,8 +256,8 @@ function DJHome() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    const isValid = validateInputs();
-    if (isValid) {
+    // const isValid = validateInputs();
+    // if (isValid) {
       // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
       // See details above in require uuid.
       const randomEventId = uuid();
@@ -281,9 +290,9 @@ function DJHome() {
       })
         .then((res) => window.location.replace("/dj/dashboard"))
         .catch((err) => console.log(err));
-    } else {
-      alert("Please fill up the form correctly");
-    }
+    // } else {
+    //   alert("Please fill up the form correctly");
+    // }
   }
 
   return (
