@@ -188,6 +188,7 @@ function DJHome() {
     }
   }
 
+
   // destructuring formObj
   const { eventLocation, eventName, eventType, genre, venueName } = formObject;
   // error massages
@@ -199,70 +200,84 @@ function DJHome() {
     errVenueName: "",
   });
 
+  
   // save user's input to state
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
 
+   const [valid, setValid] = useState({set:true}) 
+   const eventValidator = /^\w+( \w+)*$/;
+
   // validate input, add/remove error on change
   useEffect(() => {
+  
     if (formObject.eventName) {
-      const eventValidator = /^\w+( \w+)*$/;
-      if (eventName.length > 30 || !eventValidator.test(eventName)) {
+      // console.log(valid)
+      // let isValid = true;
+     
+      if (eventName.length > 30 || !eventValidator.test(eventName.trim())) {
+               setValid({set:false});
+               console.log(valid)
         setError({
           errEventName:
-            "Event name can only include letters and cannot be longer than 30 characters",
+            "Event name can only include letters and not be longer than 30 characters",
         });
       } else {
+        setValid({set:true});
         setError({});
-      }
+      } 
     }
 
-    if (formObject.eventLocation) {
-      const eventValidator = /^\w+( \w+)*$/;
-      if (eventLocation.length > 30 || !eventValidator.test(eventLocation)) {
+   else if (formObject.eventLocation) {
+      if (eventLocation.length > 30 || !eventValidator.test(eventLocation.trim())) {
+        setValid({set:false});
         setError({
           errEventLocation:
-            "Location name can only include letters and numbers and cannot be longer than 30 characters",
+            "Location name can only include letters and numbers and not be longer than 30 characters",
         });
       } else {
+        setValid({set:true});
         setError({});
       }
     }
 
-    if (formObject.eventType) {
-      const eventValidator = /^\w+( \w+)*$/;
-      if (eventType.length > 30 || !eventValidator.test(eventType)) {
+  else  if (formObject.eventType) {
+      if (eventType.length > 30 || !eventValidator.test(eventType.trim())) {
+        setValid({set:false});
         setError({
           errEventType:
-            "Type of the event can only include letters and cannot be longer than 30 characters",
+            "Type of the event can only include letters and not be longer than 30 characters",
         });
       } else {
+        setValid({set:true});
         setError({});
       }
     }
 
-    if (formObject.genre) {
-      const eventValidator = /^\w+( \w+)*$/;
-      if (genre.length > 30 || !eventValidator.test(genre)) {
+   else if (formObject.genre) {
+      if (genre.length > 30 || !eventValidator.test(genre.trim())) {
+        setValid({set:false});
         setError({
           errGenre:
-            "Name of the genre can only include letters and cannot be longer than 30 characters",
+            "Name of the genre can only include letters and not be longer than 30 characters",
         });
       } else {
+        setValid({set:true});
         setError({});
       }
     }
 
-    if (formObject.venueName) {
-      const eventValidator = /^\w+( \w+)*$/;
-      if (venueName.length > 30 || !eventValidator.test(venueName)) {
+  else  if (formObject.venueName) {
+      if (venueName.length > 30 || !eventValidator.test(venueName.trim())) {
+        setValid({set:false});
         setError({
           errVenueName:
-            "Event name can only include letters and cannot be longer than 30 characters",
+            "Event name can only include letters and not be longer than 30 characters",
         });
       } else {
+        setValid({set:true});
         setError({});
       }
     }
@@ -271,8 +286,8 @@ function DJHome() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    // const isValid = validateInputs();
-    // if (isValid) {
+    if (valid.set===true) {
+      // console.log(valid)
     // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
     // See details above in require uuid.
     const randomEventId = uuid();
@@ -305,9 +320,8 @@ function DJHome() {
     })
       .then((res) => window.location.replace("/dj/dashboard"))
       .catch((err) => console.log(err));
-    // } else {
-    //   alert("Please fill up the form correctly");
-    // }
+    } 
+    else { alert("Please fill out the form correctly")}
   }
 
   return (
