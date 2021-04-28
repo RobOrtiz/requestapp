@@ -141,14 +141,14 @@ function DjEvent(props) {
                     {/* Make button into to handle changes*/}
 
                     <button onClick={editButtonClick}>
-                      <h5 className="text-uppenpm startrcase mb-3">
+                      <h5 className="startrcase mb-3">
                         {props.eventName}
 
                         <i className="fas fa-edit"></i>
                       </h5>
                     </button>
                     {editButton ? (
-                       <div>
+                       <div className="modal-detail-container">
                           <p className="modal-text mb-0">
                            <b>Date:</b>
                          </p>
@@ -229,7 +229,7 @@ function DjEvent(props) {
 
                     ):(
                                      
-                        <div>
+                      <div className="modal-detail-container">
                     <p className="modal-text">
                       <b>Date:</b> {`${month} ${dateDay}${dateEnd}, ${year}`}
                     </p>

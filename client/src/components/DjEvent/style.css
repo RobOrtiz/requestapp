@@ -36,10 +36,18 @@
   
   .modal {
     margin-top: 5rem;
+ 
   }
 
-  .modal-content {
-    background-color: rgb(0, 0, 0) !important;
+.modal-body{
+  background-color: black;
+  outline-color: rgb(231, 178, 4);
+
+}
+  .modal-content{
+    background-color: black;
+    border-color:rgb(231, 178, 4)!important;
+    border-width: thick!important;
   }
 
   .modal-text {
@@ -62,12 +70,43 @@
     }
 
     .event-card > .event-img-container {
-      height: 13rem;
+      height: 13rem; 
     }
 
   }
 
   .modal-body button{
-    background-color: rgba(255, 255, 255, 0);
-    color: rgb(179, 162, 13)!important;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 1px;
+   
+  }
+  .modal-body button h5{
+    color:rgb(231, 178, 4);
+    font-size: 50px;
+    text-align: center;
+    margin-left: 25px;
+   
+  }
+  .modal-body i{
+    margin-left: 1em;
+    color: gray;
+  }
+  .modal-body b{
+    font-size:  30px;
+    margin-right: 100px;
+       
+  }
+  .modal-detail-container{
+    text-align: left;
+    font-size: 25px;
+  }
+  .modal-text{
+    text-align: left;
+  }
+  
+
+  .modal-footer{
+    background-color: black;
+
   }
