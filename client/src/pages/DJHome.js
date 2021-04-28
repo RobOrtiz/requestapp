@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
-import { InputText, FormBtn } from "../components/Form";
+import { InputText, FormBtn, InputTime } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -193,18 +193,28 @@ function DJHome() {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-    console.log(formObject);
+      }
+
+  const [time, setTime] = useState(
+    {hour:"",
+    minute:"",
+    ampm:"",
+    // total:""
   }
+  )
+let totalTime = ""
+totalTime = time.hour.concat(":",time.minute).concat(" ",time.ampm)
+console.log(totalTime)
+  // setTime({total:totalTime})
 
-  const [time, setTime] = useState("")
+  // setFormObject({...formObject, eventTimeStart:totalTime  })
+  // console.log(formObject)
+
   function handleInputTimeChange(event) {
-    const { name, value } = event.target;
-
-    setTime(value)
-  //   let allValue = []
-  //  allValue.push(value)
-   
-    // setFormObject({ ...formObject, [name]: value });
+    const { name, value  } = event.target;
+    setTime({...time, [name]: value });
+    // setTime({...time, total:totalTime})
+    
     console.log(time);
   }
 
@@ -333,12 +343,14 @@ function DJHome() {
                 label="What date is the event on?"
                 className="form-control"
               />
-              <InputText
+              <InputTime
                 onChange={handleInputTimeChange}
                 type="text"
                 id="eventTimeStart"
-                name="eventTimeStart"
-                time="true"
+                // name="eventTimeStart"
+                nameH="hour"
+                nameM="minute"
+                nameA="ampm"
                 label="What time does the event start?"
                 className="form-control"
               />
