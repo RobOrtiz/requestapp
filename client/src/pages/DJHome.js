@@ -202,6 +202,17 @@ function DJHome() {
     // total:""
   }
   )
+
+  useEffect(()=>{
+ setFormObject({...formObject, eventTimeStart:totalTime  })
+  console.log(time); 
+ 
+  },[time])
+
+  useEffect(()=>{
+ console.log(formObject)
+  },[formObject])
+
 let totalTime = ""
 totalTime = time.hour.concat(":",time.minute).concat(" ",time.ampm)
 console.log(totalTime)
@@ -214,8 +225,9 @@ console.log(totalTime)
     const { name, value  } = event.target;
     setTime({...time, [name]: value });
     // setTime({...time, total:totalTime})
-    
-    console.log(time);
+   
+   
+   
   }
 
   function handleFormSubmit(event) {
