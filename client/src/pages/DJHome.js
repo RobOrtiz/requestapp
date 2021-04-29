@@ -190,56 +190,45 @@ function DJHome() {
     }
   }
 
+  //save users input to formObject
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
+    console.log(formObject)
   }
 
-  const [starttime, setStartTime] = useState({
-    hour: "",
-    minute: "",
-    ampm: "",
-  });
-  const [endtime, setEndTime] = useState({ hour: "", minute: "", ampm: "" });
+  const [starttime, setStartTime] = useState({ hour: "", minute: "", ampm: ""});
+  const [endtime, setEndTime] = useState({ hour: "", minute: "", ampm: ""});
 
-  useEffect(() => {
-    console.log(formObject);
-  }, [formObject]);
-
-  let totalStartTime = "";
-  totalStartTime = starttime.hour
-    .concat(":", starttime.minute)
-    .concat(" ", starttime.ampm);
-  console.log(totalStartTime);
-
-  let totalEndTime = "";
-  totalEndTime = endtime.hour
-    .concat(":", endtime.minute)
-    .concat(" ", endtime.ampm);
-  console.log(totalEndTime);
-
-  // setFormObject({...formObject, eventTimeStart:totalStartTime  })
-  // console.log(formObject)
-
+  // save to state hours, minutes and am/pm separately
   function handleInputTimeChange(event) {
     const { name, value } = event.target;
     setStartTime({ ...starttime, [name]: value });
-    // setEndTime({ ...endtime, [name]: value });
   }
 
   function handleInputEndTimeChange(event) {
     const { name, value } = event.target;
-    
     setEndTime({ ...endtime, [name]: value });
   }
 
+    useEffect(() => {
+    console.log(formObject);
+  }, [formObject]);
+
+  // join in to a string
+  let totalStartTime = "";
+  totalStartTime = starttime.hour.concat(":", starttime.minute).concat(" ", starttime.ampm);
+
+  let totalEndTime = "";
+  totalEndTime = endtime.hour.concat(":", endtime.minute).concat(" ", endtime.ampm);
+
+  // add start time and end time to formObject
   useEffect(() => {
     setFormObject({
       ...formObject,
       eventTimeStart: totalStartTime,
-      eventEndStart: totalEndTime,
+      eventTimeEnd: totalEndTime,
     });
-    // console.log(starttime);
   }, [starttime, endtime]);
 
   function handleFormSubmit(event) {
@@ -367,6 +356,7 @@ function DJHome() {
                 label="What date is the event on?"
                 className="form-control"
               />
+              {/* start time component */}
               <InputTime
                 onChange={handleInputTimeChange}
                 type="text"
@@ -377,6 +367,7 @@ function DJHome() {
                 label="What starttime does the event start?"
                 className="form-control"
               />
+              {/* end time component */}
               <InputTime
                 onChange={handleInputEndTimeChange}
                 type="text"
@@ -388,15 +379,6 @@ function DJHome() {
                 label="What starttime does the event end?"
                 className="form-control"
               />
-              {/* <InputText
-                                onChange={handleInputChange}
-                                type="text"
-                                id="eventTimeEnd"
-                                name="eventTimeEnd"
-                                placeholder="9:00pm"
-                                label="What starttime does the event end?"
-                                className="form-control"
-                            /> */}
               <InputText
                 onChange={handleInputChange}
                 type="number"
