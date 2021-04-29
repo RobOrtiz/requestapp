@@ -23,16 +23,16 @@ export function InputTime(props) {
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
       <div className="input-group mb-3">
-        <select  onChange={(e) => props.onChange(e)}
+        <select
+          onChange={(e) => props.onChange(e)}
           type={props.type}
-        //   name={props.name}
-        //   value1={props.value}
-          name={props.nameH}
+          name={ props.start ? props.nameHH : props.nameH}
+          
           className="custom-select"
           id="inputGroupSelect02"
         >
-          {/* <option >Choose...</option> */}
-          <option defaultValue="12">12</option>
+          <option>Choose...</option>
+          <option value="12">12</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -45,37 +45,30 @@ export function InputTime(props) {
           <option value="10">10</option>
           <option value="11">11</option>
         </select>
-        <select  onChange={(e) => props.onChange(e)}
+        <select
+          onChange={(e) => props.onChange(e)}
           type={props.type}
-        //   name={props.name}
-        //   value2={props.value}
-          name={props.nameM}
+          name={ props.start ? props.nameMM : props.nameM}
           className="custom-select"
           id="inputGroupSelect03"
         >
-          {/* <option >Choose...</option> */}
-          <option defaultValue="00">00</option>
+          <option>Choose...</option>
+          <option value="00">00</option>
           <option value="15">15</option>
           <option value="30">30</option>
           <option value="45">45</option>
         </select>
-        <select  onChange={(e) => props.onChange(e)}
+        <select
+          onChange={(e) => props.onChange(e)}
           type={props.type}
-        //   name={props.name}
-        //   value3={props.value}
-          name={props.nameA}
+          name={ props.start ? props.nameAA : props.nameA}
           className="custom-select"
           id="inputGroupSelect04"
         >
-          {/* <option >Choose...</option> */}
+          <option>Choose...</option>
           <option value="AM">AM</option>
           <option value="PM">PM</option>
         </select>
-        <div className="input-group-append">
-          <label className="input-group-text" for="inputGroupSelect05">
-            Choose
-          </label>
-        </div>
       </div>
     </div>
   );

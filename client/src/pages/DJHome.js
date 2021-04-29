@@ -193,42 +193,54 @@ function DJHome() {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-      }
-
-  const [time, setTime] = useState(
-    {hour:"",
-    minute:"",
-    ampm:"",
-    // total:""
   }
-  )
 
-  useEffect(()=>{
- setFormObject({...formObject, eventTimeStart:totalTime  })
-  console.log(time); 
- 
-  },[time])
+  const [starttime, setStartTime] = useState({
+    hour: "",
+    minute: "",
+    ampm: "",
+  });
+  const [endtime, setEndTime] = useState({ hour: "", minute: "", ampm: "" });
 
-  useEffect(()=>{
- console.log(formObject)
-  },[formObject])
+  useEffect(() => {
+    console.log(formObject);
+  }, [formObject]);
 
-let totalTime = ""
-totalTime = time.hour.concat(":",time.minute).concat(" ",time.ampm)
-console.log(totalTime)
-  // setTime({total:totalTime})
+  let totalStartTime = "";
+  totalStartTime = starttime.hour
+    .concat(":", starttime.minute)
+    .concat(" ", starttime.ampm);
+  console.log(totalStartTime);
 
-  // setFormObject({...formObject, eventTimeStart:totalTime  })
+  let totalEndTime = "";
+  totalEndTime = endtime.hour
+    .concat(":", endtime.minute)
+    .concat(" ", endtime.ampm);
+  console.log(totalEndTime);
+
+  // setFormObject({...formObject, eventTimeStart:totalStartTime  })
   // console.log(formObject)
 
   function handleInputTimeChange(event) {
-    const { name, value  } = event.target;
-    setTime({...time, [name]: value });
-    // setTime({...time, total:totalTime})
-   
-   
-   
+    const { name, value } = event.target;
+    setStartTime({ ...starttime, [name]: value });
+    // setEndTime({ ...endtime, [name]: value });
   }
+
+  function handleInputEndTimeChange(event) {
+    const { name, value } = event.target;
+    
+    setEndTime({ ...endtime, [name]: value });
+  }
+
+  useEffect(() => {
+    setFormObject({
+      ...formObject,
+      eventTimeStart: totalStartTime,
+      eventEndStart: totalEndTime,
+    });
+    // console.log(starttime);
+  }, [starttime, endtime]);
 
   function handleFormSubmit(event) {
     event.preventDefault();
@@ -251,8 +263,8 @@ console.log(totalTime)
       subIdForEventStatusChange: randomEventId.slice(0, 6),
       genre: formObject.genre,
       eventDate: formObject.eventDate,
-      startTime: formObject.eventTimeStart,
-      endTime: formObject.eventTimeEnd,
+      starttime: formObject.eventTimeStart,
+      endtime: formObject.eventTimeEnd,
       eventName: formObject.eventName,
       eventType: formObject.eventType,
       venueName: formObject.venueName,
@@ -359,20 +371,21 @@ console.log(totalTime)
                 onChange={handleInputTimeChange}
                 type="text"
                 id="eventTimeStart"
-                // name="eventTimeStart"
                 nameH="hour"
                 nameM="minute"
                 nameA="ampm"
-                label="What time does the event start?"
+                label="What starttime does the event start?"
                 className="form-control"
               />
-              <InputText
-                onChange={handleInputTimeChange}
+              <InputTime
+                onChange={handleInputEndTimeChange}
                 type="text"
                 id="eventTimeEnd"
-                name="eventTimeEnd"
-                time="true"
-                label="What time does the event end?"
+                nameHH="hour"
+                nameMM="minute"
+                nameAA="ampm"
+                start="true"
+                label="What starttime does the event end?"
                 className="form-control"
               />
               {/* <InputText
@@ -381,7 +394,7 @@ console.log(totalTime)
                                 id="eventTimeEnd"
                                 name="eventTimeEnd"
                                 placeholder="9:00pm"
-                                label="What time does the event end?"
+                                label="What starttime does the event end?"
                                 className="form-control"
                             /> */}
               <InputText
