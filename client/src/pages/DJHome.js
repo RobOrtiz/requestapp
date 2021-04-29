@@ -198,7 +198,10 @@ function DJHome() {
     errGenre: "",
     errVenueName: "",
   };
+
+  //  error message state and condition for submitting the form
   const [error, setError] = useState({ ...cleanErrors });
+  const [valid, setValid] = useState({ set: true });
 
   // save user's input to state
   function handleInputChange(event) {
@@ -206,9 +209,10 @@ function DJHome() {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  const [valid, setValid] = useState({ set: true });
+  // regex only allows letters A-Z, a-z, 0-9
   const eventValidator = /^\w+( \w+)*$/;
 
+  // validation function
   function validateTextField(field, errMsg) {
     if (field && (field.length > 30 || !eventValidator.test(field.trim()))) {
       return errMsg;
@@ -217,7 +221,7 @@ function DJHome() {
     }
   }
 
-  // validate input, add/remove error on change
+  // validate input, add/remove error on change, set submission condition to true
   useEffect(() => {
     let errEventLocation = validateTextField(
       eventLocation,
@@ -252,6 +256,7 @@ function DJHome() {
       setValid({ set: false });
     }
 
+    // set error messages to validation function outputs
     setError({
       errEventLocation,
       errEventName,
@@ -263,6 +268,8 @@ function DJHome() {
 
   function handleFormSubmit(event) {
     event.preventDefault();
+    // check validation is set to true
+
     if (valid.set === true) {
       // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
       // See details above in require uuid.
