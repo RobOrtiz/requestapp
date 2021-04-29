@@ -188,140 +188,117 @@ function DJHome() {
     }
   }
 
-
   // destructuring formObj
   const { eventLocation, eventName, eventType, genre, venueName } = formObject;
   // error massages
-  const [error, setError] = useState({
+  const cleanErrors = {
     errEventLocation: "",
     errEventName: "",
     errEventType: "",
     errGenre: "",
     errVenueName: "",
-  });
+  };
+  const [error, setError] = useState({ ...cleanErrors });
 
-  
   // save user's input to state
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
 
-   const [valid, setValid] = useState({set:true}) 
-   const eventValidator = /^\w+( \w+)*$/;
+  const [valid, setValid] = useState({ set: true });
+  const eventValidator = /^\w+( \w+)*$/;
+
+  function validateTextField(field, errMsg) {
+    if (field && (field.length > 30 || !eventValidator.test(field.trim()))) {
+      return errMsg;
+    } else {
+      return "";
+    }
+  }
 
   // validate input, add/remove error on change
   useEffect(() => {
-  
-    if (formObject.eventName) {
-      // console.log(valid)
-      // let isValid = true;
-     
-      if (eventName.length > 30 || !eventValidator.test(eventName.trim())) {
-               setValid({set:false});
-               console.log(valid)
-        setError({
-          errEventName:
-            "Event name can only include letters and not be longer than 30 characters",
-        });
-      } else {
-        setValid({set:true});
-        setError({});
-      } 
+    let errEventLocation = validateTextField(
+      eventLocation,
+      "Location can only include letters and not be longer than 30 characters"
+    );
+    let errEventName = validateTextField(
+      eventName,
+      "Event name can only include letters and not be longer than 30 characters"
+    );
+    let errEventType = validateTextField(
+      eventType,
+      "Event type can only include letters and not be longer than 30 characters"
+    );
+    let errGenre = validateTextField(
+      genre,
+      "Genre can only include letters and not be longer than 30 characters"
+    );
+    let errVenueName = validateTextField(
+      venueName,
+      "Event venue name can only include letters and not be longer than 30 characters"
+    );
+
+    if (
+      errEventType === "" &&
+      errEventName === "" &&
+      errGenre === "" &&
+      errEventLocation === "" &&
+      errVenueName === ""
+    ) {
+      setValid({ set: true });
+    } else {
+      setValid({ set: false });
     }
 
-   else if (formObject.eventLocation) {
-      if (eventLocation.length > 30 || !eventValidator.test(eventLocation.trim())) {
-        setValid({set:false});
-        setError({
-          errEventLocation:
-            "Location name can only include letters and numbers and not be longer than 30 characters",
-        });
-      } else {
-        setValid({set:true});
-        setError({});
-      }
-    }
-
-  else  if (formObject.eventType) {
-      if (eventType.length > 30 || !eventValidator.test(eventType.trim())) {
-        setValid({set:false});
-        setError({
-          errEventType:
-            "Type of the event can only include letters and not be longer than 30 characters",
-        });
-      } else {
-        setValid({set:true});
-        setError({});
-      }
-    }
-
-   else if (formObject.genre) {
-      if (genre.length > 30 || !eventValidator.test(genre.trim())) {
-        setValid({set:false});
-        setError({
-          errGenre:
-            "Name of the genre can only include letters and not be longer than 30 characters",
-        });
-      } else {
-        setValid({set:true});
-        setError({});
-      }
-    }
-
-  else  if (formObject.venueName) {
-      if (venueName.length > 30 || !eventValidator.test(venueName.trim())) {
-        setValid({set:false});
-        setError({
-          errVenueName:
-            "Event name can only include letters and not be longer than 30 characters",
-        });
-      } else {
-        setValid({set:true});
-        setError({});
-      }
-    }
+    setError({
+      errEventLocation,
+      errEventName,
+      errEventType,
+      errGenre,
+      errVenueName,
+    });
   }, [formObject]);
- 
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (valid.set===true) {
-      // console.log(valid)
-    // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
-    // See details above in require uuid.
-    const randomEventId = uuid();
+    if (valid.set === true) {
+      // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
+      // See details above in require uuid.
+      const randomEventId = uuid();
 
-    // Declare eventImageUpload. If user didn't select an event image, use the default event image.
-    // It will either be the image that is set when it is uploaded or the default event image.
-    let eventImageUpload = "";
-    if (image === "https://via.placeholder.com/150") {
-      eventImageUpload =
-        "https://res.cloudinary.com/noimgmt/image/upload/v1616029532/sil7xrgk6wg6wktkbrdn.png";
+      // Declare eventImageUpload. If user didn't select an event image, use the default event image.
+      // It will either be the image that is set when it is uploaded or the default event image.
+      let eventImageUpload = "";
+      if (image === "https://via.placeholder.com/150") {
+        eventImageUpload =
+          "https://res.cloudinary.com/noimgmt/image/upload/v1616029532/sil7xrgk6wg6wktkbrdn.png";
+      } else {
+        eventImageUpload = image;
+      }
+
+      API.createEvent({
+        _id: randomEventId,
+        subIdForEventStatusChange: randomEventId.slice(0, 6),
+        genre: formObject.genre,
+        eventDate: formObject.eventDate,
+        startTime: formObject.eventTimeStart,
+        endTime: formObject.eventTimeEnd,
+        eventName: formObject.eventName,
+        eventType: formObject.eventType,
+        venueName: formObject.venueName,
+        venueAddress: formObject.eventLocation,
+        generalRequestTipMin: formObject.generalRequestTipMin,
+        playNowTipMin: formObject.playNowTipMin,
+        eventImage: eventImageUpload,
+        djId: userId,
+      })
+        .then((res) => window.location.replace("/dj/dashboard"))
+        .catch((err) => console.log(err));
     } else {
-      eventImageUpload = image;
+      alert("Please fill out the form correctly");
     }
-
-    API.createEvent({
-      _id: randomEventId,
-      subIdForEventStatusChange: randomEventId.slice(0, 6),
-      genre: formObject.genre,
-      eventDate: formObject.eventDate,
-      startTime: formObject.eventTimeStart,
-      endTime: formObject.eventTimeEnd,
-      eventName: formObject.eventName,
-      eventType: formObject.eventType,
-      venueName: formObject.venueName,
-      venueAddress: formObject.eventLocation,
-      generalRequestTipMin: formObject.generalRequestTipMin,
-      playNowTipMin: formObject.playNowTipMin,
-      eventImage: eventImageUpload,
-      djId: userId,
-    })
-      .then((res) => window.location.replace("/dj/dashboard"))
-      .catch((err) => console.log(err));
-    } 
-    else { alert("Please fill out the form correctly")}
   }
 
   return (
