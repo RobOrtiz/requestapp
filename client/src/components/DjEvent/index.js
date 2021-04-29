@@ -129,7 +129,7 @@ function DjEvent(props) {
             )}
             {/* Details Modal */}
             <div
-              className="modal fade"
+              className="modal fade m-5"
               id={`modal-${newId}`}
               tabIndex="-1"
               role="dialog"
@@ -224,7 +224,10 @@ function DjEvent(props) {
                           id="venueAddress"
                           name="venueAddress"
                           onClick={focusInput}
-                         />                         
+                         />
+                          <button className="btn bg-dark" onClick={e => props.changeEventDetails(e, updateDetails)}>
+                            <p className="m-1 mx-3 text-warning">Save<i className="far fa-save text-warning"></i></p>
+                          </button>                     
                         </div>                      
 
                     ):(
