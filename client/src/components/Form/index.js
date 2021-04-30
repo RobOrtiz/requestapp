@@ -13,6 +13,7 @@ export function InputText(props) {
     return (
         <div className="form-group">
             <label htmlFor={props.id}>{props.label}</label>
+            {props.message && <label className={"text-danger ml-3"}>{props.message}</label>}
             <input {...props}/>
         </div>
     )
