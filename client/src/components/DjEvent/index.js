@@ -1,5 +1,6 @@
 import React,{ useState } from 'react';
 import { InputText, Input, FormBtn, Switch } from "../Form";
+import UploadImage from "../UploadImage"
 import './style.css'
 
 function DjEvent(props) {
@@ -140,7 +141,7 @@ function DjEvent(props) {
                   <div className="modal-body">
                     {/* Make button into to handle changes*/}
 
-                    <button onClick={editButtonClick}>
+                    <button onClick={editButtonClick} className="gold-animated-btn">
                       <h5 className="startrcase mb-3">
                         {props.eventName}
 
@@ -224,7 +225,16 @@ function DjEvent(props) {
                           id="venueAddress"
                           name="venueAddress"
                           onClick={focusInput}
-                         />                         
+                         /> 
+                          {/* <UploadImage
+                                selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile, setInvalidImage)}
+                                uploadImage={(event) => Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
+                                invalidImage={invalidImage}
+                                loading={loading}
+                                image={image}
+                                altTag="event logo"
+                                imageDescription="event"
+                            />                         */}
                         </div>                      
 
                     ):(
@@ -251,7 +261,7 @@ function DjEvent(props) {
                   <div className="modal-footer">
                     <button
                       type="button"
-                      className="btn btn-dark"
+                      className="btn btn-dark gold-animated-btn"
                       data-dismiss="modal"
                     >
                       Close
