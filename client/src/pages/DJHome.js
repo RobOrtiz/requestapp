@@ -22,6 +22,7 @@ import uuid from "react-uuid";
 import API from "../utils/API";
 
 
+
 function DJHome() {
 
     // Setting our events' initial state
@@ -199,10 +200,19 @@ function DJHome() {
         setFormObject({ ...formObject, [name]: value });
     }
 
-    const changeEventDetails = (e, newDetails) => {
+
+
+
+    const changeEventDetails = (e, newDetails, setEditButton) => {
+        console.log(events)
         e.preventDefault();
-        console.log(newDetails);
-    }
+        API.updateEventDetails(newDetails)
+        .then(res => {
+            loadEvents();
+            setEditButton(false);
+            
+        }).catch(err=> console.log(err))
+      }
 
     function handleFormSubmit(event) {
         event.preventDefault();

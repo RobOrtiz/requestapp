@@ -90,7 +90,9 @@
   }
   .modal-body i{
     margin-left: 1em;
+    
     color: gray;
+    font-size: .75em;
   }
   .modal-body b{
     font-size:  30px;
@@ -109,4 +111,7 @@
   .modal-footer{
     background-color: black;
 
+  }
+  button{
+    color:rgb(231, 178, 4) !important;
   }

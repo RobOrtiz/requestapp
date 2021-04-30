@@ -249,8 +249,11 @@ function DjEvent(props) {
                                 imageDescription="event"
                             />                        
                          
-                          <button className="btn bg-dark gold-animated-btn" onClick={e => props.changeEventDetails(e, { ...updateDetails, eventImage: image })}>
-                            <p className="m-1 mx-3 text-warning">Save<i className="far fa-save text-warning"></i></p>
+                          <button className="btn bg-dark gold-animated-btn" onClick={e => {
+                            props.changeEventDetails(e, { ...updateDetails, eventImage: image }, setEditButton)
+                            
+                          } }>
+                            <p className="m-1 mx-3 text-warning">Save Changes<i className="far fa-save text-warning"></i></p>
                           </button>                     
                         </div>                      
 

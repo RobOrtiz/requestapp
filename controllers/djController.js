@@ -232,4 +232,20 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+
+  //This is route is to update event details
+
+  updateEventDetails: function (req,res){
+    db.Event.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        ...req.body
+      }
+    )
+      .then(event => res.json(event))
+      .catch((err) => console.log(err));
+    
+    
+
+  }
 };
