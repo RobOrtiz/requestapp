@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import { InputText, InputTime, FormBtn } from "../components/Form";
+import LoadingScreen from "../components/LoadingScreen";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -29,7 +30,9 @@ function DJHome() {
   const [eventIsActive, setEventIsActive] = useState(false);
 
   const [invalidImage, setInvalidImage] = useState();
-
+  
+  const [ loaded, setLoaded ] = useState(false);
+  
   // Load all events and store them with setEvents
   useEffect(() => {
     loadEvents();
@@ -55,6 +58,7 @@ function DJHome() {
         }
       }
       setRunOnce(2);
+      setLoaded(true);
     }
   }, [events]);
 
@@ -329,6 +333,7 @@ function DJHome() {
       eventImageUpload = image;
     }
 
+
     API.createEvent({
       _id: randomEventId,
       subIdForEventStatusChange: randomEventId.slice(0, 6),
@@ -356,6 +361,7 @@ function DJHome() {
     <div>
       <Header title="HOME" />
       {/* Will need to add if statement for if there are upcoming events */}
+      {!loaded && <LoadingScreen />}
       <Container classes="top-container">
         <h1>My Events</h1>
         <ScrollContainer className="scroll-container">
