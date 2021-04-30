@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "../components/Grid";
-import { InputText, FormBtn } from "../components/Form";
+import { InputText, InputTime, FormBtn } from "../components/Form";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
