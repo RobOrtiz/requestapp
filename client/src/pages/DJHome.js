@@ -199,6 +199,11 @@ function DJHome() {
         setFormObject({ ...formObject, [name]: value });
     }
 
+    const changeEventDetails = (e, newDetails) => {
+        e.preventDefault();
+        console.log(newDetails);
+    }
+
     function handleFormSubmit(event) {
         event.preventDefault();
         // Create random uuid for the event. Had to import uuid to do it this way, because of the way the DB is seeded.
@@ -251,7 +256,7 @@ function DJHome() {
                                    
                                     <DjEvent
                                         {...djEvent}                                        
-                                        
+                                        changeEventDetails={changeEventDetails}
                                         handleSwitch={handleSwitch}
                                         handleEnd={handleEnd}
                                     />
