@@ -190,10 +190,6 @@ function DJHome() {
     }
   }
 
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    setFormObject({ ...formObject, [name]: value });
-  }
 
   // save to state hours, minutes and am/pm separately
   const [starttime, setStartTime] = useState({ hour: "", minute: "", ampm: ""});
@@ -261,6 +257,7 @@ function DJHome() {
    // validation function
    function validateTextField(field, errMsg) {
      if (field && (field.length > 30 || !eventValidator.test(field.trim()))) {
+       console.log(error)
        return errMsg;
      } else {
        return "";
