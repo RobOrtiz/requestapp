@@ -1,6 +1,9 @@
-import React,{ useState } from 'react';
-import { InputText, Input, FormBtn, Switch } from "../Form";
+import React,{ useState, useEffect } from 'react';
+import { InputText,  FormBtn, Switch } from "../Form";
 import UploadImage from "../UploadImage"
+import Helpers from "../../utils/Helpers";
+
+
 import './style.css'
 
 function DjEvent(props) {
@@ -9,13 +12,17 @@ function DjEvent(props) {
     const [editButton, setEditButton] = useState(false);
     const [updateDetails, setUpdateDetails] = useState({...props, eventDate:props.eventDate.split("T")[0]});
 
-   
+   //useEffect is for the photo prop to load correctly
+
+   useEffect(()=> {
+     setImage(props.eventImage);          
+   },[])
 
     //button that shows the edit re-render
     function editButtonClick(e){
+      e.preventDefault();
       console.log(props)
-      console.log(updateDetails)
-        if(editButton === false){
+     if(editButton === false){
         setEditButton(true);
     }else{setEditButton(false)}
     }
@@ -30,6 +37,12 @@ function DjEvent(props) {
         function focusInput(e) {
           e.target.focus();
         }
+
+        const [loading, setLoading] = useState(false);
+        const [selectedFile, setSelectedFile] = useState();
+        const [invalidImage, setInvalidImage] = useState();
+      
+        const [image, setImage] = useState("https://via.placeholder.com/150");
 
     const monthNumber = props.eventDate.slice(5,7)
     const month = ["January", "February", "March", "April", "May", "June",
@@ -226,7 +239,7 @@ function DjEvent(props) {
                           name="venueAddress"
                           onClick={focusInput}
                          /> 
-                          {/* <UploadImage
+                          <UploadImage
                                 selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile, setInvalidImage)}
                                 uploadImage={(event) => Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
                                 invalidImage={invalidImage}
@@ -234,9 +247,10 @@ function DjEvent(props) {
                                 image={image}
                                 altTag="event logo"
                                 imageDescription="event"
-                            />                         */}
+                                onChange={handleDetailChange}
+                            />                        
                          
-                          <button className="btn bg-dark" onClick={e => props.changeEventDetails(e, updateDetails)}>
+                          <button className="btn bg-dark gold-animated-btn" onClick={e => props.changeEventDetails(e, updateDetails)}>
                             <p className="m-1 mx-3 text-warning">Save<i className="far fa-save text-warning"></i></p>
                           </button>                     
                         </div>                      
