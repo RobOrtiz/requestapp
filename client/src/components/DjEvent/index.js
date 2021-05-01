@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import { InputText,  FormBtn, Switch } from "../Form";
+import { InputText, InputTime, FormBtn, Switch } from "../Form";
 import UploadImage from "../UploadImage"
 import Helpers from "../../utils/Helpers";
 
@@ -156,6 +156,8 @@ function DjEvent(props) {
               tabIndex="-1"
               role="dialog"
               aria-hidden="true"
+              data-keyboard="false"
+              data-backdrop="static"
             >
               <div className="modal-dialog" role="document">
                 <div className="modal-content">
