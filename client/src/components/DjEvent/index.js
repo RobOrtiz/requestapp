@@ -5,6 +5,7 @@ import Helpers from "../../utils/Helpers";
 
 
 import './style.css'
+import { set } from 'mongoose';
 
 function DjEvent(props) {
 
@@ -24,7 +25,10 @@ function DjEvent(props) {
       console.log(props)
      if(editButton === false){
         setEditButton(true);
-    }else{setEditButton(false)}
+    }else{
+      setEditButton(false);
+      cancelEventUpdate();
+    }
     }
 
         //allows the onChange function for updating details in the input text
@@ -37,6 +41,10 @@ function DjEvent(props) {
         function focusInput(e) {
           e.target.focus();
         }
+
+      const cancelEventUpdate = (e) => {
+        setUpdateDetails({...props, eventDate:props.eventDate.split("T")[0]})
+      }
 
         const [loading, setLoading] = useState(false);
         const [selectedFile, setSelectedFile] = useState();
@@ -283,6 +291,10 @@ function DjEvent(props) {
                       type="button"
                       className="btn btn-dark gold-animated-btn"
                       data-dismiss="modal"
+                      onClick={() => {
+                        cancelEventUpdate();
+                        setEditButton(false);
+                      }}
                     >
                       Close
                     </button>
