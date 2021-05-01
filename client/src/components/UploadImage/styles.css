@@ -23,3 +23,6 @@
     color: white;
     border-radius: 7px;
 }
+button{
+    color: white !important;
+}

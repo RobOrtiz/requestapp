@@ -29,6 +29,10 @@ export default {
     return axios.put("/api/djs/eventstatus", eventData)
   },
 
+  updateEventDetails: function(newDetails){
+    return axios.put("/api/djs/event/" + newDetails._id, newDetails)
+  },
+
   updateRequest: function (songData) {
     return axios.put("/api/djs/requests", songData)
   },

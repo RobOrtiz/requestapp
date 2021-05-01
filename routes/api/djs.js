@@ -18,6 +18,7 @@ router.route("/all")
 
 router.route("/event/:id")
   .get(djController.findEventById)
+  .put(djController.updateEventDetails)
 
 router.route("/event")
   // .get(djController.findEvent)  
