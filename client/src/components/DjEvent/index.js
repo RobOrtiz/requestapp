@@ -19,10 +19,48 @@ function DjEvent(props) {
      setImage(props.eventImage);          
    },[])
 
+   
+      // save to state hours, minutes and am/pm separately
+    const [starttime, setStartTime] = useState({ hour: "", minute: "", ampm: ""});
+    const [endtime, setEndTime] = useState({ hour: "", minute: "", ampm: "" });
+
+    // save to state hours, minutes and am/pm separately
+    function handleInputTimeChange(event) {
+      const { name, value } = event.target;
+      setStartTime({ ...starttime, [name]: value });
+    }
+
+    function handleInputEndTimeChange(event) {
+      const { name, value } = event.target;
+      setEndTime({ ...endtime, [name]: value });
+    }
+
+      // join in to a string
+      let totalStartTime = "";
+      totalStartTime = starttime.hour
+        .concat(":", starttime.minute)
+        .concat(" ", starttime.ampm);
+
+      let totalEndTime = "";
+      totalEndTime = endtime.hour
+        .concat(":", endtime.minute)
+        .concat(" ", endtime.ampm);
+
+      // add start time and end time to formObject
+    useEffect(() => {
+      console.log(starttime, endtime)
+      setUpdateDetails({
+        ...updateDetails,
+        startTime: totalStartTime,
+        endTime: totalEndTime,
+      });
+    }, [starttime, endtime]);
+
+
     //button that shows the edit re-render
     function editButtonClick(e){
       e.preventDefault();
-      console.log(props)
+      // console.log(props)
      if(editButton === false){
         setEditButton(true);
     }else{
@@ -40,6 +78,24 @@ function DjEvent(props) {
 
         function focusInput(e) {
           e.target.focus();
+        }
+
+        function focusTimeInput(e) {
+          if(e.target.id === "startTime-hour" || e.target.id === "startTime-minute" || e.target.id === "startTime-ampm" || e.target.id === "endTime-hour" || e.target.id === "endTime-minute" || e.target.id === "endTime-ampm") {
+            console.log(e.target);
+            document.getElementById(`${e.target.id}`).focus();
+            e.target.size = e.target.childNodes.length;
+          } else {
+            if(e.target.parentNode.parentNode.id === "startTime"){
+              document.getElementById(`${e.target.parentNode.id}`).value = e.target.value;
+              setStartTime({ ...starttime, [e.target.parentNode.name]: e.target.value });
+              e.target.parentNode.size = 0;
+            } else if(e.target.parentNode.parentNode.id === "endTime") {
+              document.getElementById(`${e.target.parentNode.id}`).value = e.target.value;
+              setEndTime({ ...endtime, [e.target.parentNode.name]: e.target.value });
+              e.target.parentNode.size = 0;
+            }
+          }
         }
 
       const cancelEventUpdate = (e) => {
@@ -187,7 +243,7 @@ function DjEvent(props) {
                          <p className="modal-text mb-0">
                            <b>Start Time:</b>
                          </p>
-                         <InputText
+                         {/* <InputText
                           type="text"
                           value={updateDetails.startTime}
                           onChange={handleDetailChange}
@@ -207,7 +263,33 @@ function DjEvent(props) {
                           id="endTime"
                           name="endTime"
                           onClick={focusInput}
-                         />
+                         /> */}
+                         {/* start time component */}
+                        <InputTime
+                          onChange={handleInputTimeChange}
+                          type="text"
+                          value={updateDetails.endTime}
+                          id="startTime"
+                          nameH="hour"
+                          nameM="minute"
+                          nameA="ampm"
+                          // label="What starttime does the event start?"
+                          // className="form-control"
+                          onClick={focusTimeInput}
+                        />
+                        {/* end time component */}
+                        <InputTime
+                          onChange={handleInputEndTimeChange}
+                          type="text"
+                          id="endTime"
+                          nameHH="hour"
+                          nameMM="minute"
+                          nameAA="ampm"
+                          start="true"
+                          // label="What starttime does the event end?"
+                          // className="form-control"
+                          onClick={focusTimeInput}
+                        />
                           <p className="modal-text mb-0">
                            <b>Type:</b>
                          </p>
@@ -217,7 +299,7 @@ function DjEvent(props) {
                           onChange={handleDetailChange}
                           id="eventType"
                           name="eventType"
-                          onClick={focusInput}
+                          onClick={focusTimeInput}
                          />
                            <p className="modal-text mb-0">
                            <b>Genre:</b>

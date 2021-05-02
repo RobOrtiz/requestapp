@@ -23,14 +23,14 @@ export function InputTime(props) {
     return (
       <div className="form-group">
         <label htmlFor={props.id}>{props.label}</label>
-        <div className="input-group mb-3">
+        <div className="input-group mb-3" id={`${props.id}`}>
           <select
             onChange={(e) => props.onChange(e)}
             type={props.type}
             name={ props.start ? props.nameHH : props.nameH}
-            
             className="custom-select"
-            id="inputGroupSelect02"
+            id={`${props.id}-hour`}
+            onClick={props.onClick}
           >
             <option>Choose...</option>
             <option value="12">12</option>
@@ -51,7 +51,8 @@ export function InputTime(props) {
             type={props.type}
             name={ props.start ? props.nameMM : props.nameM}
             className="custom-select"
-            id="inputGroupSelect03"
+            id={`${props.id}-minute`}
+            onClick={props.onClick}
           >
             <option>Choose...</option>
             <option value="00">00</option>
@@ -64,7 +65,8 @@ export function InputTime(props) {
             type={props.type}
             name={ props.start ? props.nameAA : props.nameA}
             className="custom-select"
-            id="inputGroupSelect04"
+            id={`${props.id}-ampm`}
+            onClick={props.onClick}
           >
             <option>Choose...</option>
             <option value="AM">AM</option>
