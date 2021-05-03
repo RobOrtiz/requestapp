@@ -24,17 +24,6 @@ function DjEvent(props) {
     const [starttime, setStartTime] = useState({ hour: "", minute: "", ampm: ""});
     const [endtime, setEndTime] = useState({ hour: "", minute: "", ampm: "" });
 
-    // save to state hours, minutes and am/pm separately
-    function handleInputTimeChange(event) {
-      const { name, value } = event.target;
-      setStartTime({ ...starttime, [name]: value });
-    }
-
-    function handleInputEndTimeChange(event) {
-      const { name, value } = event.target;
-      setEndTime({ ...endtime, [name]: value });
-    }
-
       // join in to a string
       let totalStartTime = "";
       totalStartTime = starttime.hour
@@ -48,13 +37,17 @@ function DjEvent(props) {
 
       // add start time and end time to formObject
     useEffect(() => {
-      console.log(starttime, endtime)
-      setUpdateDetails({
-        ...updateDetails,
-        startTime: totalStartTime,
-        endTime: totalEndTime,
-      });
-    }, [starttime, endtime]);
+      
+        setUpdateDetails({
+          ...updateDetails,
+          startHour: props.startTime.split(":")[0],
+          startMinutes: props.startTime[props.startTime.length - 5] + props.startTime[props.startTime.length - 4],
+          startAmPm: props.startTime[props.startTime.length - 2] + props.startTime[props.startTime.length - 1],
+          endHour: props.endTime.split(":")[0],
+          endMinutes: props.endTime[props.endTime.length - 5] + props.endTime[props.endTime.length - 4],
+          endAmPm: props.endTime[props.endTime.length - 2] + props.endTime[props.endTime.length - 1]
+        })
+    }, []);
 
 
     //button that shows the edit re-render
@@ -81,25 +74,34 @@ function DjEvent(props) {
         }
 
         function focusTimeInput(e) {
+          console.log(updateDetails)
           if(e.target.id === "startTime-hour" || e.target.id === "startTime-minute" || e.target.id === "startTime-ampm" || e.target.id === "endTime-hour" || e.target.id === "endTime-minute" || e.target.id === "endTime-ampm") {
-            console.log(e.target);
             document.getElementById(`${e.target.id}`).focus();
             e.target.size = e.target.childNodes.length;
           } else {
             if(e.target.parentNode.parentNode.id === "startTime"){
               document.getElementById(`${e.target.parentNode.id}`).value = e.target.value;
-              setStartTime({ ...starttime, [e.target.parentNode.name]: e.target.value });
+              setUpdateDetails({ ...updateDetails, [e.target.parentNode.name]: e.target.value });
               e.target.parentNode.size = 0;
             } else if(e.target.parentNode.parentNode.id === "endTime") {
               document.getElementById(`${e.target.parentNode.id}`).value = e.target.value;
-              setEndTime({ ...endtime, [e.target.parentNode.name]: e.target.value });
+              setUpdateDetails({ ...updateDetails, [e.target.parentNode.name]: e.target.value });
               e.target.parentNode.size = 0;
             }
           }
         }
 
       const cancelEventUpdate = (e) => {
-        setUpdateDetails({...props, eventDate:props.eventDate.split("T")[0]})
+        setUpdateDetails({
+          ...props,
+          eventDate:props.eventDate.split("T")[0],
+          startHour: props.startTime.split(":")[0],
+          startMinutes: props.startTime[props.startTime.length - 5] + props.startTime[props.startTime.length - 4],
+          startAmPm: props.startTime[props.startTime.length - 2] + props.startTime[props.startTime.length - 1],
+          endHour: props.endTime.split(":")[0],
+          endMinutes: props.endTime[props.endTime.length - 5] + props.endTime[props.endTime.length - 4],
+          endAmPm: props.endTime[props.endTime.length - 2] + props.endTime[props.endTime.length - 1]
+        })
       }
 
         const [loading, setLoading] = useState(false);
@@ -266,29 +268,28 @@ function DjEvent(props) {
                          /> */}
                          {/* start time component */}
                         <InputTime
-                          onChange={handleInputTimeChange}
                           type="text"
-                          value={updateDetails.endTime}
                           id="startTime"
-                          nameH="hour"
-                          nameM="minute"
-                          nameA="ampm"
-                          // label="What starttime does the event start?"
-                          // className="form-control"
+                          nameH="startHour"
+                          nameM="startMinutes"
+                          nameA="startAmPm"
+                          hour={updateDetails.startHour}
+                          minutes={updateDetails.startMinutes}
+                          ampm={updateDetails.startAmPm}
                           onClick={focusTimeInput}
                         />
                         {/* end time component */}
                         <InputTime
-                          onChange={handleInputEndTimeChange}
                           type="text"
                           id="endTime"
-                          nameHH="hour"
-                          nameMM="minute"
-                          nameAA="ampm"
+                          nameHH="endHour"
+                          nameMM="endMinutes"
+                          nameAA="endAmPm"
                           start="true"
-                          // label="What starttime does the event end?"
-                          // className="form-control"
                           onClick={focusTimeInput}
+                          hour={updateDetails.endHour}
+                          minutes={updateDetails.endMinutes}
+                          ampm={updateDetails.endAmPm}
                         />
                           <p className="modal-text mb-0">
                            <b>Type:</b>

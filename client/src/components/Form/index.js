@@ -31,6 +31,7 @@ export function InputTime(props) {
             className="custom-select"
             id={`${props.id}-hour`}
             onClick={props.onClick}
+            value={props.hour}
           >
             <option>Choose...</option>
             <option value="12">12</option>
@@ -53,6 +54,7 @@ export function InputTime(props) {
             className="custom-select"
             id={`${props.id}-minute`}
             onClick={props.onClick}
+            value={props.minutes}
           >
             <option>Choose...</option>
             <option value="00">00</option>
@@ -67,6 +69,7 @@ export function InputTime(props) {
             className="custom-select"
             id={`${props.id}-ampm`}
             onClick={props.onClick}
+            value={props.ampm}
           >
             <option>Choose...</option>
             <option value="AM">AM</option>

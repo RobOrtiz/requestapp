@@ -258,7 +258,11 @@ function DJHome() {
    const changeEventDetails = (e, newDetails, setEditButton) => {
     console.log(events)
     e.preventDefault();
-    API.updateEventDetails(newDetails)
+    API.updateEventDetails({
+      ...newDetails,
+      startTime: newDetails.startHour.concat(":", newDetails.startMinutes).concat(" ", newDetails.startAmPm),
+      endTime: newDetails.endHour.concat(":", newDetails.endMinutes).concat(" ", newDetails.endAmPm)
+    })
     .then(res => {
         loadEvents();
         setEditButton(false);
