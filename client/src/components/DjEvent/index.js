@@ -300,7 +300,7 @@ function DjEvent(props) {
                           onChange={handleDetailChange}
                           id="eventType"
                           name="eventType"
-                          onClick={focusTimeInput}
+                          onClick={focusInput}
                          />
                            <p className="modal-text mb-0">
                            <b>Genre:</b>
