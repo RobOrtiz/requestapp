@@ -51,6 +51,7 @@ function DJActivity() {
         checkIfProfileExists(user.sub);
         // If the Dj has a profile already (they exist) this loads dj profile and active event for the queue
         loadProfile(user.sub);
+        setLoaded(true);
     }, [user.sub])
 
     // Get the Dj profile

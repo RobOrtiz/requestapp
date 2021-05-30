@@ -36,6 +36,7 @@ function DJHome() {
   // Load all events and store them with setEvents
   useEffect(() => {
     loadEvents();
+    setLoaded(true);
   }, []);
 
   // This should only run once after page is loaded and events are set
