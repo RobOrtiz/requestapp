@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "../components/Grid";
 import UserProfile from "../components/UserProfile";
+import LoadingScreen from "../components/LoadingScreen";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -14,17 +15,21 @@ function DJProfile() {
     const { user } = useAuth0();
     // User profile info
     const [ userProfile, setUserProfile ] = useState([]);
+    const [ loaded, setLoaded ] = useState(false);
 
     
     useEffect(() => {
         checkIfProfileExists(user.sub);
         loadProfile(user.sub);
+        setLoaded(true);
       }, [])
 
     // API get request for user informatoin
     function loadProfile(id) {
         API.getDj(id)
-        .then(res => setUserProfile(res.data[0]))
+        .then(res => {
+            setUserProfile(res.data[0]);
+        })
         .catch(err => console.log(err))
     }
     
@@ -32,6 +37,7 @@ function DJProfile() {
     return(
         <div>
             <Header title="PROFILE"/>
+            {!loaded && <LoadingScreen />}
             <Container classes="top-container text-center">
                 <UserProfile {...userProfile} />
             </Container>

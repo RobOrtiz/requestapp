@@ -34,4 +34,8 @@ router.route("/requests/:id")
   .get(djController.countSongStatuses)
   .put(djController.updateQueueNumber)
 
+router.route("/charge")
+  .post(djController.createCharge)
+  .put(djController.updateCharge)
+
 module.exports = router;

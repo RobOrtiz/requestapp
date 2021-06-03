@@ -1,0 +1,23 @@
+.loading-screen {
+    min-height: 100vh;
+    max-height: 100vh;
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("https://images.unsplash.com/photo-1559564426-013d071f49a9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-logo {
+    /* animation-name: loadinglogomove;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite; */
+    height: 30rem;
+    width: 30rem;
+}
+
+/* @keyframes loadinglogomove {
+    0% {transform:rotate(0deg);}
+    50% {transform:rotate(180deg);}
+    100% {transform:rotate(360deg);}
+} */

@@ -4,7 +4,9 @@ import { InputText, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import Header from "../components/Header";
 import { useAuth0 } from "@auth0/auth0-react";
-import checkIfProfileExists from "../utils/checkProfileCreated"
+import checkIfProfileExists from "../utils/checkProfileCreated";
+import UploadImage from "../components/UploadImage";
+import Helpers from "../utils/Helpers";
 
 function EditProfile() {
   const { user } = useAuth0();
@@ -32,11 +34,20 @@ function EditProfile() {
     // Get the dj profile data
   function loadProfile(id) {
     API.getDj(id)
-    .then(res => setUserProfile(res.data[0]))
+    .then(res => {
+      setUserProfile(res.data[0]);
+      setImage(res.data[0].profileImage);
+    })
     .catch(err => console.log(err))
   }
 
   const [formObject, setFormObject] = useState(userProfile || '');
+
+  const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [invalidImage, setInvalidImage] = useState();
+
+  const [image, setImage] = useState("https://via.placeholder.com/150");
 
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
@@ -46,6 +57,7 @@ function EditProfile() {
   
   function handleFormSubmit(event) {
     event.preventDefault();
+    console.log(user)
     API.updateDj({
       _id: userProfile._id,
       fullName: formObject.fullName,
@@ -53,7 +65,8 @@ function EditProfile() {
       hometown: formObject.hometown,
       djStyle: formObject.djStyle,
       email: formObject.email,
-      instagram: formObject.instagram
+      instagram: formObject.instagram,
+      profileImage: image
     })
       // .then((res) => console.log(res))
       .then(function(res) {
@@ -127,6 +140,15 @@ function EditProfile() {
                   value={formObject.instagram || ""}
                   label="What's your Instagram handle?"
                   className="form-control"
+                />
+                <UploadImage
+                    selectImage = {(event)=>Helpers.selectImage(event, setSelectedFile, setInvalidImage)}
+                    uploadImage = {(event)=>Helpers.uploadImage(event, selectedFile, setLoading, setImage)}
+                    invalidImage={invalidImage}
+                    loading={loading}
+                    image={image}
+                    altTag="dj head shot"
+                    imageDescription = "profile"
                 />
                 <FormBtn onClick={handleFormSubmit} className="btn btn-dark formBtn mt-5">Update NOI Profile</FormBtn>
               </form>
