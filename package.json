@@ -1,5 +1,6 @@
 {
   "name": "mern",
+  "homepage": "http://noiliveweb.com",
   "version": "1.0.0",
   "description": "Mern Demo",
   "main": "server.js",
