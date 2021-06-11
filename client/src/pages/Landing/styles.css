@@ -65,7 +65,7 @@
     text-shadow: none;
 }
 
-@media (max-width: 1000px){
+@media (max-width: 2000px){
 
     .landing-page {
         padding: 2rem !important;
