@@ -12,8 +12,8 @@
     /* animation-name: loadinglogomove;
     animation-duration: 1.5s;
     animation-iteration-count: infinite; */
-    height: 30rem;
-    width: 30rem;
+    height: 150px !important;
+    width: 150px !important;
 }
 
 /* @keyframes loadinglogomove {
