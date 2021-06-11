@@ -15,7 +15,7 @@
     animation-duration: 3s;
 }
 
-@keyframes landinglogomove {
+/* @keyframes landinglogomove {
     0% {top: 0px; opacity: 0; z-index: 10;}
     40% {top: 10%; opacity: 1; height: 500px; width: 500px; z-index: 10; transform:rotate(0deg);}
     45% {transform: rotate(45deg);}
@@ -23,7 +23,7 @@
     55% {transform:rotate(45deg);}
     60% {transform:rotate(0deg); top: 10%; opacity: 1; height: 500px; width: 500px;}
     100% {top: 0px; opacity: 1; z-index: 10;}
-}
+} */
 
 .landing-content {
     animation-name: landingcontentappear;
@@ -65,28 +65,25 @@
     text-shadow: none;
 }
 
-@media (max-width: 2000px){
+.landing-page {
+    padding: 2rem !important;
+}
 
-    .landing-page {
-        padding: 2rem !important;
-    }
+.landing-logo {
+    height: 150px !important;
+    width: 150px !important;
+}
 
-    .landing-logo {
-        height: 150px !important;
-        width: 150px !important;
-    }
+h2 {
+    font-size: 1.5rem !important;
+}
 
-    h2 {
-        font-size: 1.5rem !important;
-    }
-
-    @keyframes landinglogomove {
-        0% {top: 0px; opacity: 0; z-index: 10;}
-        40% {top: 40%; opacity: 1; z-index: 10; transform:rotate(0deg);}
-        45% {transform: rotate(45deg);}
-        50% {transform:rotate(-1deg);}
-        55% {transform:rotate(45deg);}
-        60% {transform:rotate(0deg); top: 40%; opacity: 1; height: 500px; width: 500px;}
-        100% {top: 0px; opacity: 1; z-index: 10;}
-    }
+@keyframes landinglogomove {
+    0% {top: 0px; opacity: 0; z-index: 10;}
+    40% {top: 40%; opacity: 1; z-index: 10; transform:rotate(0deg);}
+    45% {transform: rotate(45deg);}
+    50% {transform:rotate(-1deg);}
+    55% {transform:rotate(45deg);}
+    60% {transform:rotate(0deg); top: 40%; opacity: 1; height: 500px; width: 500px;}
+    100% {top: 0px; opacity: 1; z-index: 10;}
 }
