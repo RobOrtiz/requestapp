@@ -421,7 +421,7 @@ function DJHome() {
                 type="text"
                 id="eventType"
                 name="eventType"
-                placeholder="EVENT TYPE"
+                placeholder="EVENT TYPE (e.g. PARTY)"
                 label="What type of event is it?"
                 className="form-control"
                 message={error.errEventType}
@@ -462,7 +462,7 @@ function DJHome() {
                 nameH="hour"
                 nameM="minute"
                 nameA="ampm"
-                label="What starttime does the event start?"
+                label="What time does the event start?"
                 className="form-control"
               />
               {/* end time component */}
@@ -474,7 +474,7 @@ function DJHome() {
                 nameMM="minute"
                 nameAA="ampm"
                 start="true"
-                label="What starttime does the event end?"
+                label="What time does the event end?"
                 className="form-control"
               />
               <InputText
