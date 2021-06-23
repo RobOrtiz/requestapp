@@ -258,6 +258,8 @@ function DJHome() {
  
    // regex only allows letters A-Z, a-z, 0-9
    const eventValidator = /^\w+( \w+)*$/;
+
+   const addressValidator = /^[a-zA-Z0-9 .,-]+$/;
  
    // validation function
    function validateTextField(field, errMsg) {
@@ -268,28 +270,37 @@ function DJHome() {
        return "";
      }
    }
+
+   function validateTextFieldAddress(field, errMsg) {
+    if (field && (field.length > 100 || !addressValidator.test(field.trim()))) {
+      console.log(error)
+      return errMsg;
+    } else {
+      return "";
+    }
+  }
  
    // validate input, add/remove error on change, set submission condition to true
    useEffect(() => {
-     let errEventLocation = validateTextField(
+     let errEventLocation = validateTextFieldAddress(
        eventLocation,
-       "Location can only include letters and not be longer than 30 characters"
+       "Location can only include letters, numbers, special characters [ , . - ], and cannot be longer than 100 characters"
      );
      let errEventName = validateTextField(
        eventName,
-       "Event name can only include letters and not be longer than 30 characters"
+       "Event name can only include letters and numbers, and cannot be longer than 30 characters"
      );
      let errEventType = validateTextField(
        eventType,
-       "Event type can only include letters and not be longer than 30 characters"
+       "Event type can only include letters and numbers, and cannot be longer than 30 characters"
      );
      let errGenre = validateTextField(
        genre,
-       "Genre can only include letters and not be longer than 30 characters"
+       "Genre can only include letters and numbers, and cannot be longer than 30 characters"
      );
      let errVenueName = validateTextField(
        venueName,
-       "Event venue name can only include letters and not be longer than 30 characters"
+       "Event venue name can only include letters and numbers, and cannot be longer than 30 characters"
      );
  
      if (
