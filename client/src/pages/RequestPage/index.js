@@ -49,6 +49,7 @@ function RequestPage() {
     generalRequest: false,
     playNow: false,
     songStatus: "",
+    requestedTime: new Date(),
     _id: "",
   });
   const [tip, setTip] = useState(false);
@@ -114,6 +115,7 @@ function RequestPage() {
         generalRequest: general,
         playNow: playNow,
         songStatus: requestSongStatus,
+        requestedTime: new Date(),
         _id: djId,
       });
     }
@@ -133,6 +135,7 @@ function RequestPage() {
           generalRequest: product.generalRequest,
           playNow: product.playNow,
           songStatus: product.songStatus,
+          requestedTime: new Date(),
           _id: product._id
         })
         .then(res => window.location.replace(`/request/success/${product._id}`))
@@ -357,6 +360,7 @@ function RequestPage() {
           generalRequest: product.generalRequest,
           playNow: product.playNow,
           songStatus: product.songStatus,
+          requestedTime: new Date(),
           _id: product._id
         })
         .then(res => {
