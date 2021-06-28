@@ -166,11 +166,6 @@ function RequestPage() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
-    let targetButton = document.querySelector(".no-tip-button");
-    targetButton.innerHTML = "Loading..."
-    targetButton.disabled = true;
-    targetButton.classList.remove("gold-animated-btn");
-
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
@@ -222,6 +217,12 @@ function RequestPage() {
 
       // To album cover function
       if (formFilledOutRight) {
+        //Disable Submit Button
+        let targetButton = document.querySelector(".no-tip-button");
+        targetButton.innerHTML = "Loading..."
+        targetButton.disabled = true;
+        targetButton.classList.remove("gold-animated-btn");
+
         getAlbumCover(formObject.title, formObject.artist);
       }
     }
