@@ -259,7 +259,7 @@ function DJHome() {
    // regex only allows letters A-Z, a-z, 0-9
    const eventValidator = /^\w+( \w+)*$/;
 
-   const addressValidator = /^[a-zA-Z0-9 .,-]+$/;
+   const eventLongValidator = /^[a-zA-Z0-9 .,-/]+$/;
  
    // validation function
    function validateTextField(field, errMsg) {
@@ -271,8 +271,8 @@ function DJHome() {
      }
    }
 
-   function validateTextFieldAddress(field, errMsg) {
-    if (field && (field.length > 100 || !addressValidator.test(field.trim()))) {
+   function validateLongTextField(field, errMsg) {
+    if (field && (field.length > 100 || !eventLongValidator.test(field.trim()))) {
       console.log(error)
       return errMsg;
     } else {
@@ -282,7 +282,7 @@ function DJHome() {
  
    // validate input, add/remove error on change, set submission condition to true
    useEffect(() => {
-     let errEventLocation = validateTextFieldAddress(
+     let errEventLocation = validateLongTextField(
        eventLocation,
        "Location can only include letters, numbers, special characters [ , . - ], and cannot be longer than 100 characters"
      );
@@ -294,7 +294,7 @@ function DJHome() {
        eventType,
        "Event type can only include letters and numbers, and cannot be longer than 30 characters"
      );
-     let errGenre = validateTextField(
+     let errGenre = validateLongTextField(
        genre,
        "Genre can only include letters and numbers, and cannot be longer than 30 characters"
      );
