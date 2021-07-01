@@ -199,13 +199,13 @@ function RequestPage() {
       
       // checks tip value against minimum of selected button
       if (buttonSelected[0].id === "generalRequest") {
-        if (formObject.tip < event.generalRequestTipMin && event.generalRequestTipMin != 0) {
+        if (formObject.tip < event.generalRequestTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
           formFilledOutRight = false;
         }
       } else {
         console.log("here", event.generalRequestTipMin)
-        if (formObject.tip < event.playNowTipMin && event.playNowTipMin != 0) {
+        if (formObject.tip < event.playNowTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
           formFilledOutRight = false;
         }
