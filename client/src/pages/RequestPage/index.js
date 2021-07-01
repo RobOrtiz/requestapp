@@ -22,7 +22,7 @@ function RequestPage() {
     fullName: "",
     title: "",
     artist: "",
-    tip: "",
+    tip: 0,
     email: "",
   });
 
@@ -59,6 +59,7 @@ function RequestPage() {
   // Setting our event's initial state
   const [event, setEvent] = useState({});
   const [djName, setDjName] = useState("");
+
   // Load event
   useEffect(() => {
     loadEvent();
@@ -157,7 +158,7 @@ function RequestPage() {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-
+    
     if (parseInt(document.getElementById('tip').value) > 0){
       setTip(true);
     } else if (parseInt(document.getElementById('tip').value) === 0) {
@@ -198,12 +199,13 @@ function RequestPage() {
       
       // checks tip value against minimum of selected button
       if (buttonSelected[0].id === "generalRequest") {
-        if (formObject.tip < event.generalRequestTipMin) {
+        if (formObject.tip < event.generalRequestTipMin && event.generalRequestTipMin != 0) {
           document.getElementById("warning-minimum-tip-button").click();
           formFilledOutRight = false;
         }
       } else {
-        if (formObject.tip < event.playNowTipMin) {
+        console.log("here", event.generalRequestTipMin)
+        if (formObject.tip < event.playNowTipMin && event.playNowTipMin != 0) {
           document.getElementById("warning-minimum-tip-button").click();
           formFilledOutRight = false;
         }
@@ -262,7 +264,6 @@ function RequestPage() {
 
 
   function handleFormSubmit2(card, email) {
-
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
