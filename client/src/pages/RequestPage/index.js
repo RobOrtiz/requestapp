@@ -22,7 +22,7 @@ function RequestPage() {
     fullName: "",
     title: "",
     artist: "",
-    tip: "",
+    tip: 0,
     email: "",
   });
 
@@ -49,6 +49,7 @@ function RequestPage() {
     generalRequest: false,
     playNow: false,
     songStatus: "",
+    requestedTime: new Date(),
     _id: "",
   });
   const [tip, setTip] = useState(false);
@@ -58,6 +59,7 @@ function RequestPage() {
   // Setting our event's initial state
   const [event, setEvent] = useState({});
   const [djName, setDjName] = useState("");
+
   // Load event
   useEffect(() => {
     loadEvent();
@@ -114,6 +116,7 @@ function RequestPage() {
         generalRequest: general,
         playNow: playNow,
         songStatus: requestSongStatus,
+        requestedTime: new Date(),
         _id: djId,
       });
     }
@@ -133,6 +136,7 @@ function RequestPage() {
           generalRequest: product.generalRequest,
           playNow: product.playNow,
           songStatus: product.songStatus,
+          requestedTime: new Date(),
           _id: product._id
         })
         .then(res => window.location.replace(`/request/success/${product._id}`))
@@ -154,7 +158,7 @@ function RequestPage() {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-
+    
     if (parseInt(document.getElementById('tip').value) > 0){
       setTip(true);
     } else if (parseInt(document.getElementById('tip').value) === 0) {
@@ -165,11 +169,6 @@ function RequestPage() {
   // When user clicks on "Pay Now"
   function handleFormSubmit(e) {
     e.preventDefault();
-
-    let targetButton = document.querySelector(".no-tip-button");
-    targetButton.innerHTML = "Loading..."
-    targetButton.disabled = true;
-    targetButton.classList.remove("gold-animated-btn");
 
     // This checks if the request form has blank values
     // for text fields and buttons
@@ -205,6 +204,7 @@ function RequestPage() {
           formFilledOutRight = false;
         }
       } else {
+        console.log("here", event.generalRequestTipMin)
         if (formObject.tip < event.playNowTipMin) {
           document.getElementById("warning-minimum-tip-button").click();
           formFilledOutRight = false;
@@ -222,6 +222,12 @@ function RequestPage() {
 
       // To album cover function
       if (formFilledOutRight) {
+        //Disable Submit Button
+        let targetButton = document.querySelector(".no-tip-button");
+        targetButton.innerHTML = "Loading..."
+        targetButton.disabled = true;
+        targetButton.classList.remove("gold-animated-btn");
+
         getAlbumCover(formObject.title, formObject.artist);
       }
     }
@@ -258,7 +264,6 @@ function RequestPage() {
 
 
   function handleFormSubmit2(card, email) {
-
     // This checks if the request form has blank values
     // for text fields and buttons
     checkIfFormUnfilled(formObject, "radio");
@@ -356,6 +361,7 @@ function RequestPage() {
           generalRequest: product.generalRequest,
           playNow: product.playNow,
           songStatus: product.songStatus,
+          requestedTime: new Date(),
           _id: product._id
         })
         .then(res => {
