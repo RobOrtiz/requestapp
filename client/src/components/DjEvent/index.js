@@ -54,6 +54,7 @@ function DjEvent(props) {
     })
 
     return (
+        // EVENT CARD
         <div className="event-card">
             <div className="event-img-container">
                 <img alt="event logo" src={props.eventImage} />
@@ -73,6 +74,10 @@ function DjEvent(props) {
                     </li>
                     <li className="font-italic">
                         {props.startTime} - {props.endTime}
+                    </li>
+                    <li className="font-italic">
+                        General Request: {props.generalRequestTipMin} -
+                        Play Now: {props.playNowTipMin}
                     </li>
                     {props.eventStatus !== "end" ? (
                         <li>
