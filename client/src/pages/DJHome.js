@@ -56,6 +56,12 @@ function DJHome() {
           document
             .getElementById(`details-${events[i]._id.slice(0, 6)}`)
             .classList.add("details-hidden");
+          document
+            .getElementById(`edit-${events[i]._id.slice(0, 6)}`)
+            .classList.add("edit-hidden");
+          document
+            .getElementById(`edit-active-${events[i]._id.slice(0, 6)}`)
+            .classList.remove("edit-active-hidden");
         }
       }
       setRunOnce(2);
@@ -118,10 +124,14 @@ function DJHome() {
     } else {
       let endId = `end-${event.target.id.slice(9, 16)}`;
       let detailsId = `details-${event.target.id.slice(9, 16)}`;
+      let editId = `edit-${event.target.id.slice(9, 16)}`;
+      let editActiveId = `edit-active-${event.target.id.slice(9, 16)}`;
 
       if (document.getElementById(event.target.id).checked) {
         document.getElementById(endId).classList.remove("end-hidden");
         document.getElementById(detailsId).classList.add("details-hidden");
+        document.getElementById(editId).classList.add("edit-hidden");
+        document.getElementById(editActiveId).classList.remove("edit-active-hidden");
         setEventIsActive(true);
 
         const eventStatus = {
@@ -139,6 +149,8 @@ function DJHome() {
       } else {
         document.getElementById(endId).classList.add("end-hidden");
         document.getElementById(detailsId).classList.remove("details-hidden");
+        document.getElementById(editId).classList.remove("edit-hidden");
+        document.getElementById(editActiveId).classList.add("edit-active-hidden");
         setEventIsActive(false);
 
         const eventStatus = {

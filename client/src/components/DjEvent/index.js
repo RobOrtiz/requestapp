@@ -84,6 +84,9 @@ function DjEvent(props) {
                             <button type="button" className="btn btn-dark mt-3" id={`details-${newId}`} data-toggle="modal" data-target={`#modal-${newId}`}>
                                 Details
                             </button>
+                            <button type="button" style={{marginLeft: "15%"}} className="btn btn-dark mt-3" id={`edit-${newId}`} data-toggle="modal" data-target={`#modal-${newId}`}>
+                                Edit
+                            </button>
                         </li>
                     ) : (
                         <li>
@@ -161,8 +164,13 @@ function DjEvent(props) {
                                 switchTitle={props.eventStatus === "activated" ? "Active" : "Inactive"}
                                 change={props.handleSwitch}
                             />
-                            <FormBtn className="btn btn-dark mt-3 end-hidden" onClick={props.handleEnd} id={`end-${newId}`}>End Event</FormBtn>
-                        </div>
+                            <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                            <FormBtn className="btn btn-danger border border-dark mt-3 end-hidden" onClick={props.handleEnd} id={`end-${newId}`}>End Event</FormBtn>
+                            <button type="button" style={{marginLeft: "15%"}} className="btn btn-dark mt-3 edit-active-hidden" id={`edit-active-${newId}`} data-toggle="modal" data-target={`#modal-${newId}`}>
+                                Edit
+                            </button>
+                            </div>
+                            </div>
                     )}
                 </ul>
             </div>
