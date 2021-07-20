@@ -8,7 +8,7 @@ export default {
     return axios.post("/api/djs/event", eventData)
   },
   updateEvent: function (eventData) {
-    return axios.put("/api/djs/event", eventData)
+    return axios.put("/api/djs/updateEvent", eventData)
   },
   createRequest: function (requestData) {
     return axios.put("/api/djs/event", requestData)

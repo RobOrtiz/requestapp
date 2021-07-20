@@ -23,6 +23,8 @@ router.route("/event")
   // .get(djController.findEvent)  
   .post(djController.createEvent)
   .put(djController.createRequest)
+
+router.route("/updateEvent")
   .put(djController.updateEvent)
 
 router.route("/eventstatus")
