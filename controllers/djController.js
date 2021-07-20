@@ -147,6 +147,19 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+  updateEvent: function (req, res) {
+    db.Dj.findByIdAndUpdate({_id: req.body.djId}).then(({_id}) => 
+    db.Event.findByIdAndUpdate(
+      { "_id": req.body._id },
+      { 
+        $set: {
+          "eventName": req.body.eventName 
+      }
+    }
+    ))
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => console.log(err));
+  },
 
   // Count occurences of different songStatus in requestList
   // Used by GET on djs.js router.route("/requests/:id")

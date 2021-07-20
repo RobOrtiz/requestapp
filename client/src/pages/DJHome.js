@@ -207,6 +207,11 @@ function DJHome() {
     }
   }
 
+  // function clearFormObject() {
+  //   setFormObject({
+
+  //   })
+  // }
 
   // save to state hours, minutes and am/pm separately
   const [starttime, setStartTime] = useState({ hour: "", minute: "", ampm: ""});
@@ -223,9 +228,9 @@ function DJHome() {
     setEndTime({ ...endtime, [name]: value });
   }
 
-  useEffect(() => {
-    console.log(formObject);
-  }, [formObject]);
+  // useEffect(() => {
+  //   console.log(formObject);
+  // }, [formObject]);
 
   // join in to a string
   let totalStartTime = "";
@@ -398,6 +403,7 @@ function DJHome() {
                     {...djEvent}
                     handleSwitch={handleSwitch}
                     handleEnd={handleEnd}
+                    djId={userId}
                   />
                 </Col>
               ))}

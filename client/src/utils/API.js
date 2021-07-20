@@ -7,6 +7,9 @@ export default {
   createEvent: function (eventData) {
     return axios.post("/api/djs/event", eventData)
   },
+  updateEvent: function (eventData) {
+    return axios.put("/api/djs/event", eventData)
+  },
   createRequest: function (requestData) {
     return axios.put("/api/djs/event", requestData)
   },
@@ -16,7 +19,7 @@ export default {
     return axios.get("/api/djs/?userSub=" + data)
   },
   updateDj: function (data) {
-    return axios.put("/api/djs",  data)
+    return axios.put("/api/djs", data)
   },
   getAllDjs: function () {
     return axios.get("/api/djs/all")
