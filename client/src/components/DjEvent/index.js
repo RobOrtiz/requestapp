@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { InputText, InputTime, FormBtn, Switch } from "../Form";
+import React, { useState, useEffect, useRef } from "react";
+import { InputText, InputTime, FormBtn, Switch, Input } from "../Form";
 import API from "../../utils/API";
 import "./style.css";
 
@@ -240,6 +240,12 @@ function DjEvent(props) {
     }
   }
 
+  const focusDiv = useRef();
+
+//   useEffect(() => {
+//    focusDiv.current.focus() 
+//   }, [focusDiv]);
+
   return (
     // EVENT CARD
     <div className="event-card">
@@ -349,7 +355,7 @@ function DjEvent(props) {
             className="modal fade"
             id={`modal-edit-${newId}`}
             role="dialog"
-            aria-hidden="true"
+            tabIndex="-1"
           >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -363,6 +369,9 @@ function DjEvent(props) {
                       defaultValue={props.eventName}
                       label="Event Name"
                       className="form-control"
+                      message={error.errEventName}
+                      
+                    //   ref={focusDiv}
                     />
                     <InputText
                       onChange={handleInputChange}
@@ -439,6 +448,7 @@ function DjEvent(props) {
                       className="form-control"
                       eventTime={props.endTime}
                       defaultValue={props.endTime}
+                      
                     />
                     <InputText
                       onChange={handleInputChange}

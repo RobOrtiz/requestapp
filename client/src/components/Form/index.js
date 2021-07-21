@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './style.css'
 
 export function Input(props) {
@@ -14,7 +14,7 @@ export function InputText(props) {
         <div className="form-group">
             <label htmlFor={props.id}>{props.label}</label>
             {props.message && <label className={"text-danger ml-3"}>{props.message}</label>}
-            <input {...props}/>
+            <input {...props} onClick={(e) => e.target.focus()}/>
         </div>
     )
 }
@@ -47,6 +47,7 @@ export function InputTime(props) {
             name={ props.start ? props.nameHH : props.nameH}
             className="custom-select"
             id="inputGroupSelect02"
+            onClick={(e) => e.target.focus()}
           >
             {hoursArray.map(ele => (
               (ele === defaultHour ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
@@ -59,9 +60,10 @@ export function InputTime(props) {
             name={ props.start ? props.nameMM : props.nameM}
             className="custom-select"
             id="inputGroupSelect03"
+            onClick={(e) => e.target.focus()}
           >
             {minuteArray.map(ele => (
-              (ele === defaultMinute ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
+              (ele === defaultMinute ? <option style={{backgroundColor: "red"}} selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
               )
             )}
           </select>
@@ -71,6 +73,7 @@ export function InputTime(props) {
             name={ props.start ? props.nameAA : props.nameA}
             className="custom-select"
             id="inputGroupSelect04"
+            onClick={(e) => e.target.focus()}
           >
             {amPmArray.map(ele => (
               (ele === defaultAmPm ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
