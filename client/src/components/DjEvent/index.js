@@ -205,8 +205,8 @@ function DjEvent(props) {
       eventName: props.eventName,
       genre: props.genre,
       eventDate: props.eventDate,
-      eventTimeStart: props.startTime,
-      eventTimeEnd: props.endTime,
+    //   eventTimeStart: props.startTime,
+    //   eventTimeEnd: props.endTime,
       eventType: props.eventType,
       venueName: props.venueName,
       eventLocation: props.venueAddress,
@@ -224,8 +224,8 @@ function DjEvent(props) {
         eventSubIdToChange: props.subIdForEventStatusChange,
         genre: formObject.genre,
         eventDate: formObject.eventDate,
-        startTime: formObject.eventTimeStart,
-        endTime: formObject.eventTimeEnd,
+        // startTime: formObject.eventTimeStart,
+        // endTime: formObject.eventTimeEnd,
         eventName: formObject.eventName,
         eventType: formObject.eventType,
         venueName: formObject.venueName,
@@ -417,7 +417,7 @@ function DjEvent(props) {
                       className="form-control"
                     />
                     {/* start time component */}
-                    <InputTime
+                    {/* <InputTime
                       onChange={handleInputTimeChange}
                       type="text"
                       id="eventTimeStart"
@@ -428,9 +428,9 @@ function DjEvent(props) {
                       className="form-control"
                       eventTime={props.startTime}
                       defaultValue={props.startTime}
-                    />
+                    /> */}
                     {/* end time component */}
-                    <InputTime
+                    {/* <InputTime
                       onChange={handleInputEndTimeChange}
                       type="text"
                       id="eventTimeEnd"
@@ -442,8 +442,7 @@ function DjEvent(props) {
                       className="form-control"
                       eventTime={props.endTime}
                       defaultValue={props.endTime}
-                      
-                    />
+                    /> */}
                     <InputText
                       onChange={handleInputChange}
                       type="number"
