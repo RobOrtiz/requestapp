@@ -147,6 +147,25 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+  // update event info on djevent.js
+  updateEvent: function (req, res) {
+    db.Event.findOneAndUpdate(
+      { "subIdForEventStatusChange": req.body.eventSubIdToChange },
+      { "eventName": req.body.eventName,
+        "genre": req.body.genre,
+        "eventDate": req.body.eventDate,
+        // "startTime": req.body.startTime,
+        // "endTime": req.body.endTime,
+        "eventType": req.body.eventType,
+        "venueName": req.body.venueName,
+        "venueAddress": req.body.venueAddress,
+        "generalRequestTipMin": req.body.generalRequestTipMin,
+        "playNowTipMin": req.body.playNowTipMin
+      }
+    )
+      .then((dbModel) =>res.json(dbModel))
+      .catch((err) => console.log(err));
+  },
 
   // Count occurences of different songStatus in requestList
   // Used by GET on djs.js router.route("/requests/:id")

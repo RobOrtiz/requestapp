@@ -46,7 +46,7 @@
     color:rgb(230, 230, 230) !important;
   }
 
-  .end-hidden, .details-hidden {
+  .end-hidden, .details-hidden, .edit-hidden, .edit-active-hidden {
     display: none !important;
   }
 

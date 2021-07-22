@@ -14,12 +14,50 @@ export function InputText(props) {
         <div className="form-group">
             <label htmlFor={props.id}>{props.label}</label>
             {props.message && <label className={"text-danger ml-3"}>{props.message}</label>}
-            <input {...props}/>
+            <input {...props} onClick={(e) => e.target.focus()}/>
         </div>
     )
 }
 
 export function InputTime(props) {
+  // for time wheels
+  const amPmArray = ["Choose...", "AM", "PM"];
+  const hoursArray = ["Choose...", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
+  const minuteArray = ["Choose...", "00", "15", "30", "45"];
+
+  // for parsing out start/end time on previously created events
+  let defaultHour = "";
+  let defaultMinute = "";
+  let defaultAmPm = "";
+  let eventTime = props.eventTime;
+  if (eventTime) {
+    defaultAmPm = eventTime.substring(eventTime.length - 2);
+    // if event time has single digit hour (ex. 5pm)
+    eventTime.length === 7 ? defaultHour = eventTime.slice(0, 1) : defaultHour = eventTime.slice(0, 2);
+    eventTime.length === 7 ? defaultMinute = eventTime.slice(2, 4) : defaultMinute = eventTime.slice(3, 5);
+  }
+  // const ke = new KeyboardEvent('keydown', {
+  //   bubbles: true, cancelable: true, keyCode: 13
+  // });
+  // document.body.dispatchEvent(ke);
+
+  // const functionhere = () => {
+  //   var input = document.querySelector("#inputGroupSelect02");
+  //   var ev = document.createEvent('Event');
+  //   ev.initEvent('keypress');
+  //   ev.which = ev.keyCode = 13;
+  //   input.dispatchEvent(ev);
+  // }
+
+  // const newfucntio = () => {
+  //   const ke = new KeyboardEvent('keydown', {
+  //     bubbles: true, cancelable: true, keyCode: 13
+  //   });
+  //   document.body.dispatchEvent(ke);
+  //   document.querySelector("#inputGroupSelect02").dispatchEvent(ke)
+  // }
+ 
+
     return (
       <div className="form-group">
         <label htmlFor={props.id}>{props.label}</label>
@@ -28,23 +66,16 @@ export function InputTime(props) {
             onChange={(e) => props.onChange(e)}
             type={props.type}
             name={ props.start ? props.nameHH : props.nameH}
-            
             className="custom-select"
             id="inputGroupSelect02"
+            onClick={(e) => e.target.focus()}
+            // onFocus={() => newfucntio}
+            // onKeyPress={() => console.log(123)}
           >
-            <option>Choose...</option>
-            <option value="12">12</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
+            {hoursArray.map(ele => (
+              (ele === defaultHour ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
+              )
+            )}
           </select>
           <select
             onChange={(e) => props.onChange(e)}
@@ -52,12 +83,12 @@ export function InputTime(props) {
             name={ props.start ? props.nameMM : props.nameM}
             className="custom-select"
             id="inputGroupSelect03"
+            onClick={(e) => e.target.focus()}
           >
-            <option>Choose...</option>
-            <option value="00">00</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
+            {minuteArray.map(ele => (
+              (ele === defaultMinute ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
+              )
+            )}
           </select>
           <select
             onChange={(e) => props.onChange(e)}
@@ -65,10 +96,12 @@ export function InputTime(props) {
             name={ props.start ? props.nameAA : props.nameA}
             className="custom-select"
             id="inputGroupSelect04"
+            onClick={(e) => e.target.focus()}
           >
-            <option>Choose...</option>
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
+            {amPmArray.map(ele => (
+              (ele === defaultAmPm ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
+              )
+            )}
           </select>
         </div>
       </div>
