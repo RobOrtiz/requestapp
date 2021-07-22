@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './style.css'
 
 export function Input(props) {
@@ -36,7 +36,28 @@ export function InputTime(props) {
     eventTime.length === 7 ? defaultHour = eventTime.slice(0, 1) : defaultHour = eventTime.slice(0, 2);
     eventTime.length === 7 ? defaultMinute = eventTime.slice(2, 4) : defaultMinute = eventTime.slice(3, 5);
   }
-  
+  // const ke = new KeyboardEvent('keydown', {
+  //   bubbles: true, cancelable: true, keyCode: 13
+  // });
+  // document.body.dispatchEvent(ke);
+
+  // const functionhere = () => {
+  //   var input = document.querySelector("#inputGroupSelect02");
+  //   var ev = document.createEvent('Event');
+  //   ev.initEvent('keypress');
+  //   ev.which = ev.keyCode = 13;
+  //   input.dispatchEvent(ev);
+  // }
+
+  // const newfucntio = () => {
+  //   const ke = new KeyboardEvent('keydown', {
+  //     bubbles: true, cancelable: true, keyCode: 13
+  //   });
+  //   document.body.dispatchEvent(ke);
+  //   document.querySelector("#inputGroupSelect02").dispatchEvent(ke)
+  // }
+ 
+
     return (
       <div className="form-group">
         <label htmlFor={props.id}>{props.label}</label>
@@ -48,6 +69,8 @@ export function InputTime(props) {
             className="custom-select"
             id="inputGroupSelect02"
             onClick={(e) => e.target.focus()}
+            // onFocus={() => newfucntio}
+            // onKeyPress={() => console.log(123)}
           >
             {hoursArray.map(ele => (
               (ele === defaultHour ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
@@ -63,7 +86,7 @@ export function InputTime(props) {
             onClick={(e) => e.target.focus()}
           >
             {minuteArray.map(ele => (
-              (ele === defaultMinute ? <option style={{backgroundColor: "red"}} selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
+              (ele === defaultMinute ? <option selected value={ele}>{ele}</option> : <option value={ele}>{ele}</option>)
               )
             )}
           </select>

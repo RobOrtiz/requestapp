@@ -240,12 +240,6 @@ function DjEvent(props) {
     }
   }
 
-  const focusDiv = useRef();
-
-//   useEffect(() => {
-//    focusDiv.current.focus() 
-//   }, [focusDiv]);
-
   return (
     // EVENT CARD
     <div className="event-card">
