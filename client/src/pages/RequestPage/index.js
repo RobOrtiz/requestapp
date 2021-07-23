@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Container, Row, Col } from "../../components/Grid";
-import { InputText, FormBtn, InputCheckbox } from "../../components/Form";
+import { InputText, InputTextOneLine, FormBtn, InputCheckbox } from "../../components/Form";
 import lastFMAPI from "../../utils/lastFMAPI";
 import Header from "../../components/Header";
 import googleBadge from "../../images/googleplaybadge.png";
@@ -425,16 +425,28 @@ function RequestPage() {
       {event.eventName && (
       <Container classes="top-container">
         <Row>
-        <h1 className="request-title">SEND A REQUEST TO {djName}</h1> 
-        {/* event modal button */}
-        <button
-          type="button"
-          className="btn btn-dark mb-3 mt-1 btn-sm ml-3"
-          data-toggle="modal"
-          data-target="#modal-event-info"
-        >
-          Event Details
-        </button>
+          <Col size="4">
+            <img
+                src={event.eventImage}
+                alt={"Event"}
+                className="eventPic"
+              />
+          </Col>
+          <Col size="8" classes="d-flex flex-column justify-content-center">
+            <h1 className="request-title">SONG REQUEST to {djName}
+              {/* event modal button */}
+              <i 
+              style={{fontSize: "1rem"}}
+              className="fas fa-info-circle ml-2"
+              type="button"
+              data-toggle="modal"
+              data-target="#modal-event-info"
+              ></i>
+            </h1> 
+            <p className="h6 ml-3 mb-3">
+              Not your DJ? Click <a href="/request" style={{color: "lightblue"}}>here</a>!
+            </p>
+          </Col>
         </Row>
         {/* event modal top */}
         <div
@@ -488,37 +500,25 @@ function RequestPage() {
         <form>
           <Row>
             <Col>
-              <img
-                src={event.eventImage}
-                alt={"Event"}
-                className="eventPic"
-              />
-              {/* <i className="far fa-image fa-10x" stlye={{color: "white", backgroundColor: "white"}}></i> */}
-              <p className="h6 ml-2">
-                Doesn't look familiar? Click <a href="/request">here</a> to find
-                your DJ!
-              </p>
-            </Col>
-            <Col>
-              <InputText
+              <InputTextOneLine
                 onChange={handleInputChange}
                 type="text"
                 id="fullName"
                 name="fullName"
                 placeholder="Your name here"
-                label="Your name:"
+                label="Name:"
                 className="form-control"
               />
-              <InputText
+              <InputTextOneLine
                 onChange={handleInputChange}
                 type="text"
                 id="email"
                 name="email"
                 placeholder="Your email here"
-                label="Your email:"
+                label="Email:"
                 className="form-control"
               />
-              <InputText
+              <InputTextOneLine
                 onChange={handleInputChange}
                 type="text"
                 id="title"
@@ -527,7 +527,7 @@ function RequestPage() {
                 label="Title:"
                 className="form-control"
               />
-              <InputText
+              <InputTextOneLine
                 onChange={handleInputChange}
                 type="text"
                 id="artist"
@@ -538,7 +538,6 @@ function RequestPage() {
               />
             </Col>
           </Row>
-          <br />
           <Row>
             <Col size="12">
             <p id="request-type-label">Request Type<i data-toggle="modal" data-target={`#modal-request-type`} className="fas fa-info-circle ml-2"></i></p>
@@ -560,35 +559,35 @@ function RequestPage() {
             </Col>
           </Row>
           <Row>
-            <Col size="md-4 sm-12">
-              <InputCheckbox
-                onChange={handleInputChange}
-                type="radio"
-                name="requestType"
-                value="2"
-                id="generalRequest"
-                label="General"
-                className="form-check-input"
-              />
-            </Col>
-            <Col size="md-8 sm-12">
-              <p className="ml-3">Minimum tip: ${event.generalRequestTipMin}</p>
-            </Col>
+            <Col>
+              <div className="d-flex flex-row">
+                <InputCheckbox
+                  onChange={handleInputChange}
+                  type="radio"
+                  name="requestType"
+                  value="2"
+                  id="generalRequest"
+                  label="General (Min. tip):"
+                  className="form-check-input"
+                />
+                <p className="ml-2" style={{color: "gold"}}>${event.generalRequestTipMin}</p>
+              </div>
+              </Col>
           </Row>
           <Row>
-            <Col size="md-4 sm-12">
-              <InputCheckbox
-                onChange={handleInputChange}
-                type="radio"
-                name="requestType"
-                value="100"
-                id="playNow"
-                label="Play Now"
-                className="form-check-input"
-              />
-            </Col>
-            <Col size="md-8 sm-12">
-              <p className="ml-3">Minimum tip: ${event.playNowTipMin}</p>
+            <Col>
+              <div className="d-flex flex-row">
+                <InputCheckbox
+                  onChange={handleInputChange}
+                  type="radio"
+                  name="requestType"
+                  value="100"
+                  id="playNow"
+                  label="Play Now (Min. tip):"
+                  className="form-check-input"
+                />
+                <p className="ml-2" style={{color: "gold"}}>${event.playNowTipMin}</p>
+              </div>
             </Col>
           </Row>
           <Row>
@@ -608,16 +607,21 @@ function RequestPage() {
               <Checkout formObject={formObject} handleFormSubmit2={handleFormSubmit2}/>
             </Elements>
           ) : (
-            <FormBtn
-            className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn no-tip-button"
-            onClick={handleFormSubmit}
-            >
-              Send Request!
-            </FormBtn>
+            <>
+              <Row>
+                <p className="h6 ml-3 text-center">By clicking the below Send button, I agree to all Terms and Conditions of Noi Live, Inc.</p>
+              </Row>
+              <FormBtn
+              className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn no-tip-button"
+              onClick={handleFormSubmit}
+              >
+                Send Request!
+              </FormBtn>
+            </>
           )}
 
         </form>
-        <div className="hidden"></div>
+        {/* <div className="hidden"></div>
         <div className="text-center">
           <img src={appleBadge} alt={"appleBadge"} className="mr-3 mt-2"></img>
           <img
@@ -626,7 +630,7 @@ function RequestPage() {
             style={{ width: "" }}
             className="mt-2"
           ></img>
-        </div>
+        </div> */}
       </Container>
       )}
       <button
@@ -736,11 +740,14 @@ function Checkout(props) {
       <h4>Enter Card Information</h4>
       <h6 className="text-white">*Your card will only be authorized at this time.  It will only be charged once the song is played.</h6>
         <CardElement options={CARD_ELEMENT_OPTIONS} />
+        <Row>
+          <p className="h6 mt-2 ml-3 text-center">By clicking the below Send button, I agree to all Terms and Conditions of Noi Live, Inc.</p>
+        </Row>
       <FormBtn
       className="btn btn-dark btn-lg mt-2 mb-3 gold-animated-btn tip-button"
       onClick={handleSubmit}
       >
-        Authorize Payment and Send Request!
+        Charge and Send!
       </FormBtn>
 
     </div>
