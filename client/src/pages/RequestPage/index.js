@@ -438,7 +438,6 @@ function RequestPage() {
               <i 
               style={{fontSize: "1rem"}}
               className="fas fa-info-circle ml-2"
-              type="button"
               data-toggle="modal"
               data-target="#modal-event-info"
               ></i>
@@ -540,7 +539,7 @@ function RequestPage() {
           </Row>
           <Row>
             <Col size="12">
-            <p id="request-type-label">Request Type<i data-toggle="modal" data-target={`#modal-request-type`} className="fas fa-info-circle ml-2"></i></p>
+            <p id="request-type-label">Request Type<i style={{fontSize: "1rem"}} data-toggle="modal" data-target={`#modal-request-type`} className="fas fa-info-circle ml-2"></i></p>
             <div className="modal fade" id={`modal-request-type`} tabIndex="-1" role="dialog" aria-hidden="true">
               <div className="modal-dialog" role="document">
                 <div className="modal-content">
