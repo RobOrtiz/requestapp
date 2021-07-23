@@ -19,6 +19,16 @@ export function InputText(props) {
     )
 }
 
+export function InputTextOneLine(props) {
+  return (
+      <div className="form-group d-flex flex-row justify-content-between">
+          <label className="mr-1" htmlFor={props.id}>{props.label}</label>
+          {props.message && <label className={"text-danger ml-3"}>{props.message}</label>}
+          <input {...props} style={{width: "22rem"}} onClick={(e) => e.target.focus()}/>
+      </div>
+  )
+}
+
 export function InputTime(props) {
   // for time wheels
   const amPmArray = ["Choose...", "AM", "PM"];
